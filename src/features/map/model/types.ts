@@ -34,6 +34,7 @@ export interface MapEvent {
   eventName: string;
   period: string;
   geohash: string;
+  mainImg: string;
 }
 
 export interface EventData {
@@ -44,4 +45,5 @@ export interface EventPopup {
   eventId: number;
   eventName: string;
   period: string;
+  mainImg: string;
 }

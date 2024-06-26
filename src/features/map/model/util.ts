@@ -32,12 +32,6 @@ export const getGeoMarkers = async (
 ) => {
   const hashes = getGeoHash(lat, lng);
   const data: EventData = await getNearbyEvent(hashes);
-  // const removeZeroLength = Object.values(data).forEach((events: MapEvent[]) => {
-  //   Object.values(events).filter((__, _, eventArr) => {
-  //     return eventArr.length > 0;
-  //   });
-  // });
-
   const removeZeroLength = Object.values(data)
     .map((events) => Object.values(events))
     .flat()
@@ -54,7 +48,8 @@ export const getGeoMarkers = async (
       marker,
       event.eventId,
       event.eventName,
-      event.period
+      event.period,
+      event.mainImg
     );
   });
 };
@@ -64,9 +59,10 @@ export const createMarkerPopup = (
   marker: naver.maps.Marker,
   eventId: number,
   eventName: string,
-  period: string
+  period: string,
+  mainImg: string
 ) => {
-  const popup = PopupString({ eventId, eventName, period });
+  const popup = PopupString({ eventId, eventName, period, mainImg });
   const infowindow = new naver.maps.InfoWindow({
     content: popup,
   });
