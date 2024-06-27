@@ -65,6 +65,10 @@ export const createMarkerPopup = (
   const popup = PopupString({ eventId, eventName, period, mainImg });
   const infowindow = new naver.maps.InfoWindow({
     content: popup,
+    borderWidth: 0,
+    disableAnchor: true,
+    disableAutoPan: true,
+    maxWidth: 120,
   });
   naver.maps.Event.addListener(marker, 'click', function () {
     if (infowindow.getMap()) {
