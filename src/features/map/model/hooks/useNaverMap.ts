@@ -1,24 +1,28 @@
 import { useEffect, useRef } from 'react';
-import { getGeoMarkers, getNaverMap } from '../util';
-import type { Coordinates } from '../types';
+import { getGeoMarkers, getNaverMap, mapEventListener } from '../util';
+import { useAtom } from 'jotai';
+import { locationAtom } from '../store';
 
-export const useNaverMap = ({ latitude, longitude }: Coordinates) => {
+export const useNaverMap = () => {
+  const [location] = useAtom(locationAtom);
   const mapRef = useRef<naver.maps.Map | null>(null);
-  //TODO : 마커 중복 체크 로직 추가
 
   useEffect(() => {
     if (window && window.naver) {
       const map = getNaverMap({
-        latitude,
-        longitude,
+        latitude: location.latitude,
+        longitude: location.longitude,
       });
 
       if (map) {
-        getGeoMarkers(latitude, longitude, map);
+        getGeoMarkers(location.latitude, location.longitude, map);
+        mapEventListener(map, location);
       }
       mapRef.current = map;
     }
-  }, []);
+
+    return () => {};
+  }, [location.latitude, location.longitude]);
 
   return { mapRef };
 };

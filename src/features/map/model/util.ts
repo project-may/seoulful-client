@@ -112,6 +112,23 @@ export const geoCurrentPosition = async (): Promise<Coordinates> => {
   });
 };
 
+export const mapEventListener = (
+  map: naver.maps.Map,
+  currentLocation: Coordinates
+) => {
+  naver.maps.Event.addListener(map, 'idle', () => {
+    const lat = map.getCenter().y;
+    const lng = map.getCenter().x;
+    const currentLat = currentLocation.latitude;
+    const currentLng = currentLocation.longitude;
+
+    console.log(lat, currentLat);
+    if (currentLat !== lat && currentLng !== lng) {
+      getGeoMarkers(lat, lng, map);
+    }
+  });
+};
+
 export const getGeoHash = (lat: number, lng: number) => {
   const hash = geohash.encode(lat, lng, 6);
   const neighbors = geohash.neighbors(hash);

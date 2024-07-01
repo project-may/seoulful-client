@@ -20,6 +20,7 @@ export type {
   EventPopup,
 } from './model/types';
 export { useNaverMap } from './model/hooks/useNaverMap';
+export { useChangeLocation } from './model/hooks/useChangeLocation';
 export { DEFAULT_LOCATION } from './model/constants';
 export { locationAtom } from './model/store';
 export {
