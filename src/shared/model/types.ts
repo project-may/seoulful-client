@@ -2,19 +2,11 @@ import type { StaticImageData } from 'next/image';
 import type { Dispatch, SetStateAction } from 'react';
 import type { CalendarProps } from 'react-calendar';
 
-export interface ThumbnailItemType {
-  url: string;
-  image: StaticImageData;
-  title: string;
-  period: string;
-}
-
 export interface CategoryItemType {
   Icon: React.FC<React.SVGProps<SVGSVGElement>>;
   title: string;
   src: string;
 }
-
 export interface CalendarPropsType extends CalendarProps {
   className?: string;
 }
@@ -28,7 +20,7 @@ export interface AlertModalPropsType {
   schedule: string;
 }
 
-export interface ThumbnailBookmarkButtonPropsType {
+export interface EventBookmarkButtonPropsType {
   buttonSize?: string;
   iconSize?: string;
   hasBorder?: boolean;

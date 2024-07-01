@@ -3,15 +3,15 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import BookmarkIcon from '/public/assets/bookmark-icon.svg';
-import type { ThumbnailBookmarkButtonPropsType } from '../index';
+import type { EventBookmarkButtonPropsType } from '../index';
 
-export const ThumbnailBookmarkButton = ({
+export const EventBookmarkButton = ({
   buttonSize,
   iconSize,
   hasBorder,
   // isClicked,
   // setIsClicked,
-}: ThumbnailBookmarkButtonPropsType) => {
+}: EventBookmarkButtonPropsType) => {
   const [isClicked, setIsClicked] = useState(false);
 
   const handleClick = () => {
