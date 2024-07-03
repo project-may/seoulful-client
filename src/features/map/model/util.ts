@@ -1,4 +1,4 @@
-import type { Coordinates, EventData } from './types';
+import type { Coordinates, EventData, NaverMapTypes } from './types';
 import geohash from 'ngeohash';
 import { PopupString } from '../ui/MarkerPopup';
 import { getNearbyEvent } from '@/entities/map';
@@ -30,7 +30,7 @@ export const getGeoMarkers = async (
   lng: number,
   map: naver.maps.Map
 ) => {
-  const hashes = getGeoHash(lat, lng);
+  const hashes = getGeoHash(lat, lng).neighbors;
   const data: EventData = await getNearbyEvent(hashes);
   const removeZeroLength = Object.values(data)
     .map((events) => Object.values(events))
@@ -85,7 +85,7 @@ export const mapCurrentPosition = (
   lng: number
 ) => {
   const newCenter = new naver.maps.LatLng(lat, lng);
-  console.log(map, lat, lng, 'jhi');
+  console.log(newCenter);
   map.morph(newCenter, 16, {
     easing: 'linear',
   });
@@ -122,6 +122,9 @@ export const mapEventListener = (
     const currentLat = currentLocation.latitude;
     const currentLng = currentLocation.longitude;
 
+    const geo = geohash.encode(lat, lng);
+    // const curGeo = geohash.encode(currentLat, currentLng);
+
     console.log(lat, currentLat);
     if (currentLat !== lat && currentLng !== lng) {
       getGeoMarkers(lat, lng, map);
@@ -129,8 +132,18 @@ export const mapEventListener = (
   });
 };
 
+export const getMapCenter = ({ map }: NaverMapTypes) => {
+  let lat;
+  let lng;
+  if (map) {
+    lat = map.getCenter().y;
+    lng = map.getCenter().x;
+  }
+
+  return { lat, lng };
+};
 export const getGeoHash = (lat: number, lng: number) => {
   const hash = geohash.encode(lat, lng, 6);
   const neighbors = geohash.neighbors(hash);
-  return neighbors;
+  return { hash, neighbors };
 };

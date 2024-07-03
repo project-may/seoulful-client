@@ -4,7 +4,7 @@ import { useAtom } from 'jotai';
 import { NaverMapTypes } from '../types';
 
 export const useChangeLocation = ({ map }: NaverMapTypes) => {
-  const [, setLocation] = useAtom(locationAtom);
+  const [location, setLocation] = useAtom(locationAtom);
 
   useEffect(() => {
     if (map) {
@@ -15,5 +15,6 @@ export const useChangeLocation = ({ map }: NaverMapTypes) => {
         longitude: center.x,
       }));
     }
-  }, [map]);
+    console.log('it works');
+  }, [location]);
 };

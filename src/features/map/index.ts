@@ -21,7 +21,7 @@ export type {
 } from './model/types';
 export { useNaverMap } from './model/hooks/useNaverMap';
 export { useChangeLocation } from './model/hooks/useChangeLocation';
-export { DEFAULT_LOCATION } from './model/constants';
+export { DEFAULT_LOCATION, DEFAULT_GEOHASH } from './model/constants';
 export { locationAtom } from './model/store';
 export {
   mapCurrentPosition,
