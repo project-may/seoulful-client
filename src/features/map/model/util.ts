@@ -122,7 +122,7 @@ export const mapEventListener = (
     const currentLat = currentLocation.latitude;
     const currentLng = currentLocation.longitude;
 
-    const geo = geohash.encode(lat, lng);
+    //const geo = geohash.encode(lat, lng);
     // const curGeo = geohash.encode(currentLat, currentLng);
 
     console.log(lat, currentLat);

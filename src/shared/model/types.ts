@@ -61,3 +61,9 @@ export interface EventDetailResType {
   isFree: boolean;
   detailUrl: string;
 }
+
+export interface EventBookmarkButtonPropsType {
+  buttonSize: string;
+  iconSize: string;
+  hasBorder: boolean;
+}
