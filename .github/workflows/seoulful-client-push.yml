@@ -46,7 +46,7 @@ jobs:
           port: ${{ secrets.PORT }}
           script: whoami
 
-      - name: ec2 업데이트 단계
+      - name: ec2 내에서 업데이트
         run: |
           ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
           git pull origin main
