@@ -17,7 +17,20 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '20'
-        
+
+    - name: Generate Environment Variables File
+      run: |
+          echo "NEXT_PUBLIC_NAVER_MAP_CLIENT_ID=$NEXT_PUBLIC_NAVER_MAP_CLIENT_ID" >> .env.production
+          echo "NEXT_PUBLIC_NAVER_MAP_CLIENT_SECRET=$NEXT_PUBLIC_NAVER_MAP_CLIENT_SECRET" >> .env.production
+          echo "NEXT_PUBLIC_KAKAO_REST_API=$NEXT_PUBLIC_KAKAO_REST_API" >> .env.production
+          echo "NEXT_PUBLIC_SERVER_URL=$NEXT_PUBLIC_SERVER_URL" >> .env.production
+          
+      env:
+          NEXT_PUBLIC_NAVER_MAP_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID }}
+          NEXT_PUBLIC_NAVER_MAP_CLIENT_SECRET: ${{ secrets.NEXT_PUBLIC_NAVER_MAP_CLIENT_SECRET }}
+          NEXT_PUBLIC_KAKAO_REST_API: ${{ secrets.NEXT_PUBLIC_KAKAO_REST_API }}
+          NEXT_PUBLIC_SERVER_URL: ${{ secrets.NEXT_PUBLIC_SERVER_URL }}
+          
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
