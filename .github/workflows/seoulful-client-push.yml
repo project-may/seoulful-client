@@ -23,7 +23,6 @@ jobs:
           echo "NEXT_PUBLIC_NAVER_MAP_CLIENT_SECRET=$NEXT_PUBLIC_NAVER_MAP_CLIENT_SECRET" >> .env.production
           echo "NEXT_PUBLIC_KAKAO_REST_API=$NEXT_PUBLIC_KAKAO_REST_API" >> .env.production
           echo "NEXT_PUBLIC_SERVER_URL=$NEXT_PUBLIC_SERVER_URL" >> .env.production
-
         env:
           NEXT_PUBLIC_NAVER_MAP_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID }}
           NEXT_PUBLIC_NAVER_MAP_CLIENT_SECRET: ${{ secrets.NEXT_PUBLIC_NAVER_MAP_CLIENT_SECRET }}
@@ -48,7 +47,7 @@ jobs:
 
       - name: ec2 내에서 업데이트
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.KEY }} ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
           git pull origin main
           npm install
           npm run build
