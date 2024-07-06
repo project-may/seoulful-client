@@ -41,7 +41,7 @@ jobs:
           echo "${{ secrets.KEY }}" > ssh_key
           chmod 600 ssh_key
 
-      - name: 비밀번호 없이 키로 접속
+      - name: 비밀번호 없이 키로 접속하기
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
