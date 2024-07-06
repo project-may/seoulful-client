@@ -36,18 +36,23 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      - name: Create SSH key file
+        run: |
+          echo "${{ secrets.KEY }}" > ssh_key
+          chmod 600 ssh_key
+
       - name: 비밀번호 없이 키로 접속
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
+          key: ssh_key
           port: ${{ secrets.PORT }}
           script: whoami
 
       - name: ec2 내에서 업데이트
         run: |
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.KEY }} ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i ssh_key ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
           git pull origin main
           npm install
           npm run build
