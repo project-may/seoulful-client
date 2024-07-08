@@ -7,6 +7,7 @@ export type {
   AlertModalPropsType,
   ThumbnailBookmarkButtonPropsType,
   EventDetailResType,
+  EventBookmarkButtonPropsType,
 } from './model/types';
 
 export { clickedCalendarDate, changeCalendarMonth } from './model/store';
