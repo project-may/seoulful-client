@@ -17,44 +17,30 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Generate Environment Variables File
+      - name: Docker 빌드 설정
+        uses: docker/setup-buildx-action@v3
+
+      - name: Docker Hub Login
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Docker Build & Push
         run: |
-          echo "NEXT_PUBLIC_NAVER_MAP_CLIENT_ID=$NEXT_PUBLIC_NAVER_MAP_CLIENT_ID" >> .env.production
-          echo "NEXT_PUBLIC_NAVER_MAP_CLIENT_SECRET=$NEXT_PUBLIC_NAVER_MAP_CLIENT_SECRET" >> .env.production
-          echo "NEXT_PUBLIC_KAKAO_REST_API=$NEXT_PUBLIC_KAKAO_REST_API" >> .env.production
-          echo "NEXT_PUBLIC_SERVER_URL=$NEXT_PUBLIC_SERVER_URL" >> .env.production
+          docker build -t ${{ secrets.DOCKERHUB_REPO }}/seoulful-client:latest .
+          docker push ${{ secrets.DOCKERHUB_REPO }}/seoulful-client:latest
+
+      - name: Run Docker Container
+        run: |
+          docker run -d -p 3000:3000 --name seoulful-client \
+            -e NEXT_PUBLIC_NAVER_MAP_CLIENT_ID=${{ secrets.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID }} \
+            -e NEXT_PUBLIC_NAVER_MAP_CLIENT_SECRET=${{ secrets.NEXT_PUBLIC_NAVER_MAP_CLIENT_SECRET }} \
+            -e NEXT_PUBLIC_KAKAO_REST_API=${{ secrets.NEXT_PUBLIC_KAKAO_REST_API }} \
+            -e NEXT_PUBLIC_SERVER_URL=${{ secrets.NEXT_PUBLIC_SERVER_URL }} \
+            ${{ secrets.DOCKERHUB_REPO }}/seoulful-client:latest
         env:
           NEXT_PUBLIC_NAVER_MAP_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID }}
           NEXT_PUBLIC_NAVER_MAP_CLIENT_SECRET: ${{ secrets.NEXT_PUBLIC_NAVER_MAP_CLIENT_SECRET }}
           NEXT_PUBLIC_KAKAO_REST_API: ${{ secrets.NEXT_PUBLIC_KAKAO_REST_API }}
           NEXT_PUBLIC_SERVER_URL: ${{ secrets.NEXT_PUBLIC_SERVER_URL }}
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v3
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-
-      - name: Create SSH key file
-        run: |
-          echo "${{ secrets.KEY }}" > ssh_key
-          chmod 600 ssh_key
-
-      - name: 비밀번호 없이 키로 접속
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ssh_key
-          port: ${{ secrets.PORT }}
-          script: whoami
-
-      - name: ec2 내에서 업데이트
-        run: |
-          ssh -o StrictHostKeyChecking=no -i ssh_key ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
-          git pull origin main
-          npm install
-          npm run build
-          pm2 restart seoulful || pm2 start npm --name "seoulful" -- start
-          EOF

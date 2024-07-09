@@ -1,0 +1,11 @@
+Dockerfile
+node_modules
+dist
+.eslintrc.js
+.gitignore
+.prettierrc
+.env.local
+.vscode
+.next
+.git
+README.md
