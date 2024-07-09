@@ -31,7 +31,7 @@ jobs:
           docker build -t ${{ secrets.DOCKERHUB_REPO }}/seoulful-client:latest .
           docker push ${{ secrets.DOCKERHUB_REPO }}/seoulful-client:latest
 
-      - name: Run Docker Container
+      - name: Run Docker Container with env
         run: |
           docker run -d -p 3000:3000 --name seoulful-client \
             -e NEXT_PUBLIC_NAVER_MAP_CLIENT_ID=${{ secrets.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID }} \
