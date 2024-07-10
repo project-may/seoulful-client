@@ -9,6 +9,12 @@ export interface ThumbnailItemType {
   period: string;
 }
 
+export interface EventBookmarkButtonPropsType {
+  buttonSize: string;
+  iconSize: string;
+  hasBorder: boolean;
+}
+
 export interface CategoryItemType {
   Icon: React.FC<React.SVGProps<SVGSVGElement>>;
   title: string;
