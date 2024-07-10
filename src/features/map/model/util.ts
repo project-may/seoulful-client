@@ -28,7 +28,8 @@ export const getMarker = (map: naver.maps.Map, lat: number, lng: number) => {
 export const getGeoMarkers = async (
   lat: number,
   lng: number,
-  map: naver.maps.Map
+  map: naver.maps.Map,
+  markersRef: React.MutableRefObject<Map<string, naver.maps.Marker>>
 ) => {
   const hashes = getGeoHash(lat, lng).neighbors;
   const data: EventData = await getNearbyEvent(hashes);
@@ -42,7 +43,15 @@ export const getGeoMarkers = async (
     const decode = geohash.decode(coords);
     const markerLatitude = decode.latitude;
     const markerLongitude = decode.longitude;
+    const positionKey = `${markerLatitude}_${markerLongitude}`;
+    if (markersRef.current.has(positionKey)) {
+      const existingMarker = markersRef.current.get(positionKey);
+      existingMarker?.setMap(null);
+    }
+
     const marker = getMarker(map, markerLatitude, markerLongitude);
+    markersRef.current.set(positionKey, marker);
+
     createMarkerPopup(
       map,
       marker,
@@ -114,21 +123,13 @@ export const geoCurrentPosition = async (): Promise<Coordinates> => {
 
 export const mapEventListener = (
   map: naver.maps.Map,
-  currentLocation: Coordinates
+  currentLocation: Coordinates,
+  markersRef: React.MutableRefObject<Map<string, naver.maps.Marker>>
 ) => {
   naver.maps.Event.addListener(map, 'idle', () => {
     const lat = map.getCenter().y;
     const lng = map.getCenter().x;
-    const currentLat = currentLocation.latitude;
-    const currentLng = currentLocation.longitude;
-
-    //const geo = geohash.encode(lat, lng);
-    // const curGeo = geohash.encode(currentLat, currentLng);
-
-    console.log(lat, currentLat);
-    if (currentLat !== lat && currentLng !== lng) {
-      getGeoMarkers(lat, lng, map);
-    }
+    getGeoMarkers(lat, lng, map, markersRef);
   });
 };
 
@@ -139,7 +140,6 @@ export const getMapCenter = ({ map }: NaverMapTypes) => {
     lat = map.getCenter().y;
     lng = map.getCenter().x;
   }
-
   return { lat, lng };
 };
 export const getGeoHash = (lat: number, lng: number) => {
