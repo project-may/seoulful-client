@@ -7,9 +7,12 @@ import {
 import CurrentPositionIcon from '/public/assets/target-icon.svg';
 import { locationAtom } from '../model/store';
 import { getGeoCode } from '../api/api';
-import type { NaverMapTypes } from '../model/types';
+import type { MarkerRefTypes, NaverMapTypes } from '../model/types';
 
-export const CurrentLocationButton = ({ map }: NaverMapTypes) => {
+export const CurrentLocationButton = ({
+  map,
+  marker,
+}: NaverMapTypes & MarkerRefTypes) => {
   const [, setCurrentLocation] = useAtom(locationAtom);
   const getCoords = async () => {
     const coords = await geoCurrentPosition();
@@ -17,10 +20,8 @@ export const CurrentLocationButton = ({ map }: NaverMapTypes) => {
       const address = data.documents[1].address_name;
       const latitude = data.documents[1].y;
       const longitude = data.documents[1].x;
-
-      console.log(map);
       if (map) {
-        getGeoMarkers(latitude, longitude, map);
+        getGeoMarkers(latitude, longitude, map, marker);
         setCurrentLocation({
           address,
           latitude,

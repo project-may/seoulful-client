@@ -39,5 +39,5 @@ export const useNaverMap = () => {
     };
   }, [location.latitude, location.longitude]);
 
-  return { mapRef };
+  return { mapRef, markerRef };
 };
