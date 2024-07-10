@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-const BackButton = () => {
+export const BackButton = () => {
   const router = useRouter();
 
   const handleGoBack = () => {
@@ -17,5 +17,3 @@ const BackButton = () => {
     </button>
   );
 };
-
-export default BackButton;

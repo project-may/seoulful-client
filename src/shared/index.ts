@@ -5,9 +5,8 @@ export type {
   ClickDateType,
   CalendarDateType,
   AlertModalPropsType,
-  ThumbnailBookmarkButtonPropsType,
+  BookmarkButtonPropsType,
   EventDetailResType,
-  EventBookmarkButtonPropsType,
 } from './model/types';
 
 export { clickedCalendarDate, changeCalendarMonth } from './model/store';
@@ -31,7 +30,8 @@ export { CustomCalendar } from './ui/CustomCalendar';
 export { Selectbox } from './ui/Selectbox';
 export { AccordionMenu } from './ui/AccordionMenu';
 export { AlertModalItem } from './ui/AlertModalItem';
-export { ThumbnailBookmarkButton } from './ui/ThumbnailBookmarkButton';
+export { BookmarkButton } from './ui/BookmarkButton';
 export { NavigationButton } from './ui/NavigationButton';
 export { CloseButton } from './ui/CloseButton';
 export { DetailPageButton } from './ui/DetailPageButton';
+export { BackButton } from './ui/BackButton';

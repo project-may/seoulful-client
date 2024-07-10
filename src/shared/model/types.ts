@@ -28,7 +28,7 @@ export interface AlertModalPropsType {
   schedule: string;
 }
 
-export interface ThumbnailBookmarkButtonPropsType {
+export interface BookmarkButtonPropsType {
   buttonSize?: string;
   iconSize?: string;
   hasBorder?: boolean;
@@ -60,10 +60,4 @@ export interface EventDetailResType {
   longitude: number;
   isFree: boolean;
   detailUrl: string;
-}
-
-export interface EventBookmarkButtonPropsType {
-  buttonSize: string;
-  iconSize: string;
-  hasBorder: boolean;
 }

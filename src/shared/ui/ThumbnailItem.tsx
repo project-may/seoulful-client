@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ThumbnailBookmarkButton } from '../index';
-import type { ThumbnailItemType } from '../index';
+import { BookmarkButton, type ThumbnailItemType } from '../index';
 
 export const ThumbnailItem = ({
   data,
@@ -29,7 +28,7 @@ export const ThumbnailItem = ({
             </span>
           </div>
         </Link>
-        {page === 'favorite' && <ThumbnailBookmarkButton hasBorder />}
+        {page === 'favorite' && <BookmarkButton hasBorder />}
       </div>
     </li>
   );
