@@ -1,17 +1,17 @@
 FROM node:20.11.0-alpine AS base
-RUN apk add --no-cache 'libc6-compat' python3 make g++
+
+RUN apk add --no-cache 'libc6-compat'
 
 WORKDIR /app
 
-ENV NODE_ENV=production
 
 COPY package.json package-lock.json ./
 
-# Remove .next/cache directory if it exists
+ENV NODE_ENV=production
+
 RUN rm -rf ./.next/cache
 
-# Use npm ci instead of npm install for a clean environment
-RUN npm ci
+RUN npm install
 
 COPY . .
 
