@@ -14,7 +14,11 @@ RUN rm -rf ./.next/cache
 
 RUN npm install
 
+# 소스 파일 복사
 COPY . .
+
+# 환경 변수 파일 복사
+COPY .env.production .env.production
 
 RUN npm run build
 
