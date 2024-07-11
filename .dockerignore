@@ -4,7 +4,7 @@ dist
 .eslintrc.js
 .gitignore
 .prettierrc
-.env.production
+.env
 .vscode
 .next
 .git

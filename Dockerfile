@@ -1,3 +1,4 @@
+# 베이스 이미지 설정
 FROM node:20.11.0-alpine AS base
 
 RUN apk add --no-cache 'libc6-compat'
