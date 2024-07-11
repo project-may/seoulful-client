@@ -14,9 +14,6 @@ RUN npm install
 # 소스 파일 복사
 COPY . .
 
-# 환경 변수 파일 복사
-COPY .env.local .
-
 ENV NEXT_PUBLIC_NAVER_MAP_CLIENT_ID = "test" \
     NEXT_PUBLIC_KAKAO_REST_API = "test" 
     
