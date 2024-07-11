@@ -17,8 +17,8 @@ COPY . .
 # 환경 변수 파일 복사
 COPY .env.production .env.production
 
-RUN npm run build
+#RUN npm run build
 
-EXPOSE 3000
+#EXPOSE 3000
 
-ENTRYPOINT [ "npm", "run", "start" ]
+#ENTRYPOINT [ "npm", "run", "start" ]
