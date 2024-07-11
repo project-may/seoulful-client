@@ -4,6 +4,8 @@ RUN apk add --no-cache 'libc6-compat'
 
 WORKDIR /app
 
+ENV NODE_ENV=production
+
 COPY package.json package-lock.json ./
 
 RUN rm -rf ./.next/cache
