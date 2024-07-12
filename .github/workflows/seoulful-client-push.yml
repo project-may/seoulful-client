@@ -25,7 +25,7 @@ jobs:
           echo "NAVER_MAP_CLIENT_ID=${{ secrets.NAVER_MAP_CLIENT_ID }}" >> .env
           echo "NAVER_MAP_CLIENT_SECRET=${{ secrets.NAVER_MAP_CLIENT_SECRET }}" >> .env
           echo "KAKAO_REST_API=${{ secrets.KAKAO_REST_API }}" >> .env
-          echo "SERVER_URL=${{ secrets.SERVER_URL }}" >> .env
+          echo "NEXT_PUBLIC_SERVER_URL=${{ secrets.NEXT_PUBLIC_SERVER_URL }}" >> .env
 
       - name: Docker 빌드 설정
         uses: docker/setup-buildx-action@v3
