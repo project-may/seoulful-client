@@ -22,10 +22,10 @@ jobs:
 
       - name: Generate Environment Variables File for Production
         run: |
-          echo "NEXT_PUBLIC_NAVER_MAP_CLIENT_ID=${{ secrets.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID }}" >> .env.production
-          echo "NEXT_PUBLIC_NAVER_MAP_CLIENT_SECRET=${{ secrets.NEXT_PUBLIC_NAVER_MAP_CLIENT_SECRET }}" >> .env.production
-          echo "NEXT_PUBLIC_KAKAO_REST_API=${{ secrets.NEXT_PUBLIC_KAKAO_REST_API }}" >> .env.production
-          echo "NEXT_PUBLIC_SERVER_URL=${{ secrets.NEXT_PUBLIC_SERVER_URL }}" >> .env.production
+          echo "NAVER_MAP_CLIENT_ID=${{ secrets.NAVER_MAP_CLIENT_ID }}" >> .env.production
+          echo "NAVER_MAP_CLIENT_SECRET=${{ secrets.NAVER_MAP_CLIENT_SECRET }}" >> .env.production
+          echo "KAKAO_REST_API=${{ secrets.KAKAO_REST_API }}" >> .env.production
+          echo "SERVER_URL=${{ secrets.SERVER_URL }}" >> .env.production
 
       - name: Docker 빌드 설정
         uses: docker/setup-buildx-action@v3

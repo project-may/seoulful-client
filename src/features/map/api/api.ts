@@ -4,7 +4,7 @@ export const getGeoCode = async (latitude: number, longitude: number) => {
       `https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=${longitude}&y=${latitude}`,
       {
         headers: {
-          Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_REST_API}`,
+          Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_REST_API || process.env.KAKAO_REST_API}`,
         },
       }
     );

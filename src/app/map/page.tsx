@@ -7,7 +7,6 @@ import React from 'react';
 const mapPage = () => {
   return (
     <div>
-      {process.env.PWD}
       <Header title="내 주위 행사" isBackButton={true} />
       <LocationBox />
       <NaverMap />
