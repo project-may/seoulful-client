@@ -41,6 +41,6 @@ jobs:
           docker build --build-arg NAVER_MAP_CLIENT_ID=${{ secrets.NAVER_MAP_CLIENT_ID }} \
                        --build-arg NAVER_MAP_CLIENT_SECRET=${{ secrets.NAVER_MAP_CLIENT_SECRET }} \
                        --build-arg KAKAO_REST_API=${{ secrets.KAKAO_REST_API }} \
-                       --build-arg NEXT_PULBIC_SERVER_URL=${{ secrets.NEXT_PULBIC_SERVER_URL }} \
+                       --build-arg NEXT_PUBLIC_SERVER_URL=${{ secrets.NEXT_PUBLIC_SERVER_URL }} \
                        -t ${{ secrets.DOCKERHUB_REPO }}/seoulful-client:latest .
           docker push ${{ secrets.DOCKERHUB_REPO }}/seoulful-client:latest
