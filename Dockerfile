@@ -11,7 +11,7 @@ RUN rm -rf ./.next/cache
 
 RUN npm install
 
-# 소스 파일 복사
+# 빌드
 COPY . .
 
 ENV NEXT_PUBLIC_NAVER_MAP_CLIENT_ID = $NEXT_PUBLIC_NAVER_MAP_CLIENT_ID \
