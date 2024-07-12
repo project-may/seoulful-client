@@ -22,10 +22,10 @@ jobs:
 
       - name: Generate Environment Variables File for Production
         run: |
-          echo "NAVER_MAP_CLIENT_ID=${{ secrets.NAVER_MAP_CLIENT_ID }}" >> .env.production
-          echo "NAVER_MAP_CLIENT_SECRET=${{ secrets.NAVER_MAP_CLIENT_SECRET }}" >> .env.production
-          echo "KAKAO_REST_API=${{ secrets.KAKAO_REST_API }}" >> .env.production
-          echo "SERVER_URL=${{ secrets.SERVER_URL }}" >> .env.production
+          echo "NAVER_MAP_CLIENT_ID=${{ secrets.NAVER_MAP_CLIENT_ID }}" >> .env
+          echo "NAVER_MAP_CLIENT_SECRET=${{ secrets.NAVER_MAP_CLIENT_SECRET }}" >> .env
+          echo "KAKAO_REST_API=${{ secrets.KAKAO_REST_API }}" >> .env
+          echo "SERVER_URL=${{ secrets.SERVER_URL }}" >> .env
 
       - name: Docker 빌드 설정
         uses: docker/setup-buildx-action@v3
@@ -38,5 +38,9 @@ jobs:
 
       - name: Docker Build & Push
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_REPO }}/seoulful-client:latest .
+          docker build --build-arg NAVER_MAP_CLIENT_ID=${{ secrets.NAVER_MAP_CLIENT_ID }} \
+                       --build-arg NAVER_MAP_CLIENT_SECRET=${{ secrets.NAVER_MAP_CLIENT_SECRET }} \
+                       --build-arg KAKAO_REST_API=${{ secrets.KAKAO_REST_API }} \
+                       --build-arg SERVER_URL=${{ secrets.SERVER_URL }} \
+                       -t ${{ secrets.DOCKERHUB_REPO }}/seoulful-client:latest .
           docker push ${{ secrets.DOCKERHUB_REPO }}/seoulful-client:latest
