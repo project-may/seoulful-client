@@ -1,5 +1,11 @@
+import { MutableRefObject } from 'react';
+
 export interface NaverMapTypes {
   map: naver.maps.Map | null;
+}
+
+export interface MarkerRefTypes {
+  marker: MutableRefObject<Map<string, naver.maps.Marker>>;
 }
 
 export interface Coordinates {

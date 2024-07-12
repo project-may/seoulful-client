@@ -15,6 +15,5 @@ export const useChangeLocation = ({ map }: NaverMapTypes) => {
         longitude: center.x,
       }));
     }
-    console.log('it works');
   }, [location]);
 };

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import BookmarkIcon from '/public/assets/bookmark-icon.svg';
-import type { EventBookmarkButtonPropsType } from '../index';
+import { EventBookmarkButtonPropsType } from '../model/types';
 
 export const EventBookmarkButton = ({
   buttonSize,

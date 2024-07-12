@@ -2,7 +2,6 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { BookmarkButton, BackButton } from '@/shared';
 import HomeIcon from '/public/assets/home-icon.svg';
 import LocationIcon from '/public/assets/location-icon.svg';
 import TmpPoster from '/public/assets/tmp-poster.jpg';
@@ -13,6 +12,8 @@ import {
   EventTitle,
   EventTitleContentBox,
 } from '@/features/event';
+import { BookmarkButton } from '@/shared/ui/BookmarkButton';
+import { BackButton } from '@/shared/ui/BackButton';
 
 const eventDetailPage = () => {
   return (
