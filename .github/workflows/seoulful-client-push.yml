@@ -39,4 +39,4 @@ jobs:
       - name: Docker Build & Push
         run: |
           docker build -t ${{ secrets.DOCKERHUB_REPO }}/seoulful-client:latest .
-          docker push ${{ secrets.DOCKERHUB_REPO }}/seoulful-client:latest .
+          docker push ${{ secrets.DOCKERHUB_REPO }}/seoulful-client:latest
