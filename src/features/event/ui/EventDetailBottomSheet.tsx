@@ -25,7 +25,8 @@ export const EventDetailBottomSheet = ({
     etcDesc: eventData.etcDesc ?? '',
   };
 
-  const coordinateQuery = `coordinate?latitude=${eventData.latitude}&longitude=${eventData.latitude}`;
+  const coordinateQuery = `coordinate?latitude=${eventData.latitude}&longitude=${eventData.longitude}`;
+
   return (
     <div className="relative bg-black-FFF z-3 px-[30px] py-[50px]">
       <div className="flex justify-between items-center mb-[25px]">
@@ -45,7 +46,6 @@ export const EventDetailBottomSheet = ({
               홈페이지
             </span>
           </Link>
-          {/* 링크 컴포넌트로 쿼리전달*/}
           <Link
             href={`/map/${coordinateQuery}`}
             className="flex flex-col items-center gap-y-[3px]"

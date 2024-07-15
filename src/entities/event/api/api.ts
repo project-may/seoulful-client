@@ -9,3 +9,5 @@ export const getEventDetail = async (
   const data = response.json();
   return data;
 };
+
+export const getEventList = async () => {};
