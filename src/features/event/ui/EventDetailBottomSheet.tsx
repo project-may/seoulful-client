@@ -24,6 +24,8 @@ export const EventDetailBottomSheet = ({
     describe: eventData.describe ?? '',
     etcDesc: eventData.etcDesc ?? '',
   };
+
+  const coordinateQuery = `coordinate?latitude=${eventData.latitude}&longitude=${eventData.latitude}`;
   return (
     <div className="relative bg-black-FFF z-3 px-[30px] py-[50px]">
       <div className="flex justify-between items-center mb-[25px]">
@@ -44,7 +46,10 @@ export const EventDetailBottomSheet = ({
             </span>
           </Link>
           {/* 링크 컴포넌트로 쿼리전달*/}
-          <Link href="#" className="flex flex-col items-center gap-y-[3px]">
+          <Link
+            href={`/map/${coordinateQuery}`}
+            className="flex flex-col items-center gap-y-[3px]"
+          >
             <LocationIcon className="w-[21px] fill-purple-10" />
             <span className="text-black-888 text-[11px] whitespace-nowrap">
               지도보기

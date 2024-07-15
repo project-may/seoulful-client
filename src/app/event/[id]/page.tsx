@@ -13,7 +13,7 @@ const eventDetailPage = () => {
           iconSize="w-[20px] h-[20px]"
         />
       </div>
-      <EventUiBox></EventUiBox>
+      <EventUiBox />
     </div>
   );
 };
