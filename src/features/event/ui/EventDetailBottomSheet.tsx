@@ -39,12 +39,16 @@ export const EventDetailBottomSheet = ({
             className="flex flex-col items-center gap-y-[3px]"
           >
             <HomeIcon className="w-[23px] fill-purple-10" />
-            <span className="text-black-888 text-[11px]">홈페이지</span>
+            <span className="text-black-888 text-[11px] whitespace-nowrap">
+              홈페이지
+            </span>
           </Link>
           {/* 링크 컴포넌트로 쿼리전달*/}
           <Link href="#" className="flex flex-col items-center gap-y-[3px]">
             <LocationIcon className="w-[21px] fill-purple-10" />
-            <span className="text-black-888 text-[11px]">지도보기</span>
+            <span className="text-black-888 text-[11px] whitespace-nowrap">
+              지도보기
+            </span>
           </Link>
         </div>
       </div>
