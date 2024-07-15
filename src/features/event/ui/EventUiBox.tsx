@@ -12,6 +12,7 @@ import { useEventDetail } from '../model/hooks/useEventDetail';
 
 export const EventUiBox = () => {
   const { eventData } = useEventDetail();
+  console.log(eventData);
 
   return (
     <div>
