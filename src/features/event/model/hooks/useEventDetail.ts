@@ -9,7 +9,7 @@ export const useEventDetail = () => {
   const pathname = usePathname();
   const formattedUrl = pathname.split('/').pop() || '';
   useEffect(() => {
-    getEventDetail(parseInt(formattedUrl)).then((data) => {
+    getEventDetail(Number(formattedUrl)).then((data) => {
       setEventData(data.data);
     });
   }, []);

@@ -13,16 +13,11 @@ export const useEventCoordinate = () => {
   useEffect(() => {
     const fetchAddress = async () => {
       if (latitude && longitude) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const addressData = await getGeoCode(
-          parseFloat(latitude),
-          parseFloat(longitude)
-        ).then((data) => {
-          setLocation({
-            latitude: parseFloat(latitude),
-            longitude: parseFloat(longitude),
-            address: data.documents[1].address_name,
-          });
+        const data = await getGeoCode(parseFloat(latitude), parseFloat(longitude));
+        setLocation({
+          latitude: parseFloat(latitude),
+          longitude: parseFloat(longitude),
+          address: data.documents[1]?.address_name || '',
         });
       }
     };

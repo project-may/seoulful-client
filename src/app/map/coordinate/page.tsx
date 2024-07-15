@@ -6,7 +6,8 @@ import { Header } from '@/shared';
 import React from 'react';
 
 const CoordinatePage = () => {
-  const {} = useEventCoordinate();
+  //Props를 내려주는 구조로 수정할 수 있음.
+  useEventCoordinate();
   return (
     <div>
       <Header title="내 주위 행사" isBackButton={true} />
