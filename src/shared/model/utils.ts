@@ -31,9 +31,11 @@ export const getCategoryUrlFromCategorySeq = (seq: number) => {
   return CategoryUrl[categoryKey] || 'Unknown Category';
 };
 
-export const getGuNameFromGuSeq = (seq: number) => {
-  const guKey = GuSeq[seq] as keyof typeof GuName;
-  return GuName[guKey] || 'Unknown Gu';
+export const getGuNameFromGuSeq = (seq: number | null) => {
+  if (seq) {
+    const guKey = GuSeq[seq] as keyof typeof GuName;
+    return GuName[guKey];
+  } else return 'Unknown Gu';
 };
 
 export const filterParams = <T extends Record<string, unknown>>(

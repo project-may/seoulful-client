@@ -1,3 +1,4 @@
+'use client';
 import { getEventDetail } from '@/entities/event/api/api';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';

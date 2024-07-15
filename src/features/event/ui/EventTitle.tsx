@@ -1,3 +1,4 @@
+import React from 'react';
 import LocationIcon from '/public/assets/current-location-icon.svg';
 
 export const EventTitle = ({

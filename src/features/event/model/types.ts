@@ -6,7 +6,7 @@ export interface EventDetailResponse {
 export interface EventDetail {
   eventId: number;
   categorySeq: number;
-  guSeq?: number;
+  guSeq: number | null;
   eventName: string;
   period: string;
   place: string;
@@ -27,4 +27,15 @@ export interface EventDetail {
   longitude: number;
   isFree: boolean;
   detailUrl: string;
+}
+
+export interface EventBottomSheetType {
+  theme: string;
+  period: string;
+  place: string;
+  ticketPrice: string | null;
+  useTarget: string;
+  player: string | null;
+  describe: string | null;
+  etcDesc: string | null;
 }
