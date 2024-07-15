@@ -18,11 +18,11 @@ export const EventDetailBottomSheet = ({
     theme: eventData.theme,
     period: eventData.period,
     place: eventData.place,
-    ticketPrice: eventData.ticketPrice ?? '',
+    ticketPrice: eventData.ticketPrice ?? '정보가 없습니다.',
     useTarget: eventData.useTarget,
-    player: eventData.player ?? '',
-    describe: eventData.describe ?? '',
-    etcDesc: eventData.etcDesc ?? '',
+    player: eventData.player ?? '정보가 없습니다.',
+    describe: eventData.describe ?? '정보가 없습니다.',
+    etcDesc: eventData.etcDesc ?? '정보가 없습니다.',
   };
 
   const coordinateQuery = `coordinate?latitude=${eventData.latitude}&longitude=${eventData.longitude}`;
