@@ -1,10 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { getGeoMarkers, getNaverMap, mapEventListener } from '../util';
 import { useAtom } from 'jotai';
-import { locationAtom } from '../store';
+import { locationAtom, naverMapAtom } from '../store';
 
 export const useNaverMap = () => {
   const [location] = useAtom(locationAtom);
+  const [, setMapState] = useAtom(naverMapAtom);
   const mapRef = useRef<naver.maps.Map | null>(null);
   const markerRef = useRef(new Map());
 
@@ -16,8 +17,10 @@ export const useNaverMap = () => {
       });
 
       if (map) {
+        mapRef.current = map;
         getGeoMarkers(location.latitude, location.longitude, map, markerRef);
         mapEventListener(map, location, markerRef);
+        setMapState(map);
       }
     }
   }, []);

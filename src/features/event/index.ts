@@ -7,5 +7,9 @@ export { EventDetailBottomSheet } from './ui/EventDetailBottomSheet';
 //model
 export { useEventDetail } from './model/hooks/useEventDetail';
 export { useEventCoordinate } from './model/hooks/useEventCoordinate';
-export { EventIcon, EventKorName } from './model/constants';
+export {
+  EventIcon,
+  EventKorName,
+  DEFAULT_CURRENT_EVENT,
+} from './model/constants';
 export type { EventBottomSheetType } from './model/types';

@@ -89,16 +89,17 @@ export const createMarkerPopup = (
 };
 
 export const mapCurrentPosition = (
-  map: naver.maps.Map,
+  map: naver.maps.Map | null,
   lat: number,
   lng: number
 ) => {
   const newCenter = new naver.maps.LatLng(lat, lng);
-  console.log(newCenter);
-  map.morph(newCenter, 16, {
-    easing: 'linear',
-  });
-  getMarker(map, lat, lng);
+  let marker: naver.maps.Marker | null = null;
+  if (map) {
+    map.setCenter(newCenter);
+    marker = getMarker(map, lat, lng);
+  }
+  return marker;
 };
 
 export const geoCurrentPosition = async (): Promise<Coordinates> => {
