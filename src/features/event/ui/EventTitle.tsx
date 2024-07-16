@@ -1,3 +1,4 @@
+import React from 'react';
 import LocationIcon from '/public/assets/current-location-icon.svg';
 
 export const EventTitle = ({
@@ -23,12 +24,10 @@ export const EventTitle = ({
       >
         {eventName}
       </h2>
-      <div className="flex itmes-center gap-x-[3px]">
-        <LocationIcon
-          className={`mt-[4px] ${page === 'ad' ? '' : 'fill-black-888'}`}
-        />
+      <div className="flex items-center gap-x-[3px]">
+        <LocationIcon className={` ${page === 'ad' ? '' : 'fill-black-888'}`} />
         <span
-          className={`text-[10px] ${page === 'ad' ? '' : 'text-black-888'}`}
+          className={`text-[12px] ${page === 'ad' ? '' : 'text-black-888'}`}
         >
           {guName}
         </span>

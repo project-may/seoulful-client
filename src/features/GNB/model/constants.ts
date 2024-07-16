@@ -1,7 +1,7 @@
-import Home from '/public/assets/home-icon.svg';
-import Location from '/public/assets/location-icon.svg';
+import Home from '/public/assets/gnb-home-icon.svg';
+import Location from '/public/assets/gnb-location-icon.svg';
 import Bookmark from '/public/assets/bookmark-icon.svg';
-import User from '/public/assets/user-icon.svg';
+import User from '/public/assets/gnb-user-icon.svg';
 
 export const GNB_CONTENT = [
   {

@@ -1,3 +1,4 @@
+import React from 'react';
 export const EventTitleContentBox = ({
   Icon,
   title,
@@ -5,7 +6,7 @@ export const EventTitleContentBox = ({
 }: {
   Icon: React.FC<React.SVGProps<SVGSVGElement>>;
   title: string;
-  content: string;
+  content: string | null;
 }) => {
   return (
     <div className="py-[15px]">
