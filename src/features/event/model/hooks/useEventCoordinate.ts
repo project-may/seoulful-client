@@ -13,7 +13,10 @@ export const useEventCoordinate = () => {
   useEffect(() => {
     const fetchAddress = async () => {
       if (latitude && longitude) {
-        const data = await getGeoCode(parseFloat(latitude), parseFloat(longitude));
+        const data = await getGeoCode(
+          parseFloat(latitude),
+          parseFloat(longitude)
+        );
         setLocation({
           latitude: parseFloat(latitude),
           longitude: parseFloat(longitude),
