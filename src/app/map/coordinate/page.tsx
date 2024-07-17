@@ -10,7 +10,7 @@ import {
 import { Header } from '@/shared';
 import React from 'react';
 import { useAtom } from 'jotai';
-import { currentEventAtom } from '@/features/event/model/store';
+import { eventDetailAtom } from '@/features/event/model/store';
 import { EventDetail } from '@/features/event/model/types';
 import { createMarkerPopup } from '@/features/map/model/util';
 
@@ -18,7 +18,7 @@ const CoordinatePage = () => {
   const { latitude, longitude } = useEventCoordinate();
   const [mapState] = useAtom(naverMapAtom);
   const [{ eventId, eventName, period, mainImg }] =
-    useAtom<EventDetail>(currentEventAtom);
+    useAtom<EventDetail>(eventDetailAtom);
 
   if (latitude && longitude && mapState) {
     const marker = mapCurrentPosition(

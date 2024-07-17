@@ -10,35 +10,37 @@ import { EventIcon, EventKorName } from '../model/constants';
 import { EventTitleContentBox } from './EventTitleContentBox';
 
 export const EventDetailBottomSheet = ({
-  eventData,
+  eventDetailData,
 }: {
-  eventData: EventDetail;
+  eventDetailData: EventDetail;
 }) => {
   const eventBottomSheetData: EventBottomSheetType = {
-    theme: eventData.theme,
-    period: eventData.period,
-    place: eventData.place,
-    ticketPrice: eventData.ticketPrice ?? '정보가 없습니다.',
-    useTarget: eventData.useTarget,
-    player: eventData.player ?? '정보가 없습니다.',
-    describe: eventData.describe ?? '정보가 없습니다.',
-    etcDesc: eventData.etcDesc ?? '정보가 없습니다.',
+    theme: eventDetailData.theme,
+    period: eventDetailData.period,
+    place: eventDetailData.place,
+    ticketPrice: eventDetailData.ticketPrice ?? '정보가 없습니다.',
+    useTarget: eventDetailData.useTarget,
+    player: eventDetailData.player ?? '정보가 없습니다.',
+    describe: eventDetailData.describe ?? '정보가 없습니다.',
+    etcDesc: eventDetailData.etcDesc ?? '정보가 없습니다.',
   };
 
-  const coordinateQuery = `coordinate?latitude=${eventData.latitude}&longitude=${eventData.longitude}`;
+  const coordinateQuery = `coordinate?latitude=${eventDetailData.latitude}&longitude=${eventDetailData.longitude}`;
 
   return (
     <div className="relative bg-black-FFF z-3 px-[30px] py-[50px]">
       <div className="flex justify-between items-center mb-[25px]">
         <EventTitle
-          categoryName={getCategoryNameFromCategorySeq(eventData.categorySeq)}
-          guName={getGuNameFromGuSeq(eventData.guSeq)}
-          eventName={eventData.eventName}
+          categoryName={getCategoryNameFromCategorySeq(
+            eventDetailData.categorySeq
+          )}
+          guName={getGuNameFromGuSeq(eventDetailData.guSeq)}
+          eventName={eventDetailData.eventName}
           page="event"
         />
         <div className="flex gap-x-[15px]">
           <Link
-            href={eventData.homepageLink}
+            href={eventDetailData.homepageLink}
             className="flex flex-col items-center gap-y-[3px]"
           >
             <HomeIcon className="w-[23px] fill-purple-10" />
