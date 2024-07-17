@@ -23,19 +23,19 @@ export const getCategorySeqFromPathname = (path: string) => {
 
 export const getCategoryNameFromCategorySeq = (seq: number) => {
   const categoryKey = CategorySeq[seq] as keyof typeof CategoryName;
-  return CategoryName[categoryKey] || 'Unknown Category';
+  return CategoryName[categoryKey] || '정보를 불러오고 있습니다';
 };
 
 export const getCategoryUrlFromCategorySeq = (seq: number) => {
   const categoryKey = CategorySeq[seq] as keyof typeof CategoryUrl;
-  return CategoryUrl[categoryKey] || 'Unknown Category';
+  return CategoryUrl[categoryKey] || '정보를 불러오고 있습니다';
 };
 
 export const getGuNameFromGuSeq = (seq: number | null) => {
   if (seq) {
     const guKey = GuSeq[seq] as keyof typeof GuName;
     return GuName[guKey];
-  } else return 'Unknown Gu';
+  } else return '정보를 불러오고 있습니다';
 };
 
 export const filterParams = <T extends Record<string, unknown>>(
