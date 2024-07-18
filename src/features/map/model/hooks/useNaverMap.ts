@@ -1,10 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { getGeoMarkers, getNaverMap, mapEventListener } from '../util';
 import { useAtom } from 'jotai';
-import { locationAtom, naverMapAtom } from '../store';
+import { locationAtom, naverMapAtom, storedLocation } from '../store';
+import { getGeoCode } from '../../api/api';
 
 export const useNaverMap = () => {
-  const [location] = useAtom(locationAtom);
+  const [location, setLocation] = useAtom(locationAtom);
   const [, setMapState] = useAtom(naverMapAtom);
   const mapRef = useRef<naver.maps.Map | null>(null);
   const markerRef = useRef(new Map());
@@ -19,8 +20,16 @@ export const useNaverMap = () => {
       if (map) {
         mapRef.current = map;
         getGeoMarkers(location.latitude, location.longitude, map, markerRef);
-        mapEventListener(map, location, markerRef);
+        mapEventListener(map, markerRef);
         setMapState(map);
+        const initialLocation = storedLocation();
+        if (initialLocation) {
+          const center = new naver.maps.LatLng(
+            initialLocation.latitude,
+            initialLocation.longitude
+          );
+          map.setCenter(center);
+        }
       }
     }
   }, []);
@@ -33,6 +42,22 @@ export const useNaverMap = () => {
         mapRef.current,
         markerRef
       );
+
+      const map = mapRef.current;
+      map.addListener('idle', () => {
+        const newLatitude = map.getCenter().y;
+        const newLongitude = map.getCenter().x;
+
+        const fetchAddress = async () => {
+          const data = await getGeoCode(newLatitude, newLongitude);
+          setLocation({
+            latitude: newLatitude,
+            longitude: newLongitude,
+            address: data.documents[1]?.address_name || '',
+          });
+        };
+        fetchAddress();
+      });
     }
 
     return () => {

@@ -33,6 +33,9 @@ export const getGeoMarkers = async (
 ) => {
   const hashes = getGeoHash(lat, lng).neighbors;
   const data: EventData = await getNearbyEvent(hashes);
+  // reduce로 수정 -> geohash를 key값으로 만들어서 value에는 marker
+  // { ${geohash}_${eventId}: naver.maps.Marker }
+  // key값 확인 후에 value가 null 일 때 처리
   const removeZeroLength = Object.values(data)
     .map((events) => Object.values(events))
     .flat()
@@ -44,6 +47,7 @@ export const getGeoMarkers = async (
     const markerLatitude = decode.latitude;
     const markerLongitude = decode.longitude;
     const positionKey = `${markerLatitude}_${markerLongitude}`;
+
     if (markersRef.current.has(positionKey)) {
       const existingMarker = markersRef.current.get(positionKey);
       existingMarker?.setMap(null);
@@ -124,14 +128,14 @@ export const geoCurrentPosition = async (): Promise<Coordinates> => {
 
 export const mapEventListener = (
   map: naver.maps.Map,
-  currentLocation: Coordinates,
   markersRef: React.MutableRefObject<Map<string, naver.maps.Marker>>
 ) => {
+  const lat = map.getCenter().y;
+  const lng = map.getCenter().x;
   naver.maps.Event.addListener(map, 'idle', () => {
-    const lat = map.getCenter().y;
-    const lng = map.getCenter().x;
     getGeoMarkers(lat, lng, map, markersRef);
   });
+  return { lat, lng };
 };
 
 export const getMapCenter = ({ map }: NaverMapTypes) => {
@@ -143,6 +147,7 @@ export const getMapCenter = ({ map }: NaverMapTypes) => {
   }
   return { lat, lng };
 };
+
 export const getGeoHash = (lat: number, lng: number) => {
   const hash = geohash.encode(lat, lng, 6);
   const neighbors = geohash.neighbors(hash);
