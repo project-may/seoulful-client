@@ -35,16 +35,22 @@ export interface Location extends Coordinates {
   address: string;
 }
 
-export interface MapEvent {
+export interface Event {
+  categorySeq: number;
+  detailUrl: string;
+  endDate: string;
   eventId: number;
   eventName: string;
-  period: string;
   geohash: string;
+  latitude: number;
+  longitude: number;
   mainImg: string;
+  period: string;
+  startDate: string;
 }
 
 export interface EventData {
-  [key: string]: MapEvent[];
+  [key: string]: Event[];
 }
 
 export interface EventPopup {

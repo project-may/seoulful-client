@@ -1,3 +1,5 @@
+import type { EventData } from '@/features/map';
+
 export const getNearbyEvent = async (geohash: string[]) => {
   const geohashString = geohash.join(',');
   const res = await fetch(
@@ -5,5 +7,5 @@ export const getNearbyEvent = async (geohash: string[]) => {
   );
   const data = await res.json();
 
-  return data;
+  return data.data as EventData;
 };

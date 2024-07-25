@@ -1,7 +1,8 @@
-import type { Coordinates, EventData, NaverMapTypes } from './types';
+import type { Coordinates, EventData } from './types';
 import geohash from 'ngeohash';
 import { PopupString } from '../ui/MarkerPopup';
 import { getNearbyEvent } from '@/entities/map';
+import { MutableRefObject } from 'react';
 
 export const getNaverMap = ({ latitude, longitude }: Coordinates) => {
   const mapOptions = {
@@ -26,45 +27,49 @@ export const getMarker = (map: naver.maps.Map, lat: number, lng: number) => {
 };
 
 export const getGeoMarkers = async (
-  lat: number,
-  lng: number,
   map: naver.maps.Map,
-  markersRef: React.MutableRefObject<Map<string, naver.maps.Marker>>
+  markersRef: MutableRefObject<Map<string, naver.maps.Marker>>,
+  geohashRef: MutableRefObject<string | undefined>
 ) => {
-  const hashes = getGeoHash(lat, lng).neighbors;
-  const data: EventData = await getNearbyEvent(hashes);
-  // reduce로 수정 -> geohash를 key값으로 만들어서 value에는 marker
-  // { ${geohash}_${eventId}: naver.maps.Marker }
-  // key값 확인 후에 value가 null 일 때 처리
-  const removeZeroLength = Object.values(data)
-    .map((events) => Object.values(events))
-    .flat()
-    .flat();
+  const newLatitude = map.getCenter().y;
+  const newLongitude = map.getCenter().x;
+  const { hash, neighbors } = getGeoHash(newLatitude, newLongitude);
+  if (geohashRef?.current !== hash || markersRef.current.size === 0) {
+    const data: EventData = await getNearbyEvent(neighbors);
+    geohashRef.current = hash;
 
-  removeZeroLength.forEach((event) => {
-    const coords = event.geohash;
-    const decode = geohash.decode(coords);
-    const markerLatitude = decode.latitude;
-    const markerLongitude = decode.longitude;
-    const positionKey = `${markerLatitude}_${markerLongitude}`;
+    const eventArray = Object.entries(data).filter(([key, event]) => {
+      if (event.length > 0) {
+        return [key, event];
+      }
+    });
 
-    if (markersRef.current.has(positionKey)) {
-      const existingMarker = markersRef.current.get(positionKey);
-      existingMarker?.setMap(null);
-    }
-
-    const marker = getMarker(map, markerLatitude, markerLongitude);
-    markersRef.current.set(positionKey, marker);
-
-    createMarkerPopup(
-      map,
-      marker,
-      event.eventId,
-      event.eventName,
-      event.period,
-      event.mainImg
-    );
-  });
+    eventArray.forEach(([key, eventArr]) => {
+      eventArr.forEach((event) => {
+        const uniqueKey = `${key}_${event}`;
+        if (!markersRef.current.has(uniqueKey)) {
+          const marker = new naver.maps.Marker({
+            position: new naver.maps.LatLng(event.latitude, event.longitude),
+            map: map,
+          });
+          if (!marker.getMap()) {
+            marker.setMap(null);
+          } else {
+            marker.setMap(map);
+          }
+          markersRef.current.set(uniqueKey, marker);
+          createMarkerPopup(
+            map,
+            marker,
+            event.eventId,
+            event.eventName,
+            event.period,
+            event.mainImg
+          );
+        }
+      });
+    });
+  }
 };
 
 export const createMarkerPopup = (
@@ -124,28 +129,6 @@ export const geoCurrentPosition = async (): Promise<Coordinates> => {
       }
     );
   });
-};
-
-export const mapEventListener = (
-  map: naver.maps.Map,
-  markersRef: React.MutableRefObject<Map<string, naver.maps.Marker>>
-) => {
-  const lat = map.getCenter().y;
-  const lng = map.getCenter().x;
-  naver.maps.Event.addListener(map, 'idle', () => {
-    getGeoMarkers(lat, lng, map, markersRef);
-  });
-  return { lat, lng };
-};
-
-export const getMapCenter = ({ map }: NaverMapTypes) => {
-  let lat;
-  let lng;
-  if (map) {
-    lat = map.getCenter().y;
-    lng = map.getCenter().x;
-  }
-  return { lat, lng };
 };
 
 export const getGeoHash = (lat: number, lng: number) => {

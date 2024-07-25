@@ -1,35 +1,27 @@
-import { useAtom } from 'jotai';
-import {
-  geoCurrentPosition,
-  getGeoMarkers,
-  mapCurrentPosition,
-} from '../model/util';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { geoCurrentPosition, mapCurrentPosition } from '../model/util';
 import CurrentPositionIcon from '/public/assets/target-icon.svg';
-import { locationAtom } from '../model/store';
+import { locationAtom, naverMapAtom } from '../model/store';
 import { getGeoCode } from '../api/api';
-import type { MarkerRefTypes, NaverMapTypes } from '../model/types';
 
-export const CurrentLocationButton = ({
-  map,
-  marker,
-}: NaverMapTypes & MarkerRefTypes) => {
-  const [, setCurrentLocation] = useAtom(locationAtom);
+export const CurrentLocationButton = () => {
+  const setCurrentLocation = useSetAtom(locationAtom);
+  const map = useAtomValue(naverMapAtom);
+
   const getCoords = async () => {
     const coords = await geoCurrentPosition();
-    await getGeoCode(coords.latitude, coords.longitude).then((data) => {
-      const address = data.documents[1].address_name;
-      const latitude = data.documents[1].y;
-      const longitude = data.documents[1].x;
-      if (map) {
-        getGeoMarkers(latitude, longitude, map, marker);
-        setCurrentLocation({
-          address,
-          latitude,
-          longitude,
-        });
-        mapCurrentPosition(map, latitude, longitude);
-      }
-    });
+    const coordsData = await getGeoCode(coords.latitude, coords.longitude);
+    const address = coordsData.documents[1].address_name;
+    const latitude = coordsData.documents[1].y;
+    const longitude = coordsData.documents[1].x;
+    if (map) {
+      setCurrentLocation({
+        address,
+        latitude,
+        longitude,
+      });
+      mapCurrentPosition(map, latitude, longitude);
+    }
   };
 
   return (
