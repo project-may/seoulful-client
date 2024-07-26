@@ -35,3 +35,4 @@ export { NavigationButton } from './ui/NavigationButton';
 export { CloseButton } from './ui/CloseButton';
 export { DetailPageButton } from './ui/DetailPageButton';
 export { BackButton } from './ui/BackButton';
+export { LoadingComponent } from './ui/LoadingComponent';

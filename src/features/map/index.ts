@@ -14,7 +14,7 @@ export type {
   NaverMapTypes,
   MapInfo,
   Location,
-  MapEvent,
+  Event,
   MarkerTypes,
   EventData,
   EventPopup,
@@ -22,10 +22,18 @@ export type {
 export { useNaverMap } from './model/hooks/useNaverMap';
 export { useChangeLocation } from './model/hooks/useChangeLocation';
 export { DEFAULT_LOCATION, DEFAULT_GEOHASH } from './model/constants';
-export { locationAtom } from './model/store';
+export {
+  locationAtom,
+  geohashAtom,
+  naverMapAtom,
+  storedLocation,
+} from './model/store';
 export {
   mapCurrentPosition,
   getNaverMap,
   getMarker,
   geoCurrentPosition,
+  createMarkerPopup,
+  getGeoHash,
+  getGeoMarkers,
 } from './model/util';

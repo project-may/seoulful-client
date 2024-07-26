@@ -1,18 +1,21 @@
 'use client';
 import { getEventDetail } from '@/entities/event/api/api';
-import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import { useEffect } from 'react';
 import { EventDetail } from '../types';
+import { useAtom } from 'jotai';
+import { eventDetailAtom } from '../store';
 
 export const useEventDetail = () => {
-  const [eventData, setEventData] = useState<EventDetail>();
-  const pathname = usePathname();
-  const formattedUrl = pathname.split('/').pop() || '';
+  const [eventDetailData, setEventDetailData] =
+    useAtom<EventDetail>(eventDetailAtom);
+  const params = useParams();
+  const eventId = params.id;
   useEffect(() => {
-    getEventDetail(Number(formattedUrl)).then((data) => {
-      setEventData(data.data);
+    getEventDetail(Number(eventId)).then((data) => {
+      setEventDetailData(data.data);
     });
   }, []);
 
-  return { eventData };
+  return { eventDetailData };
 };
