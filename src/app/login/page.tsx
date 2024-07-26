@@ -32,8 +32,8 @@ export default function LoginPage() {
         <div className="text-inherit text-[25px]">시작해볼까요?</div>
       </div>
       <div className="flex mt-[34px] justify-center gap-20 z-10">
-        <LoginButton loginType={'naver'} />
-        <LoginButton loginType={'kakao'} />
+        <LoginButton provider={'naver'} />
+        <LoginButton provider={'kakao'} />
       </div>
     </div>
   );
