@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import LoginBackground from '/public/assets/login-background.png';
+import { LoginButton } from '@/features/login';
 
 export default function LoginPage() {
   return (
@@ -31,20 +32,8 @@ export default function LoginPage() {
         <div className="text-inherit text-[25px]">시작해볼까요?</div>
       </div>
       <div className="flex mt-[34px] justify-center gap-20 z-10">
-        <Image
-          src="/assets/naver-logo.png"
-          alt="naver logo"
-          width={66}
-          height={66}
-          className="mr-[10px]"
-        ></Image>
-        <Image
-          src="/assets/kakao-logo.png"
-          alt="kakao logo"
-          width={66}
-          height={66}
-          className="mr-[10px]"
-        ></Image>
+        <LoginButton loginType={'naver'} />
+        <LoginButton loginType={'kakao'} />
       </div>
     </div>
   );
