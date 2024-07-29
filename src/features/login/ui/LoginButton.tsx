@@ -1,8 +1,10 @@
+'use client';
 import React from 'react';
 import Image from 'next/image';
 import { ProviderTypes } from '../model/types';
+import { loginUser } from '@/entities/login/api/api';
 
-export const LoginButton = (provider: ProviderTypes) => {
+export const LoginButton = ({ provider }: ProviderTypes) => {
   return (
     <Image
       src={`/assets/${provider}-logo.png`}
@@ -10,6 +12,9 @@ export const LoginButton = (provider: ProviderTypes) => {
       width={66}
       height={66}
       className="mr-[10px]"
+      onClick={() => {
+        loginUser({ provider });
+      }}
     ></Image>
   );
 };
