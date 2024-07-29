@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import LoginBackground from '/public/assets/login-background.png';
-import { LoginButton } from '@/features/login';
+import { LoginButton } from '@/features/auth';
 
 export default function LoginPage() {
   return (

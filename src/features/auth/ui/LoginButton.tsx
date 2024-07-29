@@ -2,7 +2,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { ProviderTypes } from '../model/types';
-import { loginUser } from '@/entities/login/api/api';
+import { loginUser } from '@/entities/auth/api/api';
 
 export const LoginButton = ({ provider }: ProviderTypes) => {
   return (
