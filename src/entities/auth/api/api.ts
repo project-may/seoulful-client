@@ -16,14 +16,14 @@ export const loginUser = async ({ provider }: ProviderTypes) => {
 };
 
 export const fetchUserData = async (
-  state: string,
-  kakaoBody: LoginRequest
+  provider: 'kakao' | 'naver',
+  body: LoginRequest
 ): Promise<UserDTO> => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}auth/login/${state}`,
+    `${process.env.NEXT_PUBLIC_SERVER_URL}auth/login/${provider}`,
     {
       method: 'POST',
-      body: JSON.stringify(kakaoBody),
+      body: JSON.stringify(body),
       headers: {
         'Content-Type': 'application/json',
       },
