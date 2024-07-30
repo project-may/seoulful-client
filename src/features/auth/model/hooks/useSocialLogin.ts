@@ -1,16 +1,17 @@
 'use client';
 import { useEffect } from 'react';
 import { fetchUserData } from '@/entities/auth';
-import { usePathname, useRouter } from 'next/navigation';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 export const useSocialLogin = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    const code = new URL(window.location.href).searchParams.get('code');
-    const state = new URL(window.location.href).searchParams.get('state');
+    const code = searchParams.get('code');
+    const state = searchParams.get('state');
 
     if (code) {
       if (pathname.includes('kakao')) {
@@ -19,11 +20,7 @@ export const useSocialLogin = () => {
         };
         fetchUserData('kakao', kakaoBody)
           .then((user) => {
-            if (user.accessToken && user.refreshToken) {
-              localStorage.setItem('accessToken', user.accessToken);
-              localStorage.setItem('refreshToken', user.refreshToken);
-              localStorage.setItem('userId', user.userId);
-            }
+            localStorage.setItem('user', JSON.stringify(user));
             router.replace('/home');
           })
           .catch((error) => {
@@ -37,12 +34,7 @@ export const useSocialLogin = () => {
           };
           fetchUserData('naver', naverBody)
             .then((user) => {
-              console.log(user, 'naverUser');
-              if (user.accessToken && user.refreshToken) {
-                localStorage.setItem('accessToken', user.accessToken);
-                localStorage.setItem('refreshToken', user.refreshToken);
-                localStorage.setItem('userId', user.userId);
-              }
+              localStorage.setItem('user', JSON.stringify(user));
               router.replace('/home');
             })
             .catch((error) => {
