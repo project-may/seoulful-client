@@ -1,8 +1,10 @@
+'use client';
 import Image from 'next/image';
 import LoginBackground from '/public/assets/login-background.png';
-import { LoginButton } from '@/features/auth';
+import { LoginButton, useLoginCheck } from '@/features/auth';
 
 export default function LoginPage() {
+  useLoginCheck();
   return (
     <div className="relative h-screen flex flex-col bg-gradient-to-b from-[#30618C]/50 to-[#BF5E70]/70 ">
       <div className="absolute inset-0">
