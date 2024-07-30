@@ -12,7 +12,7 @@ export const useSocialLogin = () => {
     const code = new URL(window.location.href).searchParams.get('code');
     const state = new URL(window.location.href).searchParams.get('state');
 
-    if (code && state) {
+    if (code) {
       if (pathname.includes('kakao')) {
         const kakaoBody = {
           code: code,
@@ -30,23 +30,25 @@ export const useSocialLogin = () => {
             console.error('Error:', error);
           });
       } else {
-        const naverBody = {
-          code,
-          state,
-        };
-        fetchUserData('naver', naverBody)
-          .then((user) => {
-            console.log(user, 'naverUser');
-            if (user.accessToken && user.refreshToken) {
-              localStorage.setItem('accessToken', user.accessToken);
-              localStorage.setItem('refreshToken', user.refreshToken);
-              localStorage.setItem('userId', user.userId);
-            }
-            router.replace('/home');
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-          });
+        if (state) {
+          const naverBody = {
+            code,
+            state,
+          };
+          fetchUserData('naver', naverBody)
+            .then((user) => {
+              console.log(user, 'naverUser');
+              if (user.accessToken && user.refreshToken) {
+                localStorage.setItem('accessToken', user.accessToken);
+                localStorage.setItem('refreshToken', user.refreshToken);
+                localStorage.setItem('userId', user.userId);
+              }
+              router.replace('/home');
+            })
+            .catch((error) => {
+              console.error('Error:', error);
+            });
+        }
       }
     }
   }, []);
