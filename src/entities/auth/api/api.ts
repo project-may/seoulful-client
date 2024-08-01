@@ -7,8 +7,7 @@ export const loginUser = async ({ provider }: ProviderTypes) => {
     : process.env.NEXT_PUBLIC_LOCAL_HOST;
 
   if (provider === 'kakao') {
-    const kakaoRestApi =
-      process.env.NEXT_PUBLIC_KAKAO_REST_API || process.env.KAKAO_REST_API;
+    const kakaoRestApi = process.env.NEXT_PUBLIC_KAKAO_REST_API;
     const kakaoLogin = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoRestApi}&redirect_uri=${redirectUrl}/auth/kakao/callback&response_type=code&state=kakao`;
     window.location.href = kakaoLogin;
   } else {
