@@ -66,7 +66,7 @@ export default function RootLayout({
         ></Script>
       </head>
       <body className="flex justify-center items-center w-full h-screen bg-black-EEE">
-        <div className="relative w-[360px] h-[720px] bg-black-FFF overflow-auto">
+        <div className="relative w-[360px] h-screen bg-black-FFF overflow-auto">
           <Provider>{children}</Provider>
         </div>
       </body>

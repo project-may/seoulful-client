@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 const HomePage = () => {
   return (
-    <div className="relative flex flex-col gap-y-[20px] p-[30px]">
+    <div className="relative flex flex-col gap-y-[20px] p-[30px] overflow-y-scroll">
       <div className="flex justify-between items-start">
         <LoginStatusBox />
         <AlertButton link="/home/alert" hasAlert />
