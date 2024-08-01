@@ -7,13 +7,14 @@ export const loginUser = async ({ provider }: ProviderTypes) => {
     : process.env.NEXT_PUBLIC_LOCAL_HOST;
 
   if (provider === 'kakao') {
-    const kakaoRestApi = process.env.NEXT_PUBLIC_KAKAO_REST_API;
+    const kakaoRestApi =
+      process.env.NEXT_PUBLIC_KAKAO_REST_API || process.env.KAKAO_REST_API;
     const kakaoLogin = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoRestApi}&redirect_uri=${redirectUrl}/auth/kakao/callback&response_type=code&state=kakao`;
     window.location.href = kakaoLogin;
   } else {
     const naverClientID = process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID;
     const STATE = process.env.NEXT_PUBLIC_NAVER_STATE;
-    const naverLogin = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naverClientID}&state=${STATE}&redirect_uri=${redirectUrl}/auth/naver/callback/auth/naver`;
+    const naverLogin = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naverClientID}&state=${STATE}&redirect_uri=${redirectUrl}/auth/naver/callback`;
     window.location.href = naverLogin;
   }
 };
