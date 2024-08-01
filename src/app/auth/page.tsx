@@ -1,7 +1,10 @@
+'use client';
 import Image from 'next/image';
 import LoginBackground from '/public/assets/login-background.png';
+import { LoginButton, useLoginCheck } from '@/features/auth';
 
 export default function LoginPage() {
+  useLoginCheck();
   return (
     <div className="relative h-screen flex flex-col bg-gradient-to-b from-[#30618C]/50 to-[#BF5E70]/70 ">
       <div className="absolute inset-0">
@@ -31,20 +34,8 @@ export default function LoginPage() {
         <div className="text-inherit text-[25px]">시작해볼까요?</div>
       </div>
       <div className="flex mt-[34px] justify-center gap-20 z-10">
-        <Image
-          src="/assets/naver-logo.png"
-          alt="naver logo"
-          width={66}
-          height={66}
-          className="mr-[10px]"
-        ></Image>
-        <Image
-          src="/assets/kakao-logo.png"
-          alt="kakao logo"
-          width={66}
-          height={66}
-          className="mr-[10px]"
-        ></Image>
+        <LoginButton provider={'naver'} />
+        <LoginButton provider={'kakao'} />
       </div>
     </div>
   );
