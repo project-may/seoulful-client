@@ -24,7 +24,10 @@ jobs:
         run: |
           echo "NAVER_MAP_CLIENT_ID=${{ secrets.NAVER_MAP_CLIENT_ID }}" >> .env
           echo "NAVER_MAP_CLIENT_SECRET=${{ secrets.NAVER_MAP_CLIENT_SECRET }}" >> .env
+          echo "NEXT_PUBLIC_NAVER_STATE=${{ secrets.NEXT_PUBLIC_NAVER_STATE }}" >> .env
+          echo "NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID=${{ secrets.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID }}" >> .env
           echo "KAKAO_REST_API=${{ secrets.KAKAO_REST_API }}" >> .env
+          echo "NEXT_PUBLIC_CLIENT_URL=${{ secrets.NEXT_PUBLIC_CLIENT_URL }}" >> .env
           echo "NEXT_PUBLIC_SERVER_URL=${{ secrets.NEXT_PUBLIC_SERVER_URL }}" >> .env
 
       - name: Docker 빌드 설정
@@ -40,7 +43,10 @@ jobs:
         run: |
           docker build --build-arg NAVER_MAP_CLIENT_ID=${{ secrets.NAVER_MAP_CLIENT_ID }} \
                        --build-arg NAVER_MAP_CLIENT_SECRET=${{ secrets.NAVER_MAP_CLIENT_SECRET }} \
+                       --build-arg NEXT_PUBLIC_NAVER_STATE=${{ secrets.NEXT_PUBLIC_NAVER_STATE }} \
+                       --build-arg NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID=${{ secrets.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID }} \
                        --build-arg KAKAO_REST_API=${{ secrets.KAKAO_REST_API }} \
                        --build-arg NEXT_PUBLIC_SERVER_URL=${{ secrets.NEXT_PUBLIC_SERVER_URL }} \
+                       --build-arg NEXT_PUBLIC_CLIENT_URL=${{ secrets.NEXT_PUBLIC_CLIENT_URL }} \
                        -t ${{ secrets.DOCKERHUB_REPO }}/seoulful-client:latest .
           docker push ${{ secrets.DOCKERHUB_REPO }}/seoulful-client:latest
