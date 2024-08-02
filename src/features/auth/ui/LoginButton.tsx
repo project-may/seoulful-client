@@ -9,7 +9,7 @@ export const LoginButton = ({ provider }: ProviderTypes) => {
     <>
       {provider === 'naver' ? (
         <Image
-          className="mt-20 mb-4"
+          className="mt-20 mb-4 cursor-pointer"
           src={`/assets/${provider}-logo.png`}
           alt={`${provider} login`}
           width={230}
