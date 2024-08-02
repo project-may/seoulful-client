@@ -1,16 +1,5 @@
-const layout = ({
-  children,
-  modal,
-}: {
-  children: React.ReactNode;
-  modal: React.ReactNode;
-}) => {
-  return (
-    <div className="relative">
-      {children}
-      {modal}
-    </div>
-  );
+const layout = ({ children }: { children: React.ReactNode }) => {
+  return <div className="relative">{children}</div>;
 };
 
 export default layout;
