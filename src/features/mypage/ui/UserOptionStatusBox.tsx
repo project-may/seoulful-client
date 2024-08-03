@@ -9,7 +9,7 @@ export const UserOptionStatusBox = () => {
       <div className="flex items-center justify-between w-full mb-4">
         <span className="flex items-center m-2">
           <LocationIcon className="w-[18px] h-[18px] mr-2"></LocationIcon>
-          <span> 알림설정</span>
+          <span>알림설정</span>
         </span>
         <input
           type="checkbox"
@@ -19,7 +19,7 @@ export const UserOptionStatusBox = () => {
       <div className="flex items-center justify-between w-full mb-4">
         <span className="flex items-center m-2">
           <AlertIcon className="w-[18px] h-[18px mr-2"></AlertIcon>
-          <span> 위치정보제공 동의</span>
+          <span>위치정보제공 동의</span>
         </span>
         <input
           type="checkbox"
@@ -30,7 +30,7 @@ export const UserOptionStatusBox = () => {
       <div className="flex items-center justify-between w-full mb-4">
         <span className="flex items-center m-2">
           <DarkModeIcon className="w-[18px] h-[18px mr-2"></DarkModeIcon>
-          <span> 다크모드</span>
+          <span>다크모드</span>
         </span>
         <input
           type="checkbox"
