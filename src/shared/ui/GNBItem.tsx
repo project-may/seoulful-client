@@ -1,7 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { createPortal } from 'react-dom';
 import { useEffect, useState } from 'react';
 import { ModalComponent } from './ModalComponent';
@@ -17,24 +16,37 @@ export const GNBItem = ({
   link: string;
   className?: string;
 }) => {
+  const router = useRouter();
   const pathname = usePathname();
   const [showModal, setShowModal] = useState(false);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [portalElement, setPortalElement] = useState<Element | null>(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setIsUserLoggedIn(!!localStorage.getItem('user'));
+      const checkUser = localStorage.getItem('user');
+      if (checkUser) {
+        setIsUserLoggedIn(true);
+      }
     }
   }, []);
 
-  const handleClick = (e: MouseEvent) => {
-    if (!isUserLoggedIn) {
-      e.preventDefault();
-      setShowModal(true);
+  useEffect(() => {
+    setPortalElement(document.getElementById('portal'));
+  }, [showModal]);
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    console.log(link, 'link');
+    if (link === '/mypage' || link === '/bookmark') {
+      if (!isUserLoggedIn) {
+        e.preventDefault();
+        setShowModal(true);
+      }
     } else {
-      window.location.href = link;
+      router.push(link);
     }
   };
+
   return (
     <motion.div
       initial={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
@@ -44,14 +56,20 @@ export const GNBItem = ({
       }}
       transition={{ duration: 0.25, ease: 'easeInOut' }}
       className="flex items-center justify-center w-[40px] h-[40px] rounded-full"
-      onClick={() => handleClick}
     >
-      <Link href={link} aria-label={ariaLabel}>
+      <button
+        aria-label={ariaLabel}
+        onClick={(e) => {
+          handleClick(e);
+        }}
+      >
         <Icon
           className={`${className ?? ''} ${ariaLabel === '북마크' ? 'w-[20px] h-[20px] fill-black-FFF' : ''} pointer-events-none`}
         />
-      </Link>
-      {showModal && createPortal(<ModalComponent />, document.body)}
+      </button>
+      {showModal && portalElement
+        ? createPortal(<ModalComponent link={'bookmark'} />, portalElement)
+        : null}
     </motion.div>
   );
 };
