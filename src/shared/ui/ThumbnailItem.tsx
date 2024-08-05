@@ -28,7 +28,7 @@ export const ThumbnailItem = ({
             </span>
           </div>
         </Link>
-        {page === 'favorite' && <BookmarkButton hasBorder />}
+        {page === 'bookmark' && <BookmarkButton hasBorder />}
       </div>
     </li>
   );
