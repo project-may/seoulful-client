@@ -1,7 +1,6 @@
 import { CategoryList } from '@/features/Category';
 import { GNB } from '@/features/GNB';
-import { LoginStatusBox } from '@/features/home';
-import { THUMBNAIL_CONSTANT, ThumbnailList } from '@/features/Thumbnail';
+import { LoginStatusBox, ThumbnailListBox } from '@/features/home';
 import { AlertButton, SearchInput } from '@/shared';
 import Link from 'next/link';
 
@@ -22,8 +21,7 @@ const HomePage = () => {
         </Link>
       </div>
       <CategoryList />
-      <ThumbnailList title="뮤지컬/오페라" url="#" data={THUMBNAIL_CONSTANT} />
-      <ThumbnailList title="추천행사" url="#" data={THUMBNAIL_CONSTANT} />
+      <ThumbnailListBox />
       <GNB />
     </div>
   );
