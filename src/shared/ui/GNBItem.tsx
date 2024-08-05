@@ -2,8 +2,8 @@
 import { motion } from 'framer-motion';
 import { usePathname, useRouter } from 'next/navigation';
 import { createPortal } from 'react-dom';
-import { useEffect, useState } from 'react';
 import { ModalComponent } from './ModalComponent';
+import { useModal } from '../model/hooks/useModal';
 
 export const GNBItem = ({
   ariaLabel,
@@ -18,30 +18,11 @@ export const GNBItem = ({
 }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const [showModal, setShowModal] = useState(false);
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-  const [portalElement, setPortalElement] = useState<Element | null>(null);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const checkUser = localStorage.getItem('user');
-      if (checkUser) {
-        setIsUserLoggedIn(true);
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    setPortalElement(document.getElementById('portal'));
-  }, [showModal]);
-
+  const { showModal, isUserLoggedIn, portalElement, setShowModal } = useModal();
   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    console.log(link, 'link');
-    if (link === '/mypage' || link === '/bookmark') {
-      if (!isUserLoggedIn) {
-        e.preventDefault();
-        setShowModal(true);
-      }
+    if ((link === '/mypage' || link === '/bookmark') && !isUserLoggedIn) {
+      e.preventDefault();
+      setShowModal(true);
     } else {
       router.push(link);
     }
@@ -68,7 +49,14 @@ export const GNBItem = ({
         />
       </button>
       {showModal && portalElement
-        ? createPortal(<ModalComponent link={'bookmark'} />, portalElement)
+        ? createPortal(
+            <ModalComponent
+              isUserLoggedIn={isUserLoggedIn}
+              setShowModal={setShowModal}
+              link={'auth'}
+            />,
+            portalElement
+          )
         : null}
     </motion.div>
   );
