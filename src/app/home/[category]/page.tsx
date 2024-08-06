@@ -1,6 +1,5 @@
 'use client';
 import { usePathname } from 'next/navigation';
-import { THUMBNAIL_CONSTANT } from '@/features/Thumbnail';
 import {
   getCategoryTitleFromPathname,
   Header,
@@ -22,10 +21,10 @@ const CategoryPage = () => {
         <div className="flex justify-between my-[15px]">
           <p className="text-[11px] text-black-999">
             전체{' '}
-            <strong className="font-semibold">
+            {/* <strong className="font-semibold">
               {THUMBNAIL_CONSTANT.length}
             </strong>
-            개
+            개 */}
           </p>
           <button type="button" className="flex items-center">
             <SortIcon />
@@ -35,9 +34,9 @@ const CategoryPage = () => {
           </button>
         </div>
         <ul className="flex flex-wrap gap-[15px]">
-          {THUMBNAIL_CONSTANT.map((data, i) => (
+          {/* {THUMBNAIL_CONSTANT.map((data, i) => (
             <ThumbnailItem key={`data-${i}`} data={data} />
-          ))}
+          ))} */}
         </ul>
       </div>
     </div>

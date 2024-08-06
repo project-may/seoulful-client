@@ -1,1 +1,1 @@
-export { getRandomEvent } from './model/api';
+export { getHomeEvent } from './model/api';

@@ -1,4 +1,4 @@
-import { getRandomEvent } from '@/entities/home';
+import { getHomeEvent } from '@/entities/home';
 import { CategoryList } from '@/features/Category';
 import { GNB } from '@/features/GNB';
 import { LoginStatusBox, ThumbnailList } from '@/features/home';
@@ -6,7 +6,8 @@ import { AlertButton, SearchInput } from '@/shared';
 import Link from 'next/link';
 
 const HomePage = async () => {
-  const eventData = await getRandomEvent();
+  const recommendData = await getHomeEvent(true);
+  const musicalData = await getHomeEvent(false, 2);
 
   return (
     <div className="relative flex flex-col gap-y-[20px] p-[30px] overflow-y-scroll">
@@ -24,8 +25,12 @@ const HomePage = async () => {
         </Link>
       </div>
       <CategoryList />
-      <ThumbnailList title="뮤지컬/오페라" url="#" data={eventData} />
-      <ThumbnailList title="추천행사" url="#" data={eventData} />
+      <ThumbnailList
+        title="뮤지컬/오페라"
+        url="/home/musical-opera"
+        data={musicalData}
+      />
+      <ThumbnailList title="추천행사" url="#" data={recommendData} />
       <GNB />
     </div>
   );
