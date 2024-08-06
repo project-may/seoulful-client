@@ -6,8 +6,8 @@ import { AlertButton, SearchInput } from '@/shared';
 import Link from 'next/link';
 
 const HomePage = async () => {
-  const recommendData = await getHomeEvent(true);
-  const musicalData = await getHomeEvent(false, 2);
+  const recommendData = await getHomeEvent(2, 0, true);
+  const musicalData = await getHomeEvent(2, 0, false, 5);
 
   return (
     <div className="relative flex flex-col gap-y-[20px] p-[30px] overflow-y-scroll">

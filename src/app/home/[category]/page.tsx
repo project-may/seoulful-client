@@ -7,11 +7,24 @@ import {
   ThumbnailItem,
 } from '@/shared';
 import SortIcon from '/public/assets/sort-icon.svg';
+import { getCategorySeqFromPathname } from '@/shared/model/utils';
+import { getHomeEvent } from '@/entities/home';
+import { useEffect, useState } from 'react';
+import { HomeEventDTO } from '@/features/home/model/util';
 
 const CategoryPage = () => {
+  const [eventData, setEventData] = useState<HomeEventDTO[]>();
   const pathname = usePathname();
-
   const title = getCategoryTitleFromPathname(pathname.split('/')[2]);
+  const categorySeq = getCategorySeqFromPathname(pathname.split('/')[2]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const getEventData = await getHomeEvent(10, 0, false, categorySeq);
+      setEventData(getEventData);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div>
@@ -20,11 +33,8 @@ const CategoryPage = () => {
         <SearchInput icon placeholder="행사명을 입력하세요." />
         <div className="flex justify-between my-[15px]">
           <p className="text-[11px] text-black-999">
-            전체{' '}
-            {/* <strong className="font-semibold">
-              {THUMBNAIL_CONSTANT.length}
-            </strong>
-            개 */}
+            전체 <strong className="font-semibold">{eventData?.length}</strong>
+            개
           </p>
           <button type="button" className="flex items-center">
             <SortIcon />
@@ -34,9 +44,9 @@ const CategoryPage = () => {
           </button>
         </div>
         <ul className="flex flex-wrap gap-[15px]">
-          {/* {THUMBNAIL_CONSTANT.map((data, i) => (
+          {eventData?.map((data, i) => (
             <ThumbnailItem key={`data-${i}`} data={data} />
-          ))} */}
+          ))}
         </ul>
       </div>
     </div>
