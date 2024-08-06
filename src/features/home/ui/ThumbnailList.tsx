@@ -1,7 +1,10 @@
-import { ThumbnailHeader, ThumbnailItem } from '@/shared';
-import type { ThumbnailItemType } from '@/shared';
+import {
+  ThumbnailHeader,
+  ThumbnailItem,
+  type ThumbnailItemType,
+} from '@/shared';
 
-export const ThumbnailList = ({
+export const ThumbnailList = async ({
   title,
   url,
   data,

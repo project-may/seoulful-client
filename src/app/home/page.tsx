@@ -1,10 +1,13 @@
+import { getRandomEvent } from '@/entities/home';
 import { CategoryList } from '@/features/Category';
 import { GNB } from '@/features/GNB';
-import { LoginStatusBox, ThumbnailListBox } from '@/features/home';
-import { AlertButton, SearchInput } from '@/shared';
+import { LoginStatusBox } from '@/features/home';
+import { AlertButton, SearchInput, ThumbnailList } from '@/shared';
 import Link from 'next/link';
 
-const HomePage = () => {
+const HomePage = async () => {
+  const eventData = await getRandomEvent();
+
   return (
     <div className="relative flex flex-col gap-y-[20px] p-[30px] overflow-y-scroll">
       <div className="flex justify-between items-start">
@@ -21,7 +24,7 @@ const HomePage = () => {
         </Link>
       </div>
       <CategoryList />
-      <ThumbnailListBox />
+      <ThumbnailList />
       <GNB />
     </div>
   );
