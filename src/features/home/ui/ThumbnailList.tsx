@@ -1,8 +1,5 @@
-import {
-  ThumbnailHeader,
-  ThumbnailItem,
-  type ThumbnailItemType,
-} from '@/shared';
+import { ThumbnailHeader, ThumbnailItem } from '@/shared';
+import type { HomeEventDTO } from '../model/util';
 
 export const ThumbnailList = async ({
   title,
@@ -12,7 +9,7 @@ export const ThumbnailList = async ({
 }: {
   title: string;
   url: string;
-  data: ThumbnailItemType[];
+  data: HomeEventDTO[];
   page?: string;
 }) => {
   return (

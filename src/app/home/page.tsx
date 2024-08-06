@@ -1,8 +1,8 @@
 import { getRandomEvent } from '@/entities/home';
 import { CategoryList } from '@/features/Category';
 import { GNB } from '@/features/GNB';
-import { LoginStatusBox } from '@/features/home';
-import { AlertButton, SearchInput, ThumbnailList } from '@/shared';
+import { LoginStatusBox, ThumbnailList } from '@/features/home';
+import { AlertButton, SearchInput } from '@/shared';
 import Link from 'next/link';
 
 const HomePage = async () => {
@@ -24,7 +24,8 @@ const HomePage = async () => {
         </Link>
       </div>
       <CategoryList />
-      <ThumbnailList />
+      <ThumbnailList title="뮤지컬/오페라" url="#" data={eventData} />
+      <ThumbnailList title="추천행사" url="#" data={eventData} />
       <GNB />
     </div>
   );
