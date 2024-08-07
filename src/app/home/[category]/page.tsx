@@ -42,11 +42,7 @@ const CategoryPage = () => {
         </div>
         <ul className="flex flex-wrap gap-[15px]">
           {eventData?.map((data, i) => (
-            <ThumbnailItem
-              key={`data-${i}`}
-              data={data}
-              ref={i === eventData.length - 1 ? lastElementRef : null}
-            />
+            <ThumbnailItem key={`data-${i}`} data={data} />
           ))}
         </ul>
       </div>

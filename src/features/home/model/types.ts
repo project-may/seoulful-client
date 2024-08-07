@@ -1,3 +1,5 @@
+import { RefObject } from 'react';
+
 export interface HomeEventDTO {
   eventId: number;
   categorySeq: number;
@@ -7,4 +9,12 @@ export interface HomeEventDTO {
   startDate: Date;
   endDate: Date;
   detailUrl: string;
+}
+
+export interface ObserverType {
+  target: RefObject<HTMLLIElement>;
+  callback: () => void;
+  root?: Element | null;
+  rootMargin?: string;
+  threshold?: number;
 }
