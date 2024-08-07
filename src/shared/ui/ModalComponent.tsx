@@ -19,7 +19,7 @@ export const ModalComponent = ({
   const router = useRouter();
 
   const modalContent = (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 backdrop-blur-sm">
+    <div className="z-[999] fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 backdrop-blur-sm">
       {isUserLoggedIn && link === 'bookmark' ? (
         <div className="w-[300px] h-[160px] bg-white p-4 rounded shadow-lg">
           <p className="flex items-center mb-5">

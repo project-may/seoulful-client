@@ -5,7 +5,7 @@ export const NaverMap = () => {
   useNaverMap();
   return (
     <div className="w-full h-[720px]">
-      <div id="map" style={{ width: '100%', height: '720px' }}></div>
+      <div id="map" style={{ width: '100%', height: '100dvh' }}></div>
       <CurrentLocationButton />
     </div>
   );
