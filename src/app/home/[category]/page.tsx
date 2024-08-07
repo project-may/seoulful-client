@@ -9,22 +9,19 @@ import {
 import SortIcon from '/public/assets/sort-icon.svg';
 import { getCategorySeqFromPathname } from '@/shared/model/utils';
 import { getHomeEvent } from '@/entities/home';
-import { useEffect, useState } from 'react';
-import { HomeEventDTO } from '@/features/home/model/util';
+import { useState } from 'react';
+import { HomeEventDTO } from '@/features/home/model/types';
 
 const CategoryPage = () => {
-  const [eventData, setEventData] = useState<HomeEventDTO[]>();
+  const [eventData, setEventData] = useState<HomeEventDTO[]>([]);
   const pathname = usePathname();
   const title = getCategoryTitleFromPathname(pathname.split('/')[2]);
   const categorySeq = getCategorySeqFromPathname(pathname.split('/')[2]);
-  useEffect(() => {
-    const fetchData = async () => {
-      const getEventData = await getHomeEvent(10, 0, false, categorySeq);
-      setEventData(getEventData);
-    };
 
-    fetchData();
-  }, []);
+  const fetchData = async (offset: number) => {
+    const getEventData = await getHomeEvent(10, offset, false, categorySeq);
+    setEventData(getEventData);
+  };
 
   return (
     <div>
@@ -45,7 +42,11 @@ const CategoryPage = () => {
         </div>
         <ul className="flex flex-wrap gap-[15px]">
           {eventData?.map((data, i) => (
-            <ThumbnailItem key={`data-${i}`} data={data} />
+            <ThumbnailItem
+              key={`data-${i}`}
+              data={data}
+              ref={i === eventData.length - 1 ? lastElementRef : null}
+            />
           ))}
         </ul>
       </div>

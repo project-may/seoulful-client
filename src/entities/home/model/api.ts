@@ -1,4 +1,4 @@
-import type { HomeEventDTO } from '@/features/home/model/util';
+import type { HomeEventDTO } from '@/features/home/model/types';
 
 export const getHomeEvent = async (
   limit: number,

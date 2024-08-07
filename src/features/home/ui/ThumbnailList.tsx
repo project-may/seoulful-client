@@ -1,5 +1,5 @@
 import { ThumbnailHeader, ThumbnailItem } from '@/shared';
-import type { HomeEventDTO } from '../model/util';
+import type { HomeEventDTO } from '../model/types';
 
 export const ThumbnailList = async ({
   title,
