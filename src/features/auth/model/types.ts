@@ -18,7 +18,12 @@ export interface UserResponseDTO {
   data: UserDTO;
 }
 
-export interface LoginRequest {
+export interface NaverPayload {
   code: string;
-  state?: string;
+  state: string;
+}
+
+export interface KakaoPayload {
+  code: string;
+  redirectUrl: string;
 }

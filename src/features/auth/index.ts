@@ -1,7 +1,8 @@
 export { LoginButton } from './ui/LoginButton';
 export type {
   ProviderTypes,
-  LoginRequest,
+  KakaoPayload,
+  NaverPayload,
   UserDTO,
   UserResponseDTO,
 } from './model/types';
