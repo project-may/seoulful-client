@@ -19,6 +19,7 @@ export {
   getCategoryNameFromCategorySeq,
   getGuNameFromGuSeq,
 } from './model/utils';
+export { useCheckAgent } from './model/hooks/useCheckAgent';
 
 export { Header } from './ui/Header';
 export { GNBItem } from './ui/GNBItem';

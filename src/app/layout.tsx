@@ -67,9 +67,7 @@ export default function RootLayout({
       </head>
       <body className="flex justify-center items-center w-full h-screen bg-black-EEE">
         <div className="relative w-[360px] h-screen bg-black-FFF overflow-auto">
-          <div className="max-h-[768px]">
-            <Provider>{children}</Provider>
-          </div>
+          <Provider>{children}</Provider>
           <div id="portal"></div>
         </div>
       </body>
