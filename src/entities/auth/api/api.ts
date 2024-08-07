@@ -1,4 +1,9 @@
-import { LoginRequest, ProviderTypes, UserDTO } from '@/features/auth';
+import {
+  type KakaoPayload,
+  type NaverPayload,
+  ProviderTypes,
+  UserDTO,
+} from '@/features/auth';
 
 export const loginUser = async ({ provider }: ProviderTypes) => {
   const isProduction = process.env.NODE_ENV === 'production';
@@ -20,7 +25,7 @@ export const loginUser = async ({ provider }: ProviderTypes) => {
 
 export const fetchUserData = async (
   provider: 'kakao' | 'naver',
-  body: LoginRequest
+  body: KakaoPayload | NaverPayload
 ): Promise<UserDTO> => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}auth/login/${provider}`,
