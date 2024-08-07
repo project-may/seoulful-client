@@ -19,7 +19,9 @@ export const ThumbnailItem = ({
               src={data.mainImg}
               className="w-full h-full rounded-[7px] object-cover"
               fill
+              sizes="(min-width: 150px) 50vw, 100vw"
               alt={data.eventName}
+              priority
             />
           </div>
         </Link>
