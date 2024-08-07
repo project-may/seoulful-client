@@ -4,19 +4,21 @@ import BookmarkWarning from '/public/assets/bookmark-warning.svg';
 import LoginWarning from '/public/assets/login-warning.svg';
 import { ModalType } from '../model/types';
 import { useRouter } from 'next/navigation';
+import { createPortal } from 'react-dom';
 
 export const ModalComponent = ({
   link,
   setShowModal,
   isUserLoggedIn,
   eventName,
+  portalElement,
 }: ModalType) => {
   const closeModal = () => {
     setShowModal((prev) => !prev);
   };
   const router = useRouter();
 
-  return (
+  const modalContent = (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 backdrop-blur-sm">
       {isUserLoggedIn && link === 'bookmark' ? (
         <div className="w-[300px] h-[160px] bg-white p-4 rounded shadow-lg">
@@ -62,4 +64,6 @@ export const ModalComponent = ({
       )}
     </div>
   );
+
+  return createPortal(modalContent, portalElement);
 };

@@ -1,7 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
 import { usePathname, useRouter } from 'next/navigation';
-import { createPortal } from 'react-dom';
 import { ModalComponent } from './ModalComponent';
 import { useModal } from '../model/hooks/useModal';
 
@@ -48,16 +47,14 @@ export const GNBItem = ({
           className={`${className ?? ''} ${ariaLabel === '북마크' ? 'w-[20px] h-[20px] fill-black-FFF' : ''} pointer-events-none`}
         />
       </button>
-      {showModal && portalElement
-        ? createPortal(
-            <ModalComponent
-              isUserLoggedIn={isUserLoggedIn}
-              setShowModal={setShowModal}
-              link={'auth'}
-            />,
-            portalElement
-          )
-        : null}
+      {showModal && portalElement ? (
+        <ModalComponent
+          isUserLoggedIn={isUserLoggedIn}
+          setShowModal={setShowModal}
+          link={'auth'}
+          portalElement={portalElement}
+        />
+      ) : null}
     </motion.div>
   );
 };

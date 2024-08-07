@@ -20,6 +20,7 @@ export interface ModalType {
   setShowModal: Dispatch<SetStateAction<boolean>>;
   isUserLoggedIn: boolean;
   eventName?: string;
+  portalElement: Element;
 }
 
 export interface CategoryItemType {
