@@ -1,13 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { BookmarkButton } from '../index';
-import type { HomeEventDTO } from '@/features/home/model/types';
+import type { HomeEventType } from '@/features/home/model/types';
 
 export const ThumbnailItem = ({
   data,
   page,
 }: {
-  data: HomeEventDTO;
+  data: HomeEventType;
   page?: string;
 }) => {
   return (

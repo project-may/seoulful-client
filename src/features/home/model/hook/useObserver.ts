@@ -1,25 +1,26 @@
 import { useEffect } from 'react';
-import type { ObserverType } from '../types';
+import { ObserverType } from '../types';
 
 export const useObserver = ({
   target,
   callback,
   root = null,
   rootMargin = '0px',
-  threshold = 1.0,
+  threshold = 0.1,
 }: ObserverType) => {
   useEffect(() => {
-    let observer: IntersectionObserver;
-    if (target && target.current) {
-      observer = new IntersectionObserver(callback, {
-        root,
-        rootMargin,
-        threshold,
-      });
+    const observer = new IntersectionObserver(callback, {
+      root,
+      rootMargin,
+      threshold,
+    });
 
+    if (target && target.current) {
       observer.observe(target.current);
     }
 
-    return () => observer && observer.disconnect();
-  }, [target, rootMargin, threshold]);
+    return () => {
+      observer.disconnect();
+    };
+  }, [target, root, rootMargin, threshold, callback]);
 };

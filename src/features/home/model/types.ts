@@ -1,6 +1,6 @@
-import { RefObject } from 'react';
+import { MutableRefObject } from 'react';
 
-export interface HomeEventDTO {
+export interface HomeEventType {
   eventId: number;
   categorySeq: number;
   eventName: string;
@@ -11,9 +11,14 @@ export interface HomeEventDTO {
   detailUrl: string;
 }
 
+export interface HomeEventResponseType {
+  data: HomeEventType[];
+  totalCount: number;
+}
+
 export interface ObserverType {
-  target: RefObject<HTMLLIElement>;
-  callback: () => void;
+  target: MutableRefObject<HTMLDivElement | null>;
+  callback: IntersectionObserverCallback;
   root?: Element | null;
   rootMargin?: string;
   threshold?: number;
