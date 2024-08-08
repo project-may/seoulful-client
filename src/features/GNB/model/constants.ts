@@ -17,7 +17,7 @@ export const GNB_CONTENT = [
   {
     ariaLabel: '북마크',
     icon: Bookmark,
-    link: '/favorite',
+    link: '/bookmark',
   },
   {
     ariaLabel: '마이페이지',

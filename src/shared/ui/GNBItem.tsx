@@ -1,7 +1,8 @@
 'use client';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { ModalComponent } from './ModalComponent';
+import { useModal } from '../model/hooks/useModal';
 
 export const GNBItem = ({
   ariaLabel,
@@ -14,7 +15,17 @@ export const GNBItem = ({
   link: string;
   className?: string;
 }) => {
+  const router = useRouter();
   const pathname = usePathname();
+  const { showModal, isUserLoggedIn, portalElement, setShowModal } = useModal();
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    if ((link === '/mypage' || link === '/bookmark') && !isUserLoggedIn) {
+      e.preventDefault();
+      setShowModal(true);
+    } else {
+      router.push(link);
+    }
+  };
 
   return (
     <motion.div
@@ -26,11 +37,24 @@ export const GNBItem = ({
       transition={{ duration: 0.25, ease: 'easeInOut' }}
       className="flex items-center justify-center w-[40px] h-[40px] rounded-full"
     >
-      <Link href={link} aria-label={ariaLabel}>
+      <button
+        aria-label={ariaLabel}
+        onClick={(e) => {
+          handleClick(e);
+        }}
+      >
         <Icon
           className={`${className ?? ''} ${ariaLabel === '북마크' ? 'w-[20px] h-[20px] fill-black-FFF' : ''} pointer-events-none`}
         />
-      </Link>
+      </button>
+      {showModal && portalElement ? (
+        <ModalComponent
+          isUserLoggedIn={isUserLoggedIn}
+          setShowModal={setShowModal}
+          link={'auth'}
+          portalElement={portalElement}
+        />
+      ) : null}
     </motion.div>
   );
 };

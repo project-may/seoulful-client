@@ -24,7 +24,7 @@ export default function LoginPage() {
         </div>
         <div className="text-inherit text-[25px]">시작해볼까요?</div>
       </div>
-      <div className="flex flex-col items-center mt-[230px] justify-center z-10">
+      <div className="flex flex-col items-center mt-[320px] sm:mt-[250px] md:mt-[600px] lg:mt-[800px]   justify-center z-10">
         <LoginButton provider={'naver'} />
         <LoginButton provider={'kakao'} />
       </div>
