@@ -7,7 +7,7 @@ const eventDetailPage = () => {
   return (
     <div className="relative">
       <div className="sticky top-[30px] z-10 flex items-center justify-between px-[30px] ">
-        <BackButton />
+        <BackButton type="other" />
         <BookmarkButton
           buttonSize="w-[40px] h-[40px]"
           iconSize="w-[20px] h-[20px]"

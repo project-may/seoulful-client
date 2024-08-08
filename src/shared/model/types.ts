@@ -15,6 +15,14 @@ export interface EventBookmarkButtonPropsType {
   hasBorder: boolean;
 }
 
+export interface ModalType {
+  link: 'auth' | 'bookmark';
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  isUserLoggedIn: boolean;
+  eventName?: string;
+  portalElement: Element;
+}
+
 export interface CategoryItemType {
   Icon: React.FC<React.SVGProps<SVGSVGElement>>;
   title: string;

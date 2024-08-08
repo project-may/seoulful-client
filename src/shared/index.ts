@@ -7,6 +7,7 @@ export type {
   AlertModalPropsType,
   BookmarkButtonPropsType,
   EventDetailResType,
+  ModalType,
 } from './model/types';
 
 export { clickedCalendarDate, changeCalendarMonth } from './model/store';
@@ -18,6 +19,7 @@ export {
   getCategoryNameFromCategorySeq,
   getGuNameFromGuSeq,
 } from './model/utils';
+export { useCheckAgent } from './model/hooks/useCheckAgent';
 
 export { Header } from './ui/Header';
 export { GNBItem } from './ui/GNBItem';
@@ -36,3 +38,4 @@ export { CloseButton } from './ui/CloseButton';
 export { DetailPageButton } from './ui/DetailPageButton';
 export { BackButton } from './ui/BackButton';
 export { LoadingComponent } from './ui/LoadingComponent';
+export { ModalComponent } from './ui/ModalComponent';
