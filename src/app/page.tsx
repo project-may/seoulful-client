@@ -1,6 +1,6 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
 import { AnimatePresence, motion } from 'framer-motion';
 
 import {
@@ -12,13 +12,7 @@ import {
 import { NavigationButton } from '@/shared';
 
 export default function Home() {
-  const router = useRouter();
-  const [isClickedCloseBtn, setIsClickedCloseBtn] = useState(false);
   const [currentIdx, setCurrentIdx] = useState(0);
-
-  useEffect(() => {
-    if (isClickedCloseBtn) router.push('/home');
-  }, [isClickedCloseBtn, router]);
 
   return (
     <main className="relative w-full h-full bg-gradient-red-to-blue text-black-FFF">
@@ -35,7 +29,7 @@ export default function Home() {
         </motion.div>
       </AnimatePresence>
       <div className="relative flex flex-col justify-between p-[30px] w-full h-full z-[1000]">
-        <FullpageHeader setIsClickedCloseBtn={setIsClickedCloseBtn} />
+        <FullpageHeader />
         <div>
           <AnimatePresence initial={false} mode="wait">
             <FullpageContents data={AD_CONTENT[currentIdx]} />
