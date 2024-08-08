@@ -13,7 +13,7 @@ export const ThumbnailItem = ({
   return (
     <li className="flex-shrink-0 list-none w-[calc(50%-7.5px)]">
       <div className="relative">
-        <Link href={`event/${data.eventId}`}>
+        <Link href={`/event/${data.eventId}`}>
           <div className="relative w-[150px] h-[220px]">
             <Image
               src={data.mainImg}
