@@ -1,5 +1,5 @@
 'use client';
-import { usePathname } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import {
   getCategoryTitleFromPathname,
   Header,
@@ -21,9 +21,9 @@ const CategoryPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const bottom = useRef<HTMLDivElement>(null);
 
-  const pathname = usePathname();
-  const title = getCategoryTitleFromPathname(pathname.split('/')[2]);
-  const categorySeq = getCategorySeqFromPathname(pathname.split('/')[2]);
+  const category = useParams<{ category: string }>().category;
+  const title = getCategoryTitleFromPathname(category);
+  const categorySeq = getCategorySeqFromPathname(category);
 
   const fetchData = async (offset: number) => {
     setIsLoading(true);
