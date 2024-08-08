@@ -21,7 +21,7 @@ const CategoryPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const bottom = useRef<HTMLDivElement>(null);
 
-  const category = useParams<{ category: string }>().category;
+  const { category } = useParams<{ category: string }>();
   const title = getCategoryTitleFromPathname(category);
   const categorySeq = getCategorySeqFromPathname(category);
 
