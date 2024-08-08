@@ -18,8 +18,12 @@ export const LoginButton = ({ provider }: ProviderTypes) => {
             className="ml-4 mr-6"
             src={`/assets/naver-logo.png`}
             alt={`${provider} login`}
-            width={50}
-            height={76}
+            width={34}
+            height={70}
+            style={{ width: 'auto', height: 'auto' }}
+            onClick={() => {
+              loginUser({ provider });
+            }}
           />
           네이버 로그인
         </button>
@@ -36,6 +40,10 @@ export const LoginButton = ({ provider }: ProviderTypes) => {
             alt={`${provider} login`}
             width={30}
             height={76}
+            style={{ width: 'auto', height: 'auto' }}
+            onClick={() => {
+              loginUser({ provider });
+            }}
           />
           카카오 로그인
         </button>
