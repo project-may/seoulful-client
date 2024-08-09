@@ -15,9 +15,9 @@ const HomePage = async () => {
         <LoginStatusBox />
       </div>
       <div className="flex justify-between items-center gap-x-[10px]">
-        <SearchInput icon placeholder="행사명을 입력하세요" />
+        <SearchInput isHome={true} icon placeholder="행사명을 입력하세요" />
         <Link
-          href="/home/advanced-search"
+          href="/home/search"
           className="text-[14px] text-black-777 font-medium whitespace-nowrap"
         >
           상세검색
