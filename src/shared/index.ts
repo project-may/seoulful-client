@@ -22,6 +22,7 @@ export {
   getCategorySeqFromPathname,
   getCategoryUrlFromCategorySeq,
   getGuSeqByName,
+  formatDate,
 } from './model/utils';
 export { useCheckAgent } from './model/hooks/useCheckAgent';
 

@@ -1,5 +1,13 @@
 import { CategoryName, CategorySeq, CategoryUrl } from '@/features/Category';
 import { GuName, GuSeq } from './constants';
+import dayjs from 'dayjs';
+
+export const formatDate = (inputString: string) => {
+  const parsedDate = dayjs(inputString);
+  const formattedDate = parsedDate.format('YYYY.M.D HH:MM');
+
+  return formattedDate;
+};
 
 export const getCategoryTitleFromPathname = (path: string) => {
   const categoryKey = Object.keys(CategoryUrl).find(

@@ -10,6 +10,7 @@ import {
   Selectbox,
   getCategorySeqByName,
   getGuSeqByName,
+  formatDate,
 } from '@/shared';
 import { useRouter } from 'next/navigation';
 
@@ -44,17 +45,15 @@ const AdvancedSearch = () => {
       );
     }
     if (dateRange?.[0]) {
-      params.append('startDate', dateRange[0]);
+      params.append('startDate', formatDate(dateRange?.[0]));
     }
     if (dateRange?.[1]) {
-      params.append('endDate', dateRange[1]);
+      params.append('endDate', formatDate(dateRange?.[1]));
     }
     if (guSeq) {
       params.append('guSeq', getGuSeqByName(guSeq).toString());
     }
-
-    console.log(params.toString(), 'param');
-    // router.push(`/home/search/result?${params.toString()}`);
+    router.push(`/home/search/result?${params.toString()}`);
   };
   return (
     <div>
