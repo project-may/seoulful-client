@@ -23,6 +23,7 @@
     "react": "^18",
     "react-calendar": "^5.0.0",
     "react-dom": "^18",
+    "react-hook-form": "^7.52.2",
     "sharp": "^0.33.4"
   },
   "devDependencies": {
