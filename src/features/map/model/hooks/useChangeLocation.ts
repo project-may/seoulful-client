@@ -9,11 +9,9 @@ export const useChangeLocation = ({ map }: NaverMapTypes) => {
   //map이 로딩되는 타이밍이 다르기 때문
   useEffect(() => {
     if (!map) return;
-    console.log(map, 'map');
     const listener = map.addListener('idle', () => {
       const newLatitude = map.getCenter().y;
       const newLongitude = map.getCenter().x;
-      console.log(newLatitude, newLongitude, 'new');
       const fetchAddress = async () => {
         const data = await getGeoCode(newLatitude, newLongitude);
         setLocation({
