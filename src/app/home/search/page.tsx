@@ -11,25 +11,57 @@ import {
   getCategorySeqByName,
   getGuSeqByName,
 } from '@/shared';
+import { useRouter } from 'next/navigation';
 
 const AdvancedSearch = () => {
   const { register, handleSubmit, control } = useForm();
   const categoryValueArr = Object.values(CategoryName);
   const guNameArr = Object.values(GuName);
+  const router = useRouter();
+  const onSubmit = ({
+    eventName,
+    categorySeq,
+    dateRange,
+    guSeq,
+  }: {
+    eventName: string;
+    categorySeq?: string;
+    dateRange?: [string | null, string | null];
+    guSeq: string;
+  }) => {
+    const params = new URLSearchParams();
 
+    // eventName은 필수
+    if (eventName) {
+      params.append('eventName', eventName);
+    }
+
+    // 선택사항들
+    if (categorySeq) {
+      params.append(
+        'categorySeq',
+        getCategorySeqByName(categorySeq).toString()
+      );
+    }
+    if (dateRange?.[0]) {
+      params.append('startDate', dateRange[0]);
+    }
+    if (dateRange?.[1]) {
+      params.append('endDate', dateRange[1]);
+    }
+    if (guSeq) {
+      params.append('guSeq', getGuSeqByName(guSeq).toString());
+    }
+
+    console.log(params.toString(), 'param');
+    // router.push(`/home/search/result?${params.toString()}`);
+  };
   return (
     <div>
       <Header isBackButton title="상세 검색" />
       <form
         onSubmit={handleSubmit(({ eventName, categorySeq, dateRange, guSeq }) =>
-          console.log(
-            JSON.stringify({
-              eventName,
-              categorySeq: getCategorySeqByName(categorySeq),
-              dateRange,
-              guSeq: getGuSeqByName(guSeq),
-            })
-          )
+          onSubmit({ eventName, categorySeq, dateRange, guSeq })
         )}
         className="flex flex-col px-[30px] pt-[20px] divide-y divide-black-DDD"
       >
