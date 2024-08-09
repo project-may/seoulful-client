@@ -38,6 +38,30 @@ export const getGuNameFromGuSeq = (seq: number | null) => {
   } else return '정보를 불러오고 있습니다';
 };
 
+export const getCategorySeqByName = (categoryName: string) => {
+  const categoryMap = Object.keys(CategoryName).reduce(
+    (acc, key) => {
+      const value = CategoryName[key as keyof typeof CategoryName];
+      acc[value] = CategorySeq[key as keyof typeof CategorySeq];
+      return acc;
+    },
+    {} as Record<string, number>
+  );
+  return categoryMap[categoryName];
+};
+
+export const getGuSeqByName = (guName: string) => {
+  const guMap = Object.keys(GuName).reduce(
+    (acc, key) => {
+      const value = GuName[key as keyof typeof GuName];
+      acc[value] = GuSeq[key as keyof typeof GuSeq];
+      return acc;
+    },
+    {} as Record<string, number>
+  );
+  return guMap[guName];
+};
+
 export const filterParams = <T extends Record<string, unknown>>(
   params: T
 ): Record<string, string> => {

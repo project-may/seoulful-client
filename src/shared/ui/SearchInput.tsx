@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import SearchIcon from '/public/assets/search-icon.svg';
+import { FieldValues, UseFormRegister } from 'react-hook-form';
 
 export const SearchInput = ({
   icon,
@@ -8,6 +9,7 @@ export const SearchInput = ({
   placeholderAlign,
   borderRadius,
   isHome,
+  register,
 }: {
   icon?: boolean;
   inputWidth?: string;
@@ -15,6 +17,7 @@ export const SearchInput = ({
   placeholderAlign?: string;
   borderRadius?: string;
   isHome?: boolean;
+  register: UseFormRegister<FieldValues>;
 }) => {
   return isHome ? (
     <Link href={'/home/search'} className="relative">
@@ -44,6 +47,7 @@ export const SearchInput = ({
         type="text"
         className={`${borderRadius ?? 'rounded-full'} ${inputWidth ?? 'w-full'} pb-[1px] h-[35px] text-[14px] text-black-60 bg-black-10 ${placeholderAlign ?? 'pl-[37px]'} placeholder:text-black-999 placeholder:text-[13px] focus:outline-none`}
         placeholder={placeholder}
+        {...register('eventName')}
       />
     </div>
   );
