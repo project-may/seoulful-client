@@ -60,7 +60,6 @@ const CategoryPage = () => {
     callback: onIntersect,
   });
 
-  console.log(eventData);
   return (
     <div>
       <Header title={title!} isBackButton />

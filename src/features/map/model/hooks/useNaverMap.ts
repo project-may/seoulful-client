@@ -41,7 +41,6 @@ export const useNaverMap = () => {
     const locationListener = map.addListener('idle', () => {
       const newLatitude = map.getCenter().y;
       const newLongitude = map.getCenter().x;
-      console.log(newLatitude, newLongitude, 'new');
       const fetchAddress = async () => {
         const data = await getGeoCode(newLatitude, newLongitude);
         setLocation({
