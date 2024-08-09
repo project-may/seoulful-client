@@ -64,7 +64,7 @@ const CategoryPage = () => {
     <div>
       <Header title={title!} isBackButton />
       <div className="px-[30px] pt-[20px]">
-        <SearchInput icon placeholder="행사명을 입력하세요." />
+        <SearchInput isHome={true} icon placeholder="행사명을 입력하세요." />
         <div className="flex justify-between my-[15px]">
           <p className="text-[11px] text-black-999">
             전체 <strong className="font-semibold">{totalCount}</strong>개
