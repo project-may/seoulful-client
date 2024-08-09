@@ -9,6 +9,8 @@ export interface HomeEventType {
   startDate: Date;
   endDate: Date;
   detailUrl: string;
+  guSeq?: number;
+  describe?: string;
 }
 
 export interface HomeEventResponseType {

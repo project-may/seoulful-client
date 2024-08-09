@@ -1,16 +1,20 @@
 import { motion } from 'framer-motion';
-
 import {
   DetailPageButton,
   getCategoryNameFromCategorySeq,
   getGuNameFromGuSeq,
 } from '@/shared';
-import type { EventDetailResType } from '@/shared';
 import LocationIcon from '/public/assets/current-location-icon.svg';
+import type { EventDetail } from '@/features/event/model/types';
 
-export const FullpageContents = ({ data }: { data: EventDetailResType }) => {
-  const guName = getGuNameFromGuSeq(data.guSeq!);
-  const categoryName = getCategoryNameFromCategorySeq(data.categorySeq!);
+export const FullpageContents = ({ data }: { data: EventDetail }) => {
+  if (!data) {
+    return null; // data가 없는 경우 아무 것도 렌더링하지 않음
+  }
+
+  const guName =
+    data.guSeq === undefined ? '업데이트' : getGuNameFromGuSeq(data.guSeq);
+  const categoryName = getCategoryNameFromCategorySeq(data.categorySeq);
 
   return (
     <motion.div className="mb-[60px]">
@@ -19,7 +23,7 @@ export const FullpageContents = ({ data }: { data: EventDetailResType }) => {
         <h2 className="leading-none	text-[35px] font-semibold">
           {data.eventName}
         </h2>
-        <div className="flex itmes-center gap-x-[3px]">
+        <div className="flex items-center gap-x-[3px]">
           <LocationIcon className="mt-[4px]" />
           <span className="text-[10px]">{guName}</span>
         </div>
