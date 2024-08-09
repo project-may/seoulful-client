@@ -18,6 +18,11 @@ export {
   getCategoryTitleFromPathname,
   getCategoryNameFromCategorySeq,
   getGuNameFromGuSeq,
+  getCategorySeqByName,
+  getCategorySeqFromPathname,
+  getCategoryUrlFromCategorySeq,
+  getGuSeqByName,
+  formatDate,
 } from './model/utils';
 export { useCheckAgent } from './model/hooks/useCheckAgent';
 

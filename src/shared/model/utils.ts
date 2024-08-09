@@ -1,5 +1,13 @@
 import { CategoryName, CategorySeq, CategoryUrl } from '@/features/Category';
 import { GuName, GuSeq } from './constants';
+import dayjs from 'dayjs';
+
+export const formatDate = (inputString: string) => {
+  const parsedDate = dayjs(inputString);
+  const formattedDate = parsedDate.format('YYYY.M.D HH:MM');
+
+  return formattedDate;
+};
 
 export const getCategoryTitleFromPathname = (path: string) => {
   const categoryKey = Object.keys(CategoryUrl).find(
@@ -36,6 +44,30 @@ export const getGuNameFromGuSeq = (seq: number | null) => {
     const guKey = GuSeq[seq] as keyof typeof GuName;
     return GuName[guKey];
   } else return '정보를 불러오고 있습니다';
+};
+
+export const getCategorySeqByName = (categoryName: string) => {
+  const categoryMap = Object.keys(CategoryName).reduce(
+    (acc, key) => {
+      const value = CategoryName[key as keyof typeof CategoryName];
+      acc[value] = CategorySeq[key as keyof typeof CategorySeq];
+      return acc;
+    },
+    {} as Record<string, number>
+  );
+  return categoryMap[categoryName];
+};
+
+export const getGuSeqByName = (guName: string) => {
+  const guMap = Object.keys(GuName).reduce(
+    (acc, key) => {
+      const value = GuName[key as keyof typeof GuName];
+      acc[value] = GuSeq[key as keyof typeof GuSeq];
+      return acc;
+    },
+    {} as Record<string, number>
+  );
+  return guMap[guName];
 };
 
 export const filterParams = <T extends Record<string, unknown>>(

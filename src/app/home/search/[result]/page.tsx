@@ -1,17 +1,11 @@
 'use client';
-import { useParams } from 'next/navigation';
-import {
-  getCategoryTitleFromPathname,
-  Header,
-  SearchInput,
-  ThumbnailItem,
-} from '@/shared';
+import { useSearchParams } from 'next/navigation';
+import { Header, SearchInput, ThumbnailItem } from '@/shared';
 import SortIcon from '/public/assets/sort-icon.svg';
-import { getCategorySeqFromPathname } from '@/shared/model/utils';
-import { getHomeEvent } from '@/entities/home';
 import { useRef, useState, useCallback } from 'react';
 import type { HomeEventType } from '@/features/home/model/types';
 import { useObserver } from '@/features/home/model/hook/useObserver';
+import { getSearchResult } from '@/entities/home/model/api';
 
 const CategoryPage = () => {
   const [eventData, setEventData] = useState<HomeEventType[]>([]);
@@ -21,17 +15,22 @@ const CategoryPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const bottom = useRef<HTMLDivElement>(null);
 
-  const { category } = useParams<{ category: string }>();
-  const title = getCategoryTitleFromPathname(category);
-  const categorySeq = getCategorySeqFromPathname(category);
+  const eventName = useSearchParams().get('eventName') || '';
+  const startDate = useSearchParams().get('startDate') || undefined;
+  const endDate = useSearchParams().get('endDate') || undefined;
+  const categorySeq = Number(useSearchParams().get('categorySeq'));
+  const guSeq = Number(useSearchParams().get('guSeq'));
 
   const fetchData = async (offset: number) => {
     setIsLoading(true);
-    const { data, totalCount: count } = await getHomeEvent(
+    const { data, totalCount: count } = await getSearchResult(
       10,
       offset,
-      false,
-      categorySeq
+      eventName,
+      startDate,
+      endDate,
+      categorySeq,
+      guSeq
     );
     if (data.length < 10) {
       setHasMoreData(false);
@@ -62,7 +61,7 @@ const CategoryPage = () => {
 
   return (
     <div>
-      <Header title={title!} isBackButton />
+      <Header title={'검색결과'} isBackButton />
       <div className="px-[30px] pt-[20px]">
         <SearchInput isHome={true} icon placeholder="행사명을 입력하세요." />
         <div className="flex justify-between my-[15px]">
