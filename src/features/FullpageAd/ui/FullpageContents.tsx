@@ -9,7 +9,7 @@ import type { EventDetail } from '@/features/event/model/types';
 
 export const FullpageContents = ({ data }: { data: EventDetail }) => {
   if (!data) {
-    return null; // data가 없는 경우 아무 것도 렌더링하지 않음
+    return null;
   }
 
   const guName =
@@ -34,7 +34,7 @@ export const FullpageContents = ({ data }: { data: EventDetail }) => {
       <div>
         <p className="my-[20px]">{data.describe}</p>
       </div>
-      <DetailPageButton url="#" />
+      <DetailPageButton url={`/event/${data.eventId}`} />
     </motion.div>
   );
 };
