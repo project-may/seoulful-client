@@ -1,3 +1,4 @@
+import { reissueToken } from '@/entities/auth/api/api';
 import type {
   BookmarkChangeResponse,
   BookmarkEvent,
@@ -24,6 +25,7 @@ export const getBookmarkList = async (
 export const addBookmark = async (
   userId: string,
   accessToken: string,
+  refreshToken: string,
   eventSeq: number
 ) => {
   const response = await fetch(
@@ -40,6 +42,18 @@ export const addBookmark = async (
     }
   );
 
+  if (response.status === 401) {
+    const newToken = await reissueToken(refreshToken);
+
+    if (typeof newToken === 'number') {
+      //reissueToken의 status code
+      return newToken;
+    } else {
+      const retryReponse = await response;
+      const { data }: BookmarkChangeResponse = await retryReponse.json();
+      return data;
+    }
+  }
   const { data }: BookmarkChangeResponse = await response.json();
 
   return data;
@@ -48,6 +62,7 @@ export const addBookmark = async (
 export const removeBookmark = async (
   userId: string,
   accessToken: string,
+  refreshToken: string,
   eventSeq: number
 ) => {
   const response = await fetch(
@@ -64,6 +79,14 @@ export const removeBookmark = async (
     }
   );
 
+  if (response.status === 401) {
+    const newToken = await reissueToken(refreshToken);
+    if (typeof newToken === 'number') {
+      const retryResponse = await response;
+      const { data }: BookmarkChangeResponse = await retryResponse.json();
+      return data;
+    }
+  }
   const { data }: BookmarkChangeResponse = await response.json();
   return data;
 };

@@ -8,7 +8,6 @@ import { addBookmark, removeBookmark } from '@/entities/bookmark';
 import type { UserDTO } from '@/features/auth';
 import { useAtom } from 'jotai';
 import { eventDetailAtom } from '@/features/event/model/store';
-import { tokenValidateCheck } from '../model/utils';
 import { useModal } from '../model/hooks/useModal';
 
 export const BookmarkButton = ({
@@ -37,31 +36,37 @@ export const BookmarkButton = ({
       return;
     }
 
-    const { userId, accessToken: currentToken, refreshToken } = userData;
+    const { userId, accessToken, refreshToken } = userData;
 
     try {
-      const checkToken = await tokenValidateCheck({
-        userId,
-        accessToken: currentToken,
-        refreshToken,
-        eventId,
-      });
-
-      if (typeof checkToken === 'number') {
-        setShowModal(true);
-        return;
-      }
-
       let updatedBookmarkList = [...(userData.bookmarkList || [])];
 
       if (!isClicked) {
-        await addBookmark(userId, checkToken.accessToken, eventId);
-        updatedBookmarkList.push(eventId);
-      } else {
-        await removeBookmark(userId, checkToken.accessToken, eventId);
-        updatedBookmarkList = updatedBookmarkList.filter(
-          (id) => id !== eventId
+        const bookmarkResponse = await addBookmark(
+          userId,
+          accessToken,
+          refreshToken,
+          eventId
         );
+        if (typeof bookmarkResponse === 'number') {
+          setShowModal(true);
+        } else {
+          updatedBookmarkList.push(eventId);
+        }
+      } else {
+        const bookmarkResponse = await removeBookmark(
+          userId,
+          accessToken,
+          refreshToken,
+          eventId
+        );
+        if (typeof bookmarkResponse === 'number') {
+          setShowModal(true);
+        } else {
+          updatedBookmarkList = updatedBookmarkList.filter(
+            (id) => id !== eventId
+          );
+        }
       }
 
       const updatedUserData = {
