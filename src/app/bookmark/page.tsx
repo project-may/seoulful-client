@@ -26,7 +26,7 @@ const BookmarkPage = () => {
       <Header title={'북마크'} isBackButton />
       <div className="px-[30px] pt-[20px]">
         <ul className="flex flex-wrap gap-[15px]">
-          {bookmarkData.length === 0 ? (
+          {!bookmarkData || bookmarkData.length === 0 ? (
             <div>북마크한 데이터가 없습니다.</div>
           ) : (
             bookmarkData?.map((data, i) => (
