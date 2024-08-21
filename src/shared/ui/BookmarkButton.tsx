@@ -27,7 +27,6 @@ export const BookmarkButton = ({
     if (user) {
       const userObject = JSON.parse(user) as UserDTO;
       setUserData(userObject);
-      console.log(userObject.bookmarkList);
       setIsClicked(userObject.bookmarkList?.includes(eventId) ?? false);
     }
   }, [eventId]);
