@@ -48,8 +48,9 @@ const pretendard = localFont({
 
 export const metadata: Metadata = {
   title: 'Seoulful',
-  description: 'Blah Blah',
-  icons: '/assets/seoulful-favicon.svg',
+  description:
+    '서울을 무대로 한 문화생활 정보 플랫폼, Seoulful 입니다! 서울에서 열리는 다양한 문화행사 정보를 확인하실 수 있습니다 ! Seoulful과 함께 풍성한 문화생활을 즐겨보세요!',
+  icons: '/assets/seoulful-logo.png',
 };
 
 export default function RootLayout({

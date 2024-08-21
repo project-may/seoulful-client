@@ -9,7 +9,7 @@ export const FullpageBackground = ({ imageUrl }: { imageUrl: string }) => {
         fill
         style={{ objectFit: 'cover' }}
         quality={100}
-        priority
+        priority={true}
       />
       <div className="absolute top-0 left-0 bottom-0 right-0 bg-gradient-red-to-blue" />
     </div>
