@@ -7,43 +7,44 @@ import { Provider } from 'jotai';
 const pretendard = localFont({
   src: [
     {
-      path: '../../public/fonts/pretendard/Pretendard-Thin.woff',
+      path: '../../public/fonts/pretendard/Pretendard-Thin.woff2',
       weight: '100',
     },
     {
-      path: '../../public/fonts/pretendard/Pretendard-ExtraLight.woff',
+      path: '../../public/fonts/pretendard/Pretendard-ExtraLight.woff2',
       weight: '200',
     },
     {
-      path: '../../public/fonts/pretendard/Pretendard-Light.woff',
+      path: '../../public/fonts/pretendard/Pretendard-Light.woff2',
       weight: '300',
     },
     {
-      path: '../../public/fonts/pretendard/Pretendard-Regular.woff',
+      path: '../../public/fonts/pretendard/Pretendard-Regular.woff2',
       weight: '400',
     },
     {
-      path: '../../public/fonts/pretendard/Pretendard-Medium.woff',
+      path: '../../public/fonts/pretendard/Pretendard-Medium.woff2',
       weight: '500',
     },
     {
-      path: '../../public/fonts/pretendard/Pretendard-SemiBold.woff',
+      path: '../../public/fonts/pretendard/Pretendard-SemiBold.woff2',
       weight: '600',
     },
     {
-      path: '../../public/fonts/pretendard/Pretendard-Bold.woff',
+      path: '../../public/fonts/pretendard/Pretendard-Bold.woff2',
       weight: '700',
     },
     {
-      path: '../../public/fonts/pretendard/Pretendard-ExtraBold.woff',
+      path: '../../public/fonts/pretendard/Pretendard-ExtraBold.woff2',
       weight: '800',
     },
     {
-      path: '../../public/fonts/pretendard/Pretendard-Black.woff',
+      path: '../../public/fonts/pretendard/Pretendard-Black.woff2',
       weight: '900',
     },
   ],
   variable: '--pretendard',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
