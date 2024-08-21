@@ -20,6 +20,7 @@ export const LoginButton = ({ provider }: ProviderTypes) => {
             alt={`${provider} login`}
             width={34}
             height={70}
+            priority
             style={{ width: 'auto', height: 'auto' }}
             onClick={() => {
               loginUser({ provider });

@@ -10,6 +10,7 @@ export const FullpageBackground = ({ imageUrl }: { imageUrl: string }) => {
         style={{ objectFit: 'cover' }}
         quality={100}
         priority={true}
+        blurDataURL="iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mPcsGFlPQAGqwKKYsJRCAAAAABJRU5ErkJggg=="
       />
       <div className="absolute top-0 left-0 bottom-0 right-0 bg-gradient-red-to-blue" />
     </div>
