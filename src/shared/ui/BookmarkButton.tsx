@@ -9,6 +9,7 @@ import type { UserDTO } from '@/features/auth';
 import { useAtom } from 'jotai';
 import { eventDetailAtom } from '@/features/event/model/store';
 import { useModal } from '../model/hooks/useModal';
+import { reissueToken } from '@/entities/auth/api/api';
 
 export const BookmarkButton = ({
   buttonSize,
@@ -26,59 +27,43 @@ export const BookmarkButton = ({
     if (user) {
       const userObject = JSON.parse(user) as UserDTO;
       setUserData(userObject);
+      console.log(userObject.bookmarkList);
       setIsClicked(userObject.bookmarkList?.includes(eventId) ?? false);
     }
   }, [eventId]);
 
   const handleClick = async () => {
-    if (!userData) {
-      setShowModal(true);
-      return;
-    }
+    if (userData) {
+      const checkReissueToken = await reissueToken(userData.refreshToken);
+      if (typeof checkReissueToken === 'number') {
+        setShowModal(true);
+      }
 
-    const { userId, accessToken, refreshToken } = userData;
+      const { userId, accessToken, refreshToken } = userData;
+      try {
+        let updatedBookmarkList = [...(userData.bookmarkList || [])];
 
-    try {
-      let updatedBookmarkList = [...(userData.bookmarkList || [])];
-
-      if (!isClicked) {
-        const bookmarkResponse = await addBookmark(
-          userId,
-          accessToken,
-          refreshToken,
-          eventId
-        );
-        if (typeof bookmarkResponse === 'number') {
-          setShowModal(true);
-        } else {
+        if (!isClicked) {
+          await addBookmark(userId, accessToken, refreshToken, eventId);
           updatedBookmarkList.push(eventId);
-        }
-      } else {
-        const bookmarkResponse = await removeBookmark(
-          userId,
-          accessToken,
-          refreshToken,
-          eventId
-        );
-        if (typeof bookmarkResponse === 'number') {
-          setShowModal(true);
         } else {
+          await removeBookmark(userId, accessToken, refreshToken, eventId);
           updatedBookmarkList = updatedBookmarkList.filter(
             (id) => id !== eventId
           );
         }
+
+        const updatedUserData = {
+          ...userData,
+          bookmarkList: updatedBookmarkList,
+        };
+
+        setUserData(updatedUserData);
+        setIsClicked((prev) => !prev);
+        localStorage.setItem('user', JSON.stringify(updatedUserData));
+      } catch (err) {
+        console.error(err);
       }
-
-      const updatedUserData = {
-        ...userData,
-        bookmarkList: updatedBookmarkList,
-      };
-
-      setUserData(updatedUserData);
-      localStorage.setItem('user', JSON.stringify(updatedUserData));
-      setIsClicked((prev) => !prev);
-    } catch (err) {
-      console.error(err);
     }
   };
 

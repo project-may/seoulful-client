@@ -69,6 +69,7 @@ export const reissueToken = async (
       headers: {
         Authorization: `Bearer ${refreshToken}`,
       },
+      cache: 'no-store',
     }
   );
 
@@ -77,6 +78,8 @@ export const reissueToken = async (
   }
 
   const { data }: UserResponseDTO = await response.json();
+  localStorage.removeItem('user');
+  localStorage.setItem('user', JSON.stringify(data));
 
   return data;
 };
