@@ -3,12 +3,15 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import BookmarkIcon from '/public/assets/bookmark-icon.svg';
-import { ModalComponent, type BookmarkButtonPropsType } from '../index';
-import type { UserDTO } from '@/features/auth';
-import { useAtom } from 'jotai';
-import { eventDetailAtom } from '@/features/event/model/store';
+import {
+  getStorageValue,
+  ModalComponent,
+  UserTokenType,
+  type BookmarkButtonPropsType,
+} from '../index';
 import { useModal } from '../model/hooks/useModal';
 import { addBookmarkHandler, removeBookmarkHandler } from '@/features/bookmark';
+import { useParams } from 'next/navigation';
 
 export const BookmarkButton = ({
   buttonSize,
@@ -16,42 +19,54 @@ export const BookmarkButton = ({
   hasBorder,
 }: BookmarkButtonPropsType) => {
   const [isClicked, setIsClicked] = useState(false);
-  const [userData, setUserData] = useState<UserDTO | null>(null);
-  const [{ eventId }] = useAtom(eventDetailAtom);
+  const [userData, setUserData] = useState<UserTokenType | null>(null);
+  const { id: eventId } = useParams();
   const { isUserLoggedIn, portalElement, setShowModal, showModal } = useModal();
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const user = localStorage.getItem('user');
     if (user) {
-      const userObject = JSON.parse(user) as UserDTO;
+      const userObject = JSON.parse(user) as UserTokenType;
       setUserData(userObject);
-      setIsClicked(userObject.bookmarkList?.includes(eventId) ?? false);
+      setIsClicked((prev) =>
+        userObject.bookmarkList.includes(Number(eventId)) ? !prev : prev
+      );
+      console.log(userObject.bookmarkList.includes(Number(eventId)), 'result');
+      console.log(isClicked);
+      console.log(eventId, 'eventId');
     }
-  }, [eventId]);
+  }, []);
 
-  const handleClick = async () => {
+  const bookmarkHandler = async () => {
     if (userData) {
-      const { userId, accessToken, refreshToken } = userData;
+      const { userId, bookmarkList } = userData;
       try {
-        let updatedBookmarkList = [...(userData.bookmarkList || [])];
-
-        if (!isClicked) {
-          await addBookmarkHandler({
+        let updatedBookmarkList = [...(bookmarkList || [])];
+        const accessToken = getStorageValue('accessToken');
+        const refreshToken = getStorageValue('refreshToken');
+        if (!isClicked && accessToken && refreshToken) {
+          const bookmarkResult = await addBookmarkHandler({
             userId,
             accessToken,
-            eventId,
+            eventId: Number(eventId),
             refreshToken,
           });
-        } else {
-          await removeBookmarkHandler({
+          if (typeof bookmarkResult === 'boolean') {
+            return setShowModal(true);
+          }
+        } else if (isClicked && accessToken && refreshToken) {
+          const bookmarkResult = await removeBookmarkHandler({
             userId,
             accessToken,
-            eventId,
+            eventId: Number(eventId),
             refreshToken,
           });
+          if (typeof bookmarkResult === 'boolean') {
+            return setShowModal(true);
+          }
           updatedBookmarkList = updatedBookmarkList.filter(
-            (id) => id !== eventId
+            (id) => id !== Number(eventId)
           );
         }
 
@@ -62,7 +77,6 @@ export const BookmarkButton = ({
 
         setUserData(updatedUserData);
         setIsClicked((prev) => !prev);
-        localStorage.setItem('user', JSON.stringify(updatedUserData));
       } catch (err) {
         console.error(err);
       }
@@ -74,7 +88,7 @@ export const BookmarkButton = ({
       <motion.button
         type="button"
         className={`flex justify-center items-center ${buttonSize ?? 'w-[32px] h-[32px]'} bg-black-60 rounded-full ${hasBorder ? 'border-[1.5px] border-black-FFF' : ''}`}
-        onClick={handleClick}
+        onClick={bookmarkHandler}
         whileTap={{ scale: 0.8 }}
       >
         <BookmarkIcon

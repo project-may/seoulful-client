@@ -8,6 +8,7 @@ export type {
   BookmarkButtonPropsType,
   EventDetailResType,
   ModalType,
+  UserTokenType,
 } from './model/types';
 
 export { clickedCalendarDate, changeCalendarMonth } from './model/store';

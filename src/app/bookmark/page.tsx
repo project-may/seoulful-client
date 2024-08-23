@@ -1,28 +1,45 @@
 'use client';
-import { getBookmarkList, type BookmarkEvent } from '@/entities/bookmark';
-import { getStorageValue, Header, ThumbnailItem } from '@/shared';
+import type { BookmarkEvent } from '@/entities/bookmark';
+import { getBookmarkListHandler } from '@/features/bookmark/model/util';
+import {
+  getStorageValue,
+  Header,
+  ModalComponent,
+  ThumbnailItem,
+} from '@/shared';
+import { useModal } from '@/shared/model/hooks/useModal';
 import { useEffect, useState } from 'react';
 
 const BookmarkPage = () => {
   const [bookmarkData, setBookmarkData] = useState<BookmarkEvent[]>([]);
-
+  const { isUserLoggedIn, portalElement, setShowModal, showModal } = useModal();
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const user = getStorageValue('user');
     const accessToken = getStorageValue('accessToken');
-    if (user) {
+    const refreshToken = getStorageValue('refreshToken');
+
+    if (user && accessToken && refreshToken) {
       const userObject = JSON.parse(user);
-      const userId = userObject.userId;
+      const userId: string = userObject.userId;
 
       const fetchData = async () => {
-        const data = await getBookmarkList(userId, accessToken);
+        const data = await getBookmarkListHandler({
+          userId,
+          accessToken,
+          refreshToken,
+        });
         if (typeof data === 'number') {
           return '유저정보가 없거나, 토큰의 유효기간이 종료되었습니다.';
-        } else {
+        } else if (typeof data === 'string') {
+          setShowModal(true);
+        } else if (data) {
           setBookmarkData(data);
         }
       };
       fetchData();
+    } else {
+      setShowModal(true);
     }
   }, []);
 
@@ -40,6 +57,14 @@ const BookmarkPage = () => {
           )}
         </ul>
       </div>
+      {portalElement && showModal && (
+        <ModalComponent
+          link="auth"
+          isUserLoggedIn={isUserLoggedIn}
+          portalElement={portalElement}
+          setShowModal={setShowModal}
+        />
+      )}
     </div>
   );
 };

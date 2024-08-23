@@ -16,7 +16,7 @@ export const getBookmarkList = async (
       },
     }
   );
-  if (typeof response.status === 'number') {
+  if (response.status === 404 || response.status === 401) {
     return response.status;
   } else {
     const { data }: BookmarkEventResponse = await response.json();

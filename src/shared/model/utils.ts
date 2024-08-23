@@ -85,18 +85,16 @@ export const filterParams = <T extends Record<string, unknown>>(
   );
 };
 
-export const getStorageValue = (valueName: string): string => {
+export const getStorageValue = (valueName: string) => {
   if (typeof window === 'undefined') return '';
   const value = localStorage.getItem(valueName);
   if (value === null) {
-    return `${valueName}가 존재하지 않습니다.`;
+    return null;
   }
   return value;
 };
 
 export const setStorageValue = (valueName: string, storageValue: string) => {
-  if (typeof window === 'undefined') return;
-
   if (!(typeof valueName === 'string') || !(typeof storageValue === 'string')) {
     return `${valueName} 혹은 ${storageValue} 가 잘못되었습니다. string 타입을 넣어주세요!`;
   } else {

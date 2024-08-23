@@ -54,10 +54,29 @@ export const useSocialLogin = () => {
             state,
           };
           fetchUserData('naver', naverBody)
-            .then((user) => {
-              localStorage.setItem('user', JSON.stringify(user));
-              router.replace('/home');
-            })
+            .then(
+              ({
+                accessToken,
+                refreshToken,
+                bookmarkList,
+                nickname,
+                loginMethod,
+                userId,
+              }) => {
+                setStorageValue(
+                  'user',
+                  JSON.stringify({
+                    bookmarkList,
+                    nickname,
+                    loginMethod,
+                    userId,
+                  })
+                );
+                setStorageValue('refreshToken', refreshToken);
+                setStorageValue('accessToken', accessToken);
+                router.replace('/home');
+              }
+            )
             .catch((error) => {
               console.error('Error:', error);
             });
