@@ -2,6 +2,7 @@
 import { useEffect } from 'react';
 import { fetchUserData } from '@/entities/auth';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import { setStorageValue } from '@/shared';
 export const useSocialLogin = () => {
   const isProduction = process.env.NODE_ENV === 'production';
   const redirectUrl = isProduction
@@ -25,10 +26,24 @@ export const useSocialLogin = () => {
           redirectUrl: `${redirectUrl}/auth/kakao/callback`,
         };
         fetchUserData('kakao', kakaoBody)
-          .then((user) => {
-            localStorage.setItem('user', JSON.stringify(user));
-            router.replace('/home');
-          })
+          .then(
+            ({
+              accessToken,
+              refreshToken,
+              bookmarkList,
+              nickname,
+              loginMethod,
+              userId,
+            }) => {
+              setStorageValue(
+                'user',
+                JSON.stringify({ bookmarkList, nickname, loginMethod, userId })
+              );
+              setStorageValue('refreshToken', refreshToken);
+              setStorageValue('accessToken', accessToken);
+              router.replace('/home');
+            }
+          )
           .catch((error) => {
             console.error('Error:', error);
           });
