@@ -1,18 +1,14 @@
 import { reissueToken } from '@/entities/auth/api/api';
 import { addBookmark, removeBookmark } from '@/entities/bookmark';
 import { setStorageValue } from '@/shared';
+import type { HandleBookmarkRequest } from './types';
 
 export const addBookmarkHandler = async ({
   userId,
   accessToken,
   eventId,
   refreshToken,
-}: {
-  userId: string;
-  accessToken: string;
-  eventId: number;
-  refreshToken: string;
-}) => {
+}: HandleBookmarkRequest) => {
   const bookmark = await addBookmark(userId, accessToken, eventId);
   //add bookmark에서 토큰이 만료된 경우.
   if (bookmark === 401) {
@@ -41,12 +37,7 @@ export const removeBookmarkHandler = async ({
   accessToken,
   eventId,
   refreshToken,
-}: {
-  userId: string;
-  accessToken: string;
-  eventId: number;
-  refreshToken: string;
-}) => {
+}: HandleBookmarkRequest) => {
   const bookmark = await removeBookmark(userId, accessToken, eventId);
   //remove bookmark에서 토큰이 만료된 경우.
   if (bookmark === 401) {
