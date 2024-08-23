@@ -4,12 +4,12 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import BookmarkIcon from '/public/assets/bookmark-icon.svg';
 import { ModalComponent, type BookmarkButtonPropsType } from '../index';
-import { addBookmark, removeBookmark } from '@/entities/bookmark';
+import { removeBookmark } from '@/entities/bookmark';
 import type { UserDTO } from '@/features/auth';
 import { useAtom } from 'jotai';
 import { eventDetailAtom } from '@/features/event/model/store';
 import { useModal } from '../model/hooks/useModal';
-import { reissueToken } from '@/entities/auth/api/api';
+import { addBookmarkHandling } from '@/features/bookmark';
 
 export const BookmarkButton = ({
   buttonSize,
@@ -33,20 +33,19 @@ export const BookmarkButton = ({
 
   const handleClick = async () => {
     if (userData) {
-      const checkReissueToken = await reissueToken(userData.refreshToken);
-      if (typeof checkReissueToken === 'number') {
-        setShowModal(true);
-      }
-
       const { userId, accessToken, refreshToken } = userData;
       try {
         let updatedBookmarkList = [...(userData.bookmarkList || [])];
 
         if (!isClicked) {
-          await addBookmark(userId, accessToken, refreshToken, eventId);
-          updatedBookmarkList.push(eventId);
+          await addBookmarkHandling({
+            userId,
+            accessToken,
+            eventId,
+            refreshToken,
+          });
         } else {
-          await removeBookmark(userId, accessToken, refreshToken, eventId);
+          await removeBookmark(userId, accessToken, eventId);
           updatedBookmarkList = updatedBookmarkList.filter(
             (id) => id !== eventId
           );

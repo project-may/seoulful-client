@@ -23,6 +23,8 @@ export {
   getCategoryUrlFromCategorySeq,
   getGuSeqByName,
   formatDate,
+  getStorageValue,
+  setStorageValue,
 } from './model/utils';
 export { useCheckAgent } from './model/hooks/useCheckAgent';
 

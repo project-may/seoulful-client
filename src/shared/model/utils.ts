@@ -1,8 +1,6 @@
 import { CategoryName, CategorySeq, CategoryUrl } from '@/features/Category';
 import { GuName, GuSeq } from './constants';
 import dayjs from 'dayjs';
-import type { ValidateTokenDTO } from '@/features/auth/model/types';
-import { reissueToken, validateToken } from '@/entities/auth/api/api';
 
 export const formatDate = (inputString: string) => {
   const parsedDate = dayjs(inputString);
@@ -87,30 +85,22 @@ export const filterParams = <T extends Record<string, unknown>>(
   );
 };
 
-export const tokenValidateCheck = async (validateData: ValidateTokenDTO) => {
-  const { accessToken: currentAccessToken, refreshToken: currentRefreshToken } =
-    validateData;
-
-  const validationResponse = await validateToken(currentAccessToken);
-
-  if (validationResponse === 401) {
-    const userString = localStorage.getItem('user');
-    if (userString) {
-      const reissueResult = await reissueToken(currentRefreshToken);
-      if (typeof reissueResult === 'number') {
-        localStorage.removeItem('user');
-        return reissueResult;
-      } else {
-        const userObject = JSON.parse(userString);
-        userObject.accessToken = reissueResult.accessToken;
-        userObject.refreshToken = reissueResult.refreshToken;
-        localStorage.setItem('user', JSON.stringify(userObject));
-
-        return {
-          accessToken: reissueResult.accessToken,
-        };
-      }
-    }
+export const getStorageValue = (valueName: string) => {
+  if (typeof window === 'undefined') return;
+  const value = localStorage.getItem(valueName);
+  if (typeof value === 'string') {
+    return value;
+  } else if (value === 'null') {
+    return `${valueName}가 존재하지 않습니다.`;
   }
-  return { accessToken: currentAccessToken };
+};
+
+export const setStorageValue = (valueName: string, storageValue: string) => {
+  if (typeof window === 'undefined') return;
+
+  if (!(typeof valueName === 'string') || !(typeof storageValue === 'string')) {
+    return `${valueName} 혹은 ${storageValue} 가 잘못되었습니다. string 타입을 넣어주세요!`;
+  } else {
+    localStorage.setItem(valueName, storageValue);
+  }
 };

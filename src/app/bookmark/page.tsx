@@ -15,7 +15,11 @@ const BookmarkPage = () => {
       const token = userObject.accessToken;
       const fetchData = async () => {
         const data = await getBookmarkList(userId, token);
-        setBookmarkData(data);
+        if (typeof data === 'number') {
+          return '유저정보가 없거나, 토큰의 유효기간이 종료되었습니다.';
+        } else {
+          setBookmarkData(data);
+        }
       };
       fetchData();
     }
@@ -26,7 +30,7 @@ const BookmarkPage = () => {
       <Header title={'북마크'} isBackButton />
       <div className="px-[30px] pt-[20px]">
         <ul className="flex flex-wrap gap-[15px]">
-          {!bookmarkData || bookmarkData.length === 0 ? (
+          {!bookmarkData?.length ? (
             <div>북마크한 데이터가 없습니다.</div>
           ) : (
             bookmarkData?.map((data, i) => (
