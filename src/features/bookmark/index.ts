@@ -1,1 +1,1 @@
-export { addBookmarkHandling } from './model/util';
+export { addBookmarkHandler, removeBookmarkHandler } from './model/util';

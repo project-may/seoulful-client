@@ -4,12 +4,11 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import BookmarkIcon from '/public/assets/bookmark-icon.svg';
 import { ModalComponent, type BookmarkButtonPropsType } from '../index';
-import { removeBookmark } from '@/entities/bookmark';
 import type { UserDTO } from '@/features/auth';
 import { useAtom } from 'jotai';
 import { eventDetailAtom } from '@/features/event/model/store';
 import { useModal } from '../model/hooks/useModal';
-import { addBookmarkHandling } from '@/features/bookmark';
+import { addBookmarkHandler, removeBookmarkHandler } from '@/features/bookmark';
 
 export const BookmarkButton = ({
   buttonSize,
@@ -38,14 +37,19 @@ export const BookmarkButton = ({
         let updatedBookmarkList = [...(userData.bookmarkList || [])];
 
         if (!isClicked) {
-          await addBookmarkHandling({
+          await addBookmarkHandler({
             userId,
             accessToken,
             eventId,
             refreshToken,
           });
         } else {
-          await removeBookmark(userId, accessToken, eventId);
+          await removeBookmarkHandler({
+            userId,
+            accessToken,
+            eventId,
+            refreshToken,
+          });
           updatedBookmarkList = updatedBookmarkList.filter(
             (id) => id !== eventId
           );

@@ -2,7 +2,7 @@ import { reissueToken } from '@/entities/auth/api/api';
 import { addBookmark, removeBookmark } from '@/entities/bookmark';
 import { setStorageValue } from '@/shared';
 
-export const addBookmarkHandling = async ({
+export const addBookmarkHandler = async ({
   userId,
   accessToken,
   eventId,
@@ -22,8 +22,8 @@ export const addBookmarkHandling = async ({
         newUserToken;
       setStorageValue('accessToken', JSON.stringify(newAccessToken));
       setStorageValue('refreshToken', JSON.stringify(newRefreshToken));
-      await addBookmark(userId, newAccessToken, eventId);
-      return '북마크에 성공했습니다.';
+      const bookmarkResult = await addBookmark(userId, newAccessToken, eventId);
+      return bookmarkResult;
     }
   } else if (bookmark === 400) {
     throw Error('이미 북마크된 요청이거나, eventID가 담기지 않았습니다.');
@@ -36,7 +36,7 @@ export const addBookmarkHandling = async ({
   }
 };
 
-export const removeBookmarkHandling = async ({
+export const removeBookmarkHandler = async ({
   userId,
   accessToken,
   eventId,
@@ -56,8 +56,8 @@ export const removeBookmarkHandling = async ({
         newUserToken;
       setStorageValue('accessToken', JSON.stringify(newAccessToken));
       setStorageValue('refreshToken', JSON.stringify(newRefreshToken));
-      await addBookmark(userId, newAccessToken, eventId);
-      return '북마크에 성공했습니다.';
+      const bookmarkResult = await addBookmark(userId, newAccessToken, eventId);
+      return bookmarkResult;
     }
   } else if (bookmark === 400) {
     throw Error('eventId가 존재하지 않습니다.');
