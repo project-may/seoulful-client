@@ -25,61 +25,38 @@ export const useSocialLogin = () => {
           code: code,
           redirectUrl: `${redirectUrl}/auth/kakao/callback`,
         };
-        fetchUserData('kakao', kakaoBody)
-          .then(
-            ({
-              accessToken,
-              refreshToken,
-              bookmarkList,
-              nickname,
-              loginMethod,
-              userId,
-            }) => {
-              setStorageValue(
-                'user',
-                JSON.stringify({ bookmarkList, nickname, loginMethod, userId })
-              );
-              setStorageValue('refreshToken', refreshToken);
-              setStorageValue('accessToken', accessToken);
-              router.replace('/home');
-            }
-          )
-          .catch((error) => {
-            console.error('Error:', error);
-          });
+        const fetchData = async () => {
+          const { accessToken, nickname, loginMethod, refreshToken, userId } =
+            await fetchUserData('kakao', kakaoBody);
+          setStorageValue(
+            'user',
+            JSON.stringify({ nickname, loginMethod, userId })
+          );
+          setStorageValue('refreshToken', refreshToken);
+          setStorageValue('accessToken', accessToken);
+          router.replace('/home');
+        };
+
+        fetchData();
       } else {
         if (state) {
           const naverBody = {
             code,
             state,
           };
-          fetchUserData('naver', naverBody)
-            .then(
-              ({
-                accessToken,
-                refreshToken,
-                bookmarkList,
-                nickname,
-                loginMethod,
-                userId,
-              }) => {
-                setStorageValue(
-                  'user',
-                  JSON.stringify({
-                    bookmarkList,
-                    nickname,
-                    loginMethod,
-                    userId,
-                  })
-                );
-                setStorageValue('refreshToken', refreshToken);
-                setStorageValue('accessToken', accessToken);
-                router.replace('/home');
-              }
-            )
-            .catch((error) => {
-              console.error('Error:', error);
-            });
+          const fetchData = async () => {
+            const { accessToken, email, loginMethod, refreshToken, userId } =
+              await fetchUserData('naver', naverBody);
+            setStorageValue(
+              'user',
+              JSON.stringify({ email, loginMethod, userId })
+            );
+            setStorageValue('refreshToken', refreshToken);
+            setStorageValue('accessToken', accessToken);
+            router.replace('/home');
+          };
+
+          fetchData();
         }
       }
     }
