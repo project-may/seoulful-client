@@ -30,7 +30,7 @@ const BookmarkPage = () => {
           refreshToken,
         });
         if (typeof data === 'number') {
-          return '유저정보가 없거나, 토큰의 유효기간이 종료되었습니다.';
+          throw Error('유저정보가 없거나, 토큰의 유효기간이 종료되었습니다.');
         } else if (typeof data === 'string') {
           setShowModal(true);
         } else if (data) {
