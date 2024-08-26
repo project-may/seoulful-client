@@ -84,6 +84,8 @@ export const BookmarkButton = ({
       } catch (err) {
         console.error(err);
       }
+    } else {
+      setShowModal(true);
     }
   };
 

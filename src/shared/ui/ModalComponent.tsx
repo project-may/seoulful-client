@@ -26,9 +26,9 @@ export const ModalComponent = ({
             <BookmarkWarning className="mr-2" />
             북마크 완료
           </p>
-          <p className="mt-2 pr-2 text-center">
+          <div className="mt-2 pr-2 text-center">
             <strong>{eventName}</strong>를 북마크 했습니다.
-          </p>
+          </div>
           <button
             onClick={closeModal}
             className="w-[60px] ml-6 h-8 mt-5 bg-[#3F7E8C] text-white rounded"
@@ -44,9 +44,9 @@ export const ModalComponent = ({
           </p>
           <p className="ml-6 mt-2 pr-2">
             해당 기능은<strong className="ml-1">로그인</strong>이 필요합니다.
-            <p>
+            <div>
               <strong>로그인</strong>하시겠습니까?
-            </p>
+            </div>
           </p>
           <button
             onClick={() => router.push('/auth')}
