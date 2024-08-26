@@ -12,40 +12,54 @@ import {
 import { useModal } from '../model/hooks/useModal';
 import { addBookmarkHandler, removeBookmarkHandler } from '@/features/bookmark';
 import { useParams } from 'next/navigation';
+import { getBookmarkListHandler } from '@/features/bookmark/model/util';
 
 export const BookmarkButton = ({
   buttonSize,
   iconSize,
   hasBorder,
 }: BookmarkButtonPropsType) => {
-  const [isClicked, setIsClicked] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
   const [userData, setUserData] = useState<UserTokenType | null>(null);
+  const [accessToken, setAccessToken] = useState<string>('');
+  const [refreshToken, setRefreshToken] = useState<string>('');
   const { id: eventId } = useParams();
   const { isUserLoggedIn, portalElement, setShowModal, showModal } = useModal();
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const user = localStorage.getItem('user');
-    if (user) {
+    const user = getStorageValue('user');
+    const getAccessToken = getStorageValue('accessToken');
+    const getRefreshToken = getStorageValue('refreshToken');
+    if (user && getAccessToken && getRefreshToken) {
       const userObject = JSON.parse(user) as UserTokenType;
       setUserData(userObject);
-      setIsClicked((prev) =>
-        userObject.bookmarkList.includes(Number(eventId)) ? !prev : prev
-      );
-      console.log(userObject.bookmarkList.includes(Number(eventId)), 'result');
-      console.log(isClicked);
-      console.log(eventId, 'eventId');
+      setAccessToken(getAccessToken);
+      setRefreshToken(getRefreshToken);
+      const fetchData = async () => {
+        const bookmarkList = await getBookmarkListHandler({
+          userId: userObject.userId,
+          accessToken: getAccessToken,
+          refreshToken: getRefreshToken,
+        });
+        if (Array.isArray(bookmarkList)) {
+          const checkBookmark = bookmarkList.some(
+            (bookmark) => bookmark.eventId === Number(eventId)
+          );
+          if (checkBookmark) {
+            setIsBookmarked(checkBookmark);
+          }
+        }
+      };
+      fetchData();
     }
   }, []);
 
   const bookmarkHandler = async () => {
     if (userData) {
-      const { userId, bookmarkList } = userData;
+      const { userId } = userData;
       try {
-        let updatedBookmarkList = [...(bookmarkList || [])];
-        const accessToken = getStorageValue('accessToken');
-        const refreshToken = getStorageValue('refreshToken');
-        if (!isClicked && accessToken && refreshToken) {
+        if (!isBookmarked && accessToken && refreshToken) {
           const bookmarkResult = await addBookmarkHandler({
             userId,
             accessToken,
@@ -55,7 +69,7 @@ export const BookmarkButton = ({
           if (typeof bookmarkResult === 'boolean') {
             return setShowModal(true);
           }
-        } else if (isClicked && accessToken && refreshToken) {
+        } else if (isBookmarked && accessToken && refreshToken) {
           const bookmarkResult = await removeBookmarkHandler({
             userId,
             accessToken,
@@ -65,18 +79,8 @@ export const BookmarkButton = ({
           if (typeof bookmarkResult === 'boolean') {
             return setShowModal(true);
           }
-          updatedBookmarkList = updatedBookmarkList.filter(
-            (id) => id !== Number(eventId)
-          );
         }
-
-        const updatedUserData = {
-          ...userData,
-          bookmarkList: updatedBookmarkList,
-        };
-
-        setUserData(updatedUserData);
-        setIsClicked((prev) => !prev);
+        setIsBookmarked((prev) => !prev);
       } catch (err) {
         console.error(err);
       }
@@ -92,7 +96,7 @@ export const BookmarkButton = ({
         whileTap={{ scale: 0.8 }}
       >
         <BookmarkIcon
-          className={`${iconSize ?? 'w-[16px] h-[16px]'} ${isClicked ? 'fill-yellow-10' : 'fill-black-FFF'} pointer-events-none`}
+          className={`${iconSize ?? 'w-[16px] h-[16px]'} ${isBookmarked ? 'fill-yellow-10' : 'fill-black-FFF'} pointer-events-none`}
         />
       </motion.button>
       {showModal && portalElement && (

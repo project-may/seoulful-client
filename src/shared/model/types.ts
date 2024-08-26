@@ -77,7 +77,6 @@ export interface EventDetailResType {
 }
 
 export interface UserTokenType {
-  bookmarkList: number[];
   loginMethod: 'naver' | 'kakao';
   nickname: string;
   userId: string;

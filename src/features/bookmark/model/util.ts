@@ -77,6 +77,7 @@ export const getBookmarkListHandler = async ({
   refreshToken,
 }: Omit<HandleBookmarkRequest, 'eventId'>) => {
   const bookmarkReponse = await getBookmarkList(userId, accessToken);
+
   if (bookmarkReponse === 404) {
     throw new Error('해당 유저를 찾을 수 없습니다. ');
   } else if (bookmarkReponse === 401) {
@@ -86,6 +87,7 @@ export const getBookmarkListHandler = async ({
     } else if (!(typeof newUserToken === 'number')) {
       const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
         newUserToken;
+
       setStorageValue('accessToken', JSON.stringify(newAccessToken));
       setStorageValue('refreshToken', JSON.stringify(newRefreshToken));
       //재요청
