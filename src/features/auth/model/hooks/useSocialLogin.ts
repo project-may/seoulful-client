@@ -45,11 +45,11 @@ export const useSocialLogin = () => {
             state,
           };
           const fetchData = async () => {
-            const { accessToken, email, loginMethod, refreshToken, userId } =
+            const { accessToken, nickname, loginMethod, refreshToken, userId } =
               await fetchUserData('naver', naverBody);
             setStorageValue(
               'user',
-              JSON.stringify({ email, loginMethod, userId })
+              JSON.stringify({ nickname, loginMethod, userId })
             );
             setStorageValue('refreshToken', refreshToken);
             setStorageValue('accessToken', accessToken);
