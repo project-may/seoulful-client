@@ -16,8 +16,6 @@ export const FullpageContents = ({ data }: { data: EventDetail }) => {
     data.guSeq === undefined ? '업데이트' : getGuNameFromGuSeq(data.guSeq);
   const categoryName = getCategoryNameFromCategorySeq(data.categorySeq);
 
-  console.log(data.describe, 'desc');
-
   return (
     <motion.div className="mb-[60px]">
       <div className="flex flex-col gap-y-[2px]">
