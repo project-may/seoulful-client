@@ -8,6 +8,7 @@ export type {
   BookmarkButtonPropsType,
   EventDetailResType,
   ModalType,
+  UserTokenType,
 } from './model/types';
 
 export { clickedCalendarDate, changeCalendarMonth } from './model/store';
@@ -23,6 +24,8 @@ export {
   getCategoryUrlFromCategorySeq,
   getGuSeqByName,
   formatDate,
+  getStorageValue,
+  setStorageValue,
 } from './model/utils';
 export { useCheckAgent } from './model/hooks/useCheckAgent';
 

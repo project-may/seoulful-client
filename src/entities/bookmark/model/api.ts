@@ -6,19 +6,23 @@ import type {
 
 export const getBookmarkList = async (
   userId: string,
-  accesToken: string
-): Promise<BookmarkEvent[]> => {
+  accessToken: string
+): Promise<BookmarkEvent[] | number> => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}bookmark/${userId}`,
     {
       headers: {
-        Authorization: `Bearer ${accesToken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     }
   );
+  if (response.status === 404 || response.status === 401) {
+    return response.status;
+  } else {
+    const { data }: BookmarkEventResponse = await response.json();
 
-  const { data }: BookmarkEventResponse = await response.json();
-  return data;
+    return data;
+  }
 };
 
 export const addBookmark = async (
@@ -40,8 +44,15 @@ export const addBookmark = async (
     }
   );
 
-  const { data }: BookmarkChangeResponse = await response.json();
+  if (
+    response.status === 401 ||
+    response.status === 400 ||
+    response.status === 404
+  ) {
+    return response.status;
+  }
 
+  const { data }: BookmarkChangeResponse = await response.json();
   return data;
 };
 
@@ -64,6 +75,13 @@ export const removeBookmark = async (
     }
   );
 
+  if (
+    response.status === 401 ||
+    response.status === 400 ||
+    response.status === 404
+  ) {
+    return response.status;
+  }
   const { data }: BookmarkChangeResponse = await response.json();
   return data;
 };

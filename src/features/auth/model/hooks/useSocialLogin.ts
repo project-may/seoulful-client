@@ -2,6 +2,7 @@
 import { useEffect } from 'react';
 import { fetchUserData } from '@/entities/auth';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import { setStorageValue } from '@/shared';
 export const useSocialLogin = () => {
   const isProduction = process.env.NODE_ENV === 'production';
   const redirectUrl = isProduction
@@ -24,28 +25,38 @@ export const useSocialLogin = () => {
           code: code,
           redirectUrl: `${redirectUrl}/auth/kakao/callback`,
         };
-        fetchUserData('kakao', kakaoBody)
-          .then((user) => {
-            localStorage.setItem('user', JSON.stringify(user));
-            router.replace('/home');
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-          });
+        const fetchData = async () => {
+          const { accessToken, nickname, loginMethod, refreshToken, userId } =
+            await fetchUserData('kakao', kakaoBody);
+          setStorageValue(
+            'user',
+            JSON.stringify({ nickname, loginMethod, userId })
+          );
+          setStorageValue('refreshToken', refreshToken);
+          setStorageValue('accessToken', accessToken);
+          router.replace('/home');
+        };
+
+        fetchData();
       } else {
         if (state) {
           const naverBody = {
             code,
             state,
           };
-          fetchUserData('naver', naverBody)
-            .then((user) => {
-              localStorage.setItem('user', JSON.stringify(user));
-              router.replace('/home');
-            })
-            .catch((error) => {
-              console.error('Error:', error);
-            });
+          const fetchData = async () => {
+            const { accessToken, nickname, loginMethod, refreshToken, userId } =
+              await fetchUserData('naver', naverBody);
+            setStorageValue(
+              'user',
+              JSON.stringify({ nickname, loginMethod, userId })
+            );
+            setStorageValue('refreshToken', refreshToken);
+            setStorageValue('accessToken', accessToken);
+            router.replace('/home');
+          };
+
+          fetchData();
         }
       }
     }

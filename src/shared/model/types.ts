@@ -75,3 +75,9 @@ export interface EventDetailResType {
   isFree: boolean;
   detailUrl: string;
 }
+
+export interface UserTokenType {
+  loginMethod: 'naver' | 'kakao';
+  nickname: string;
+  userId: string;
+}
