@@ -7,49 +7,51 @@ import { Provider } from 'jotai';
 const pretendard = localFont({
   src: [
     {
-      path: '../../public/fonts/pretendard/Pretendard-Thin.woff',
+      path: '../../public/fonts/pretendard/Pretendard-Thin.woff2',
       weight: '100',
     },
     {
-      path: '../../public/fonts/pretendard/Pretendard-ExtraLight.woff',
+      path: '../../public/fonts/pretendard/Pretendard-ExtraLight.woff2',
       weight: '200',
     },
     {
-      path: '../../public/fonts/pretendard/Pretendard-Light.woff',
+      path: '../../public/fonts/pretendard/Pretendard-Light.woff2',
       weight: '300',
     },
     {
-      path: '../../public/fonts/pretendard/Pretendard-Regular.woff',
+      path: '../../public/fonts/pretendard/Pretendard-Regular.woff2',
       weight: '400',
     },
     {
-      path: '../../public/fonts/pretendard/Pretendard-Medium.woff',
+      path: '../../public/fonts/pretendard/Pretendard-Medium.woff2',
       weight: '500',
     },
     {
-      path: '../../public/fonts/pretendard/Pretendard-SemiBold.woff',
+      path: '../../public/fonts/pretendard/Pretendard-SemiBold.woff2',
       weight: '600',
     },
     {
-      path: '../../public/fonts/pretendard/Pretendard-Bold.woff',
+      path: '../../public/fonts/pretendard/Pretendard-Bold.woff2',
       weight: '700',
     },
     {
-      path: '../../public/fonts/pretendard/Pretendard-ExtraBold.woff',
+      path: '../../public/fonts/pretendard/Pretendard-ExtraBold.woff2',
       weight: '800',
     },
     {
-      path: '../../public/fonts/pretendard/Pretendard-Black.woff',
+      path: '../../public/fonts/pretendard/Pretendard-Black.woff2',
       weight: '900',
     },
   ],
   variable: '--pretendard',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
   title: 'Seoulful',
-  description: 'Blah Blah',
-  icons: '/assets/seoulful-favicon.svg',
+  description:
+    '서울을 무대로 한 문화생활 정보 플랫폼, Seoulful 입니다! 서울에서 열리는 다양한 문화행사 정보를 확인하실 수 있습니다 ! Seoulful과 함께 풍성한 문화생활을 즐겨보세요!',
+  icons: '/assets/seoulful-logo.png',
 };
 
 export default function RootLayout({

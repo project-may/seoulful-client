@@ -32,7 +32,13 @@ export const FullpageContents = ({ data }: { data: EventDetail }) => {
         <span className="text-[13px]">{data.period}</span>
       </div>
       <div>
-        <p className="my-[20px]">{data.describe}</p>
+        <p className="my-[20px]">
+          {data.describe ? (
+            <span dangerouslySetInnerHTML={{ __html: data.describe }} />
+          ) : (
+            '상세페이지를 눌러 확인해보세요!'
+          )}
+        </p>
       </div>
       <DetailPageButton url={`/event/${data.eventId}`} />
     </motion.div>
