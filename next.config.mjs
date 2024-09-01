@@ -9,7 +9,6 @@ const nextConfig = {
         pathname: '/cmmn/file/getImage.do',
       },
     ],
-    formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 60000,
   },
   webpack: (config) => {

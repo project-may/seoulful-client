@@ -10,7 +10,6 @@ export const LoadingComponent = () => {
         width={200}
         height={200}
         alt="로딩중입니다."
-        priority
         className="max-w-full max-h-full"
       />
       <div className="text-black mt-4">데이터를 불러오고 있어요!</div>

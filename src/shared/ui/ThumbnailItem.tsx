@@ -21,7 +21,6 @@ export const ThumbnailItem = ({
               fill
               sizes="(min-width: 150px) 50vw, 100vw"
               alt={data.eventName}
-              priority
             />
           </div>
         </Link>

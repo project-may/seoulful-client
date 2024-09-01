@@ -7,12 +7,10 @@ export const UserImageBox = () => {
       <Image
         src="/assets/kakao-logo.png"
         alt="background"
-        priority
         fill
         sizes="(max-width: 768px) 100vw, 
         (max-width: 1200px) 50vw, 
         33vw"
-        style={{ objectFit: 'cover' }}
       />
       <div className="absolute inset-0 bg-gray-900 bg-opacity-50"></div>
       <div className="absolute inset-0 flex flex-col items-center justify-center text-white">

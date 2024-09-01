@@ -13,8 +13,6 @@ export default function LoginPage() {
           src={LoginBackground}
           alt="Login Background"
           fill
-          quality={100}
-          priority
           sizes="(min-width: 360px) 50vw, 100vw"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#30618C]/50 to-[#BF5E70]/70"></div>
