@@ -16,7 +16,6 @@ export const ThumbnailItem = ({
           <Image
             src={data.image}
             className="w-full h-auto rounded-[7px]"
-            priority
             alt={data.title}
           />
           <div className="flex flex-col mt-[8px]">
