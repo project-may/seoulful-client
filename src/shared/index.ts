@@ -38,7 +38,7 @@ export { SearchInput } from './ui/SearchInput';
 export { AlertButton } from './ui/AlertButton';
 export { CustomCalendar } from './ui/CustomCalendar';
 export { Selectbox } from './ui/Selectbox';
-export { AccordionMenu } from './ui/AccordionMenu';
+export { SearchTitle } from './ui/SearchTitle';
 export { AlertModalItem } from './ui/AlertModalItem';
 export { BookmarkButton } from './ui/BookmarkButton';
 export { NavigationButton } from './ui/NavigationButton';
