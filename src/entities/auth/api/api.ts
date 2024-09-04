@@ -5,6 +5,7 @@ import {
   UserDTO,
 } from '@/features/auth';
 import type { UserResponseDTO } from '@/features/auth/model/types';
+import { UserTokenType } from '@/shared';
 
 export const loginUser = async ({ provider }: ProviderTypes) => {
   const isProduction = process.env.NODE_ENV === 'production';
@@ -27,7 +28,7 @@ export const loginUser = async ({ provider }: ProviderTypes) => {
 export const fetchUserData = async (
   provider: 'kakao' | 'naver',
   body: KakaoPayload | NaverPayload
-): Promise<UserDTO> => {
+): Promise<UserTokenType> => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}auth/login/${provider}`,
     {
@@ -38,8 +39,26 @@ export const fetchUserData = async (
       },
     }
   );
-  const data = await response.json();
-  return data.data;
+  const {
+    data: {
+      accessToken,
+      bookmarkList,
+      loginMethod,
+      nickname,
+      refreshToken,
+      userId,
+    },
+  }: UserResponseDTO = await response.json();
+
+  const refinedData: UserTokenType = {
+    accessToken,
+    bookmarkList,
+    loginMethod,
+    nickname,
+    refreshToken,
+    userId,
+  };
+  return refinedData;
 };
 
 export const validateToken = async (accessToken: string): Promise<number> => {

@@ -80,4 +80,7 @@ export interface UserTokenType {
   loginMethod: 'naver' | 'kakao';
   nickname: string;
   userId: string;
+  bookmarkList: number[];
+  refreshToken: string;
+  accessToken: string;
 }

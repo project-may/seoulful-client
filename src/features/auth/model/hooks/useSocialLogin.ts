@@ -2,7 +2,8 @@
 import { useEffect } from 'react';
 import { fetchUserData } from '@/entities/auth';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
-import { setStorageValue } from '@/shared';
+import { useSetAtom } from 'jotai';
+import { userAtom } from '../store';
 export const useSocialLogin = () => {
   const isProduction = process.env.NODE_ENV === 'production';
   const redirectUrl = isProduction
@@ -12,6 +13,7 @@ export const useSocialLogin = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const setUserValue = useSetAtom(userAtom);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -26,14 +28,10 @@ export const useSocialLogin = () => {
           redirectUrl: `${redirectUrl}/auth/kakao/callback`,
         };
         const fetchData = async () => {
-          const { accessToken, nickname, loginMethod, refreshToken, userId } =
-            await fetchUserData('kakao', kakaoBody);
-          setStorageValue(
-            'user',
-            JSON.stringify({ nickname, loginMethod, userId })
-          );
-          setStorageValue('refreshToken', refreshToken);
-          setStorageValue('accessToken', accessToken);
+          const userData = await fetchUserData('kakao', kakaoBody);
+          if (userData) {
+            setUserValue(userData);
+          }
           router.replace('/home');
         };
 
@@ -45,14 +43,10 @@ export const useSocialLogin = () => {
             state,
           };
           const fetchData = async () => {
-            const { accessToken, nickname, loginMethod, refreshToken, userId } =
-              await fetchUserData('naver', naverBody);
-            setStorageValue(
-              'user',
-              JSON.stringify({ nickname, loginMethod, userId })
-            );
-            setStorageValue('refreshToken', refreshToken);
-            setStorageValue('accessToken', accessToken);
+            const userData = await fetchUserData('naver', naverBody);
+            if (userData) {
+              setUserValue(userData);
+            }
             router.replace('/home');
           };
 
