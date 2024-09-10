@@ -21,7 +21,7 @@ export const BookmarkButton = ({
   const [userData, setUserData] = useAtom(userAtom);
 
   const bookmarkHandler = async () => {
-    if (userData) {
+    if (!(userData.accessToken.length === 0)) {
       const { userId, accessToken, refreshToken } = userData;
       try {
         if (!isBookmarked) {
@@ -32,15 +32,15 @@ export const BookmarkButton = ({
             refreshToken,
           });
           if (typeof bookmarkResult === 'boolean') {
-            console.log(bookmarkResult, 'bboooo');
             setShowModal(bookmarkResult);
           } else {
-            setIsBookmarked((prev) => !prev);
-            // const updatedBookmarkList = [...bookmarkList, Number(eventId)];
-            // setUserData({
-            //   ...userData,
-            //   bookmarkList: updatedBookmarkList,
-            // });
+            setIsBookmarked(true);
+
+            const updatedBookmarkList = [...bookmarkResult.bookmarkList];
+            setUserData({
+              ...userData,
+              bookmarkList: updatedBookmarkList,
+            });
           }
         } else if (isBookmarked && userData) {
           const bookmarkResult = await removeBookmarkHandler({
@@ -52,13 +52,20 @@ export const BookmarkButton = ({
           if (typeof bookmarkResult === 'boolean') {
             return setShowModal(bookmarkResult);
           } else {
-            setIsBookmarked((prev) => !prev);
+            setIsBookmarked(false);
+
+            const updatedBookmarkList = [...bookmarkResult.bookmarkList];
+            setUserData({
+              ...userData,
+              bookmarkList: updatedBookmarkList,
+            });
           }
         }
       } catch (err) {
         console.error(err);
       }
     } else {
+      console.log(showModal, 'show');
       setShowModal(true);
     }
   };

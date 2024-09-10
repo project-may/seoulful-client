@@ -1,5 +1,6 @@
 import {
   addBookmark,
+  BookmarkChangeResponse,
   getBookmarkList,
   removeBookmark,
 } from '@/entities/bookmark';
@@ -13,7 +14,7 @@ export const addBookmarkHandler = async ({
   refreshToken,
 }: HandleBookmarkRequest) => {
   const response = await addBookmark(userId, accessToken, eventId);
-  console.log(response, 'addBookmark');
+  const { data }: BookmarkChangeResponse = await response.json();
 
   if (response.status === 401) {
     const newUserToken = await reissueToken(refreshToken);
@@ -22,8 +23,10 @@ export const addBookmarkHandler = async ({
     } else {
       const { accessToken: newAccessToken } = newUserToken;
       const retryResponse = await addBookmark(userId, newAccessToken, eventId);
-      console.log(retryResponse, 'retry');
-      return retryResponse;
+      const { data: retryData }: BookmarkChangeResponse =
+        await retryResponse.json();
+
+      return retryData;
     }
   } else if (response.status === 400) {
     throw Error('이미 북마크된 요청이거나, eventID가 담기지 않았습니다.');
@@ -31,7 +34,7 @@ export const addBookmarkHandler = async ({
     throw Error('해당 유저를 찾을 수 없습니다.');
   }
 
-  return response;
+  return data;
 };
 
 export const removeBookmarkHandler = async ({
@@ -41,6 +44,7 @@ export const removeBookmarkHandler = async ({
   refreshToken,
 }: HandleBookmarkRequest) => {
   const response = await removeBookmark(userId, accessToken, eventId);
+  const { data }: BookmarkChangeResponse = await response.json();
 
   if (response.status === 401) {
     const newUserToken = await reissueToken(refreshToken);
@@ -53,8 +57,10 @@ export const removeBookmarkHandler = async ({
         newAccessToken,
         eventId
       );
-      console.log(retryResponse, 'retry');
-      return retryResponse;
+      const { data: retryData }: BookmarkChangeResponse =
+        await retryResponse.json();
+
+      return retryData;
     }
   } else if (response.status === 400) {
     throw Error('eventSeq가 존재하지않음.');
@@ -62,7 +68,7 @@ export const removeBookmarkHandler = async ({
     throw Error('해당 유저를 찾을 수 없습니다.');
   }
 
-  return response;
+  return data;
 };
 
 export const getBookmarkListHandler = async ({

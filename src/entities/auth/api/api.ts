@@ -39,16 +39,16 @@ export const fetchUserData = async (
       },
     }
   );
+
+  const responseData: UserResponseDTO = await response.json();
   const {
-    data: {
-      accessToken,
-      bookmarkList,
-      loginMethod,
-      nickname,
-      refreshToken,
-      userId,
-    },
-  }: UserResponseDTO = await response.json();
+    accessToken,
+    bookmarkList,
+    loginMethod,
+    nickname,
+    refreshToken,
+    userId,
+  } = responseData.data;
 
   const refinedData: UserTokenType = {
     accessToken,
