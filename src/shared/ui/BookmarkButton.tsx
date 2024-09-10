@@ -1,6 +1,4 @@
 'use client';
-
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import BookmarkIcon from '/public/assets/bookmark-icon.svg';
 import { ModalComponent, type BookmarkButtonPropsType } from '../index';
@@ -9,13 +7,17 @@ import { addBookmarkHandler, removeBookmarkHandler } from '@/features/bookmark';
 import { useParams } from 'next/navigation';
 import { useAtom } from 'jotai';
 import { userAtom } from '@/features/auth/model/store';
+import { useBookmarkCheck } from '@/features/bookmark/model/hooks/useBookmarkCheck';
 
 export const BookmarkButton = ({
   buttonSize,
   iconSize,
   hasBorder,
 }: BookmarkButtonPropsType) => {
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const { id } = useParams();
+  const { isBookmarked, setIsBookmarked } = useBookmarkCheck({
+    eventId: id as string,
+  });
   const { id: eventId } = useParams();
   const { isUserLoggedIn, portalElement, setShowModal, showModal } = useModal();
   const [userData, setUserData] = useAtom(userAtom);
