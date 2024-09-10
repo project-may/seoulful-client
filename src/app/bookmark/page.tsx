@@ -4,13 +4,13 @@ import { userAtom } from '@/features/auth/model/store';
 import { getBookmarkListHandler } from '@/features/bookmark/model/util';
 import { Header, ModalComponent, ThumbnailItem } from '@/shared';
 import { useModal } from '@/shared/model/hooks/useModal';
-import { useAtom } from 'jotai';
+import { useAtomValue } from 'jotai';
 import { useEffect, useState } from 'react';
 
 const BookmarkPage = () => {
   const [bookmarkData, setBookmarkData] = useState<BookmarkEvent[]>([]);
   const { isUserLoggedIn, portalElement, setShowModal, showModal } = useModal();
-  const [userData, setUserData] = useAtom(userAtom);
+  const userData = useAtomValue(userAtom);
 
   useEffect(() => {
     if (userData) {
@@ -20,7 +20,6 @@ const BookmarkPage = () => {
           userId,
           accessToken,
           refreshToken,
-          setUserData,
         });
         const isBookmarkEvent = bookmarkList && Array.isArray(bookmarkList);
         if (typeof bookmarkList === 'boolean') {
