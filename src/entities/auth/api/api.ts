@@ -92,6 +92,7 @@ export const reissueToken = async (
     }
   );
 
+  //토큰이 만료되어 새로 로그인해야하는 경우.
   if (response.status === 401) {
     return response.status;
   }

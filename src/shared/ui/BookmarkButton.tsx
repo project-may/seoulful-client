@@ -3,16 +3,13 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import BookmarkIcon from '/public/assets/bookmark-icon.svg';
-import {
-  getStorageValue,
-  ModalComponent,
-  UserTokenType,
-  type BookmarkButtonPropsType,
-} from '../index';
+import { ModalComponent, type BookmarkButtonPropsType } from '../index';
 import { useModal } from '../model/hooks/useModal';
 import { addBookmarkHandler, removeBookmarkHandler } from '@/features/bookmark';
 import { useParams } from 'next/navigation';
 import { getBookmarkListHandler } from '@/features/bookmark/model/util';
+import { useAtomValue } from 'jotai';
+import { userAtom } from '@/features/auth/model/store';
 
 export const BookmarkButton = ({
   buttonSize,
@@ -20,27 +17,20 @@ export const BookmarkButton = ({
   hasBorder,
 }: BookmarkButtonPropsType) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
-  const [userData, setUserData] = useState<UserTokenType | null>(null);
-  const [accessToken, setAccessToken] = useState<string>('');
-  const [refreshToken, setRefreshToken] = useState<string>('');
   const { id: eventId } = useParams();
   const { isUserLoggedIn, portalElement, setShowModal, showModal } = useModal();
+  const userData = useAtomValue(userAtom);
 
+  //event/:id 로 이동해야함.
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const user = getStorageValue('user');
-    const getAccessToken = getStorageValue('accessToken');
-    const getRefreshToken = getStorageValue('refreshToken');
-    if (user && getAccessToken && getRefreshToken) {
-      const userObject = JSON.parse(user) as UserTokenType;
-      setUserData(userObject);
-      setAccessToken(getAccessToken);
-      setRefreshToken(getRefreshToken);
+    if (userData) {
+      const { accessToken, userId, refreshToken } = userData;
       const fetchData = async () => {
+        //북마크 리스트랑 로컬스토리지랑 맞는지 검증하는 로직이 필요.
         const bookmarkList = await getBookmarkListHandler({
-          userId: userObject.userId,
-          accessToken: getAccessToken,
-          refreshToken: getRefreshToken,
+          userId,
+          accessToken,
+          refreshToken,
         });
         if (Array.isArray(bookmarkList)) {
           const checkBookmark = bookmarkList.some(
@@ -57,19 +47,22 @@ export const BookmarkButton = ({
 
   const bookmarkHandler = async () => {
     if (userData) {
-      const { userId } = userData;
+      const { userId, accessToken, refreshToken } = userData;
       try {
-        if (!isBookmarked && accessToken && refreshToken) {
+        if (!isBookmarked) {
           const bookmarkResult = await addBookmarkHandler({
             userId,
             accessToken,
             eventId: Number(eventId),
             refreshToken,
           });
+
           if (typeof bookmarkResult === 'boolean') {
-            return setShowModal(true);
+            return setShowModal(bookmarkResult);
+          } else {
+            setIsBookmarked((prev) => !prev);
           }
-        } else if (isBookmarked && accessToken && refreshToken) {
+        } else if (isBookmarked && userData) {
           const bookmarkResult = await removeBookmarkHandler({
             userId,
             accessToken,
@@ -77,10 +70,11 @@ export const BookmarkButton = ({
             refreshToken,
           });
           if (typeof bookmarkResult === 'boolean') {
-            return setShowModal(true);
+            return setShowModal(bookmarkResult);
+          } else {
+            setIsBookmarked((prev) => !prev);
           }
         }
-        setIsBookmarked((prev) => !prev);
       } catch (err) {
         console.error(err);
       }

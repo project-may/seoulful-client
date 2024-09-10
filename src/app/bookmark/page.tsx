@@ -1,40 +1,32 @@
 'use client';
 import type { BookmarkEvent } from '@/entities/bookmark';
+import { userAtom } from '@/features/auth/model/store';
 import { getBookmarkListHandler } from '@/features/bookmark/model/util';
-import {
-  getStorageValue,
-  Header,
-  ModalComponent,
-  ThumbnailItem,
-} from '@/shared';
+import { Header, ModalComponent, ThumbnailItem } from '@/shared';
 import { useModal } from '@/shared/model/hooks/useModal';
+import { useAtom } from 'jotai';
 import { useEffect, useState } from 'react';
 
 const BookmarkPage = () => {
   const [bookmarkData, setBookmarkData] = useState<BookmarkEvent[]>([]);
   const { isUserLoggedIn, portalElement, setShowModal, showModal } = useModal();
+  const [userData, setUserData] = useAtom(userAtom);
+
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const user = getStorageValue('user');
-    const accessToken = getStorageValue('accessToken');
-    const refreshToken = getStorageValue('refreshToken');
-
-    if (user && accessToken && refreshToken) {
-      const userObject = JSON.parse(user);
-      const userId: string = userObject.userId;
-
+    if (userData) {
+      const { userId, accessToken, refreshToken } = userData;
       const fetchData = async () => {
-        const data = await getBookmarkListHandler({
+        const bookmarkList = await getBookmarkListHandler({
           userId,
           accessToken,
           refreshToken,
+          setUserData,
         });
-        if (typeof data === 'number') {
-          throw Error('유저정보가 없거나, 토큰의 유효기간이 종료되었습니다.');
-        } else if (typeof data === 'string') {
-          setShowModal(true);
-        } else if (data) {
-          setBookmarkData(data);
+        const isBookmarkEvent = bookmarkList && Array.isArray(bookmarkList);
+        if (typeof bookmarkList === 'boolean') {
+          setShowModal(bookmarkList);
+        } else if (isBookmarkEvent) {
+          setBookmarkData(bookmarkList);
         }
       };
       fetchData();
