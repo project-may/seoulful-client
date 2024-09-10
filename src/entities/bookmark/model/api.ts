@@ -33,8 +33,7 @@ export const getBookmarkList = async (
 export const addBookmark = async (
   userId: string,
   accessToken: string,
-  eventSeq: number,
-  refreshToken: string
+  eventSeq: number
 ) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}bookmark/${userId}`,
@@ -44,34 +43,19 @@ export const addBookmark = async (
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        eventSeq: eventSeq,
+        eventSeq,
       }),
       method: 'PUT',
     }
   );
 
-  if (response.status === 401) {
-    const newUserToken = await reissueToken(refreshToken);
-    if (typeof newUserToken === 'number') {
-      return true;
-    } else {
-      return newUserToken;
-    }
-  } else if (response.status === 400) {
-    throw Error('이미 북마크된 요청이거나, eventID가 담기지 않았습니다.');
-  } else if (response.status === 404) {
-    throw Error('해당 유저를 찾을 수 없습니다.');
-  }
-
-  const { data } = await response.json();
-  return data;
+  return response;
 };
 
 export const removeBookmark = async (
   userId: string,
   accessToken: string,
-  eventSeq: number,
-  refreshToken: string
+  eventSeq: number
 ) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}bookmark/${userId}`,
@@ -87,15 +71,5 @@ export const removeBookmark = async (
     }
   );
 
-  if (response.status === 401) {
-    const newUserToken = await reissueToken(refreshToken);
-    return newUserToken;
-  } else if (response.status === 400) {
-    throw Error('이미 북마크된 요청이거나, eventID가 담기지 않았습니다.');
-  } else if (response.status === 404) {
-    throw Error('해당 유저를 찾을 수 없습니다.');
-  }
-
-  const { data } = await response.json();
-  return data;
+  return response;
 };
