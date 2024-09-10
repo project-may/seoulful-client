@@ -6,6 +6,7 @@ import { getBookmarkListHandler } from '../util';
 export const useBookmarkCheck = ({ eventId }: { eventId: string }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const userData = useAtomValue(userAtom);
+  console.log(userData, 'bookmarkcheck');
   useEffect(() => {
     if (userData) {
       const { accessToken, userId, refreshToken } = userData;

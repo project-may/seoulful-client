@@ -22,8 +22,11 @@ const BookmarkPage = () => {
           refreshToken,
         });
         const isBookmarkEvent = bookmarkList && Array.isArray(bookmarkList);
-        if (typeof bookmarkList === 'boolean') {
-          setShowModal(bookmarkList);
+        if (
+          typeof bookmarkList === 'boolean' ||
+          userData.accessToken.length === 0
+        ) {
+          setShowModal(true);
         } else if (isBookmarkEvent) {
           setBookmarkData(bookmarkList);
         }

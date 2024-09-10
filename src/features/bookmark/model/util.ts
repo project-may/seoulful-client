@@ -1,6 +1,7 @@
 import {
   addBookmark,
   BookmarkChangeResponse,
+  BookmarkEventResponse,
   getBookmarkList,
   removeBookmark,
 } from '@/entities/bookmark';
@@ -76,22 +77,24 @@ export const getBookmarkListHandler = async ({
   accessToken,
   refreshToken,
 }: Omit<HandleBookmarkRequest, 'eventId'>) => {
-  const bookmarkResponse = await getBookmarkList(
-    userId,
-    accessToken,
-    refreshToken
-  );
-  const isUserDTO =
-    bookmarkResponse &&
-    typeof bookmarkResponse === 'object' &&
-    'userId' in bookmarkResponse;
+  const bookmarkResponse = await getBookmarkList(userId, accessToken);
+  const { data }: BookmarkEventResponse = await bookmarkResponse.json();
 
-  if (bookmarkResponse === 401) {
-    return true;
-    //토큰 재발급에 성공한 경우.
-  } else if (isUserDTO) {
-    return bookmarkResponse;
-  } else {
-    return bookmarkResponse;
+  if (bookmarkResponse.status === 401) {
+    const newUserToken = await reissueToken(refreshToken);
+    if (typeof newUserToken === 'number') {
+      return true;
+    } else {
+      const { accessToken: newAccessToken } = newUserToken;
+      const retryResponse = await getBookmarkList(userId, newAccessToken);
+      const { data: retryData }: BookmarkEventResponse =
+        await retryResponse.json();
+
+      return retryData;
+    }
+  } else if (bookmarkResponse.status === 400) {
+    throw Error('limit 혹은 offset 값이 없거나 유효하지 않습니다.');
   }
+
+  return data;
 };

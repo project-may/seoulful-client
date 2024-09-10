@@ -1,12 +1,4 @@
-import { reissueToken } from '@/entities/auth/api/api';
-import type { BookmarkEvent, BookmarkEventResponse } from './types';
-import { UserDTO } from '@/features/auth';
-
-export const getBookmarkList = async (
-  userId: string,
-  accessToken: string,
-  refreshToken: string
-): Promise<BookmarkEvent[] | number | UserDTO> => {
+export const getBookmarkList = async (userId: string, accessToken: string) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}bookmark/${userId}`,
     {
@@ -16,18 +8,7 @@ export const getBookmarkList = async (
     }
   );
 
-  if (response.status === 401) {
-    const reissueUser = await reissueToken(refreshToken);
-    return reissueUser;
-  } else if (response.status === 400) {
-    throw Error('이미 북마크된 요청이거나, eventID가 담기지 않았습니다.');
-  } else if (response.status === 404) {
-    throw Error('해당 유저를 찾을 수 없습니다.');
-  }
-
-  const { data }: BookmarkEventResponse = await response.json();
-
-  return data;
+  return response;
 };
 
 export const addBookmark = async (
