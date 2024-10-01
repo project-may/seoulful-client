@@ -13,7 +13,7 @@ const BookmarkPage = () => {
   const userData = useAtomValue(userAtom);
 
   useEffect(() => {
-    if (userData) {
+    if (userData.accessToken.length > 0) {
       const { userId, accessToken, refreshToken } = userData;
       const fetchData = async () => {
         const bookmarkList = await getBookmarkListHandler({
@@ -21,7 +21,7 @@ const BookmarkPage = () => {
           accessToken,
           refreshToken,
         });
-        const isBookmarkEvent = bookmarkList && Array.isArray(bookmarkList);
+        const isBookmarkEvent = Array.isArray(bookmarkList);
         if (
           typeof bookmarkList === 'boolean' ||
           userData.accessToken.length === 0
