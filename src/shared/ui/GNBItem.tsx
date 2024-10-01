@@ -1,23 +1,31 @@
 'use client';
 import { motion } from 'framer-motion';
-import { usePathname, useRouter } from 'next/navigation';
+
 import { ModalComponent } from './ModalComponent';
-import { useModal } from '../model/hooks/useModal';
+import { usePathname, useRouter } from 'next/navigation';
+import { Dispatch, SetStateAction } from 'react';
 
 export const GNBItem = ({
   ariaLabel,
   Icon,
   link,
   className,
+  isUserLoggedIn,
+  showModal,
+  setShowModal,
+  portalElement,
 }: {
   ariaLabel: string;
   Icon: React.FC<React.SVGProps<SVGSVGElement>>;
   link: string;
   className?: string;
+  isUserLoggedIn: boolean;
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  portalElement: Element | null;
 }) => {
-  const router = useRouter();
   const pathname = usePathname();
-  const { showModal, isUserLoggedIn, portalElement, setShowModal } = useModal();
+  const router = useRouter();
   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if ((link === '/mypage' || link === '/bookmark') && !isUserLoggedIn) {
       e.preventDefault();
@@ -26,7 +34,6 @@ export const GNBItem = ({
       router.push(link);
     }
   };
-
   return (
     <motion.div
       initial={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}

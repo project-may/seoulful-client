@@ -9,17 +9,15 @@ export const useModal = () => {
   const [portalElement, setPortalElement] = useState<Element | null>(null);
   const { refreshToken } = useAtomValue(userAtom);
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const validateToken = async () => {
-        const newToken = await reissueToken(refreshToken);
-        if (typeof newToken === 'number') {
-          setIsUserLoggedIn(false);
-        } else {
-          setIsUserLoggedIn(true);
-        }
-      };
-      validateToken();
-    }
+    const validateToken = async () => {
+      const newToken = await reissueToken(refreshToken);
+      if (typeof newToken === 'number') {
+        setIsUserLoggedIn(false);
+      } else {
+        setIsUserLoggedIn(true);
+      }
+    };
+    validateToken();
   }, []);
 
   useEffect(() => {

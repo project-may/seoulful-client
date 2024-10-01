@@ -88,7 +88,7 @@ export const reissueToken = async (
       headers: {
         Authorization: `Bearer ${refreshToken}`,
       },
-      cache: 'no-store',
+      cache: 'force-cache',
     }
   );
 
