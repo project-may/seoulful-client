@@ -67,7 +67,6 @@ export const BookmarkButton = ({
         console.error(err);
       }
     } else {
-      console.log(showModal, 'show');
       setShowModal(true);
     }
   };
