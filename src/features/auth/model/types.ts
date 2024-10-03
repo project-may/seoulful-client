@@ -6,7 +6,6 @@ export interface UserDTO {
   userId: string;
   loginMethod: 'naver' | 'kakao';
   nickname: string;
-  email: string | null;
   profileImg: string | null;
   bookmarkList: number[];
   accessToken: string;

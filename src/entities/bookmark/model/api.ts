@@ -1,13 +1,4 @@
-import type {
-  BookmarkChangeResponse,
-  BookmarkEvent,
-  BookmarkEventResponse,
-} from './types';
-
-export const getBookmarkList = async (
-  userId: string,
-  accessToken: string
-): Promise<BookmarkEvent[] | number> => {
+export const getBookmarkList = async (userId: string, accessToken: string) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}bookmark/${userId}`,
     {
@@ -16,13 +7,8 @@ export const getBookmarkList = async (
       },
     }
   );
-  if (response.status === 404 || response.status === 401) {
-    return response.status;
-  } else {
-    const { data }: BookmarkEventResponse = await response.json();
 
-    return data;
-  }
+  return response;
 };
 
 export const addBookmark = async (
@@ -38,22 +24,13 @@ export const addBookmark = async (
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        eventSeq: eventSeq,
+        eventSeq,
       }),
       method: 'PUT',
     }
   );
 
-  if (
-    response.status === 401 ||
-    response.status === 400 ||
-    response.status === 404
-  ) {
-    return response.status;
-  }
-
-  const { data }: BookmarkChangeResponse = await response.json();
-  return data;
+  return response;
 };
 
 export const removeBookmark = async (
@@ -75,13 +52,5 @@ export const removeBookmark = async (
     }
   );
 
-  if (
-    response.status === 401 ||
-    response.status === 400 ||
-    response.status === 404
-  ) {
-    return response.status;
-  }
-  const { data }: BookmarkChangeResponse = await response.json();
-  return data;
+  return response;
 };

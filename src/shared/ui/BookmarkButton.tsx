@@ -1,65 +1,32 @@
 'use client';
-
-import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import BookmarkIcon from '/public/assets/bookmark-icon.svg';
-import {
-  getStorageValue,
-  ModalComponent,
-  UserTokenType,
-  type BookmarkButtonPropsType,
-} from '../index';
+import { ModalComponent, type BookmarkButtonPropsType } from '../index';
 import { useModal } from '../model/hooks/useModal';
 import { addBookmarkHandler, removeBookmarkHandler } from '@/features/bookmark';
 import { useParams } from 'next/navigation';
-import { getBookmarkListHandler } from '@/features/bookmark/model/util';
+import { useAtom } from 'jotai';
+import { userAtom } from '@/features/auth/model/store';
+import { useBookmarkCheck } from '@/features/bookmark/model/hooks/useBookmarkCheck';
 
 export const BookmarkButton = ({
   buttonSize,
   iconSize,
   hasBorder,
 }: BookmarkButtonPropsType) => {
-  const [isBookmarked, setIsBookmarked] = useState(false);
-  const [userData, setUserData] = useState<UserTokenType | null>(null);
-  const [accessToken, setAccessToken] = useState<string>('');
-  const [refreshToken, setRefreshToken] = useState<string>('');
+  const { id } = useParams();
+  const { isBookmarked, setIsBookmarked } = useBookmarkCheck({
+    eventId: id as string,
+  });
   const { id: eventId } = useParams();
   const { isUserLoggedIn, portalElement, setShowModal, showModal } = useModal();
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const user = getStorageValue('user');
-    const getAccessToken = getStorageValue('accessToken');
-    const getRefreshToken = getStorageValue('refreshToken');
-    if (user && getAccessToken && getRefreshToken) {
-      const userObject = JSON.parse(user) as UserTokenType;
-      setUserData(userObject);
-      setAccessToken(getAccessToken);
-      setRefreshToken(getRefreshToken);
-      const fetchData = async () => {
-        const bookmarkList = await getBookmarkListHandler({
-          userId: userObject.userId,
-          accessToken: getAccessToken,
-          refreshToken: getRefreshToken,
-        });
-        if (Array.isArray(bookmarkList)) {
-          const checkBookmark = bookmarkList.some(
-            (bookmark) => bookmark.eventId === Number(eventId)
-          );
-          if (checkBookmark) {
-            setIsBookmarked(checkBookmark);
-          }
-        }
-      };
-      fetchData();
-    }
-  }, []);
+  const [userData, setUserData] = useAtom(userAtom);
 
   const bookmarkHandler = async () => {
-    if (userData) {
-      const { userId } = userData;
+    if (!(userData.accessToken.length === 0)) {
+      const { userId, accessToken, refreshToken } = userData;
       try {
-        if (!isBookmarked && accessToken && refreshToken) {
+        if (!isBookmarked) {
           const bookmarkResult = await addBookmarkHandler({
             userId,
             accessToken,
@@ -67,9 +34,17 @@ export const BookmarkButton = ({
             refreshToken,
           });
           if (typeof bookmarkResult === 'boolean') {
-            return setShowModal(true);
+            setShowModal(bookmarkResult);
+          } else {
+            setIsBookmarked(true);
+
+            const updatedBookmarkList = [...bookmarkResult.bookmarkList];
+            setUserData({
+              ...userData,
+              bookmarkList: updatedBookmarkList,
+            });
           }
-        } else if (isBookmarked && accessToken && refreshToken) {
+        } else if (isBookmarked && userData) {
           const bookmarkResult = await removeBookmarkHandler({
             userId,
             accessToken,
@@ -77,10 +52,17 @@ export const BookmarkButton = ({
             refreshToken,
           });
           if (typeof bookmarkResult === 'boolean') {
-            return setShowModal(true);
+            return setShowModal(bookmarkResult);
+          } else {
+            setIsBookmarked(false);
+
+            const updatedBookmarkList = [...bookmarkResult.bookmarkList];
+            setUserData({
+              ...userData,
+              bookmarkList: updatedBookmarkList,
+            });
           }
         }
-        setIsBookmarked((prev) => !prev);
       } catch (err) {
         console.error(err);
       }

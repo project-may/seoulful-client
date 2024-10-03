@@ -22,10 +22,10 @@ export const ModalComponent = ({
     <div className="z-[999] fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 backdrop-blur-sm">
       {isUserLoggedIn && link === 'bookmark' ? (
         <div className="w-[300px] h-[160px] bg-white p-4 rounded shadow-lg">
-          <p className="flex items-center mb-5">
+          <div className="flex items-center mb-5">
             <BookmarkWarning className="mr-2" />
             북마크 완료
-          </p>
+          </div>
           <div className="mt-2 pr-2 text-center">
             <strong>{eventName}</strong>를 북마크 했습니다.
           </div>
@@ -38,16 +38,16 @@ export const ModalComponent = ({
         </div>
       ) : (
         <div className="w-[300px] h-[160px] bg-white p-4 rounded shadow-lg">
-          <p className="flex items-center">
+          <div className="flex items-center">
             <LoginWarning className="mr-2" />
             로그인 필요
-          </p>
-          <p className="ml-6 mt-2 pr-2">
+          </div>
+          <div className="ml-6 mt-2 pr-2">
             해당 기능은<strong className="ml-1">로그인</strong>이 필요합니다.
             <div>
               <strong>로그인</strong>하시겠습니까?
             </div>
-          </p>
+          </div>
           <button
             onClick={() => router.push('/auth')}
             className="w-[60px] ml-6 h-8 mt-5 mb-2 bg-[#BF5E70] text-white rounded"

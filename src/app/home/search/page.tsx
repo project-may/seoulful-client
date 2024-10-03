@@ -2,7 +2,7 @@
 import { CategoryName } from '@/features/Category';
 import { useForm, Controller } from 'react-hook-form';
 import {
-  AccordionMenu,
+  SearchTitle,
   CustomCalendar,
   Header,
   SearchInput,
@@ -51,15 +51,15 @@ const AdvancedSearch = () => {
         )}
         className="flex flex-col px-[30px] pt-[20px] divide-y divide-black-DDD"
       >
-        <AccordionMenu title="행사명">
+        <SearchTitle title="행사명">
           <SearchInput
             register={register}
             placeholder="행사명을 입력해주세요"
             placeholderAlign="text-center"
             borderRadius="rounded-[5px]"
           />
-        </AccordionMenu>
-        <AccordionMenu title="기간">
+        </SearchTitle>
+        <SearchTitle title="기간">
           <Controller
             name="dateRange"
             control={control}
@@ -73,25 +73,23 @@ const AdvancedSearch = () => {
               />
             )}
           />
-        </AccordionMenu>
-        <AccordionMenu title="카테고리">
+        </SearchTitle>
+        <SearchTitle title="카테고리">
           <Selectbox
             seq="categorySeq"
             optionData={categoryValueArr}
             placeholder="카테고리를 선택해주세요."
             register={register}
-            // setValue={setValue}
           />
-        </AccordionMenu>
-        <AccordionMenu title="지역">
+        </SearchTitle>
+        <SearchTitle title="지역">
           <Selectbox
             seq="guSeq"
             optionData={guNameArr}
             placeholder="지역을 선택해주세요."
             register={register}
-            // setValue={setValue}
           />
-        </AccordionMenu>
+        </SearchTitle>
         <button
           type="submit"
           className="my-[50px] w-full h-[35px] bg-blue-10 text-[14px] font-semibold text-black-FFF rounded-full"
