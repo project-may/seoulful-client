@@ -18,6 +18,7 @@ const AdvancedSearch = () => {
   const categoryValueArr = Object.values(CategoryName);
   const guNameArr = Object.values(GuName);
   const router = useRouter();
+
   const onSubmit = ({
     eventName,
     categorySeq,
@@ -32,6 +33,7 @@ const AdvancedSearch = () => {
       endDate,
       guSeq,
     });
+
     router.push(`/home/search/result?${query}`);
   };
   return (
@@ -76,7 +78,7 @@ const AdvancedSearch = () => {
         </SearchTitle>
         <SearchTitle title="카테고리">
           <Selectbox
-            seq="categorySeq"
+            seqType="categorySeq"
             optionData={categoryValueArr}
             placeholder="카테고리를 선택해주세요."
             register={register}
@@ -84,7 +86,7 @@ const AdvancedSearch = () => {
         </SearchTitle>
         <SearchTitle title="지역">
           <Selectbox
-            seq="guSeq"
+            seqType="guSeq"
             optionData={guNameArr}
             placeholder="지역을 선택해주세요."
             register={register}
