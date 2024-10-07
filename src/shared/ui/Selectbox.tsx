@@ -14,16 +14,17 @@ export const Selectbox = ({
   register: UseFormRegister<FieldValues>;
 }) => {
   const formattedSeqOptionData = optionData.map((option) => {
-    if (seqType === 'guSeq') {
-      return {
-        seq: getGuSeqByName(option),
-        name: option,
-      };
-    } else {
-      return {
-        seq: getCategorySeqByName(option),
-        name: option,
-      };
+    switch (seqType) {
+      case 'guSeq':
+        return {
+          seq: getGuSeqByName(option),
+          name: option,
+        };
+      case 'categorySeq':
+        return {
+          seq: getCategorySeqByName(option),
+          name: option,
+        };
     }
   });
 
