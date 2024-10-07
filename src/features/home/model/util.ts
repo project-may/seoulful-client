@@ -1,5 +1,5 @@
 import * as qs from 'qs';
-import { formatDate, getCategorySeqByName, getGuSeqByName } from '@/shared';
+import { formatDate } from '@/shared';
 import type { HomeQueryType, SearchQueryType } from './types';
 
 export const makeSearchQuery = (params: Partial<SearchQueryType>) => {
@@ -8,12 +8,10 @@ export const makeSearchQuery = (params: Partial<SearchQueryType>) => {
 
   const queryParams: Partial<SearchQueryType> = {
     ...(eventName && { eventName }),
-    ...(categorySeq && {
-      categorySeq: getCategorySeqByName(categorySeq)?.toString(),
-    }),
+    ...(categorySeq && { categorySeq }),
     ...(startDate && { startDate: formatDate(startDate) }),
     ...(endDate && { endDate: formatDate(endDate) }),
-    ...(guSeq && { guSeq: getGuSeqByName(guSeq)?.toString() }),
+    ...(guSeq && { guSeq }),
     ...(limit !== undefined && { limit }),
     ...(offset !== undefined && { offset }),
   };
