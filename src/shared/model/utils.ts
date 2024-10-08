@@ -4,9 +4,9 @@ import dayjs from 'dayjs';
 
 export const formatDate = (inputString: string) => {
   const parsedDate = dayjs(inputString);
-  const formattedDate = parsedDate.format('YYYY.M.D HH:MM');
+  const formattedDate = parsedDate.format('YYYY.M.D');
 
-  return formattedDate;
+  return `${formattedDate} 00:00`;
 };
 
 export const getCategoryTitleFromPathname = (path: string) => {

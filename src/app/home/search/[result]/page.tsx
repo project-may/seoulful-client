@@ -23,23 +23,32 @@ const CategoryPage = () => {
 
   const fetchData = async (offset: number) => {
     setIsLoading(true);
-    const { data, totalCount: count } = await getSearchResult({
-      limit: 10,
-      offset,
-      eventName,
-      startDate,
-      endDate,
-      categorySeq,
-      guSeq,
-    });
-    if (data.length < 10) {
-      setHasMoreData(false);
+    try {
+      const { data, totalCount: count } = await getSearchResult({
+        limit: 10,
+        offset,
+        eventName,
+        startDate,
+        endDate,
+        categorySeq,
+        guSeq,
+      });
+
+      if (data.length < 10) {
+        setHasMoreData(false);
+      }
+
+      if (offset === 0) {
+        setTotalCount(count);
+      }
+
+      setEventData((prevData) => [...prevData, ...data]);
+      return;
+    } catch (err) {
+      throw err;
+    } finally {
+      setIsLoading(false);
     }
-    if (offset === 0) {
-      setTotalCount(count);
-    }
-    setEventData((prevData) => [...prevData, ...data]);
-    setIsLoading(false);
   };
 
   const onIntersect = useCallback<IntersectionObserverCallback>(
