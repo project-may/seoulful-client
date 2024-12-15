@@ -4,6 +4,7 @@ import { fetchUserData } from '@/entities/auth';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useSetAtom } from 'jotai';
 import { userAtom } from '../store';
+
 export const useSocialLogin = () => {
   const isProduction = process.env.NODE_ENV === 'production';
   const redirectUrl = isProduction
