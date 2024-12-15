@@ -8,7 +8,7 @@ export const useBookmarkCheck = ({ eventId }: { eventId: string }) => {
   const userData = useAtomValue(userAtom);
 
   useEffect(() => {
-    if (userData) {
+    if (userData.userId) {
       const { accessToken, userId, refreshToken } = userData;
       const fetchData = async () => {
         const bookmarkList = await getBookmarkListHandler({
@@ -27,7 +27,7 @@ export const useBookmarkCheck = ({ eventId }: { eventId: string }) => {
       };
       fetchData();
     }
-  }, []);
+  }, [userData.userId]);
 
   return { setIsBookmarked, isBookmarked };
 };
