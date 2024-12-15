@@ -9,6 +9,8 @@ export const useModal = () => {
   const [portalElement, setPortalElement] = useState<Element | null>(null);
   const { refreshToken } = useAtomValue(userAtom);
   useEffect(() => {
+    if (!refreshToken) return setIsUserLoggedIn(false);
+
     const validateToken = async () => {
       const newToken = await reissueToken(refreshToken);
       if (typeof newToken === 'number') {
@@ -18,7 +20,7 @@ export const useModal = () => {
       }
     };
     validateToken();
-  }, []);
+  }, [refreshToken]);
 
   useEffect(() => {
     setPortalElement(document.getElementById('portal'));
