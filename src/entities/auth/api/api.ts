@@ -81,6 +81,9 @@ export const validateToken = async (accessToken: string): Promise<number> => {
 export const reissueToken = async (
   refreshToken: string
 ): Promise<UserDTO | number> => {
+  const userData = localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user') as string)
+    : null;
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}auth/token/reissue`,
     {
@@ -98,6 +101,15 @@ export const reissueToken = async (
   }
 
   const { data }: UserResponseDTO = await response.json();
+
+  if (userData) {
+    const accessToken = data.accessToken;
+    const newUserData = {
+      ...userData,
+      accessToken,
+    };
+    localStorage.setItem('user', JSON.stringify(newUserData));
+  }
 
   return data;
 };
