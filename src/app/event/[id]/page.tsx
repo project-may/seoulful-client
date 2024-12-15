@@ -2,7 +2,8 @@ import React from 'react';
 import { EventUiBox } from '@/features/event';
 import { BookmarkButton } from '@/shared/ui/BookmarkButton';
 import { BackButton } from '@/shared/ui/BackButton';
-import { Metadata } from 'next';
+
+import type { Metadata } from 'next';
 
 export async function generateMetadata({
   params,
