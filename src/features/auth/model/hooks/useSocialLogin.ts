@@ -25,7 +25,7 @@ export const useSocialLogin = () => {
       if (pathname.includes('kakao')) {
         const kakaoBody = {
           code: code,
-          redirectUrl: `${redirectUrl}/auth/kakao/callback`,
+          redirectUrl: `${redirectUrl}auth/kakao/callback`,
         };
         const fetchData = async () => {
           const userData = await fetchUserData('kakao', kakaoBody);
